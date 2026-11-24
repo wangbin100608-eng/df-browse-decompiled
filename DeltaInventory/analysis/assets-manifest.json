@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-11-24",
+  "source": {
+    "repository": "https://github.com/wangbin100608-eng/df-browse-decompiled",
+    "upstream": "https://dfc.lza11111.com/browse",
+    "cdn": "https://df-assets.lza11111.com/web/",
+    "method": "Node direct WASM instantiation + static JS analysis + HTTP probing"
+  },
+  "license": "Tencent/DeltaForce copyrighted assets - local research use only",
+  "categories": {
+    "jsChunks": 110,
+    "cssFiles": 1,
+    "wasmFiles": 2,
+    "uiImages": 22,
+    "totalRepoFiles": 142
+  },
+  "wasmFiles": [
+    {"file": "assets/BBjP65vW.wasm", "sizeBytes": 3523594, "role": "main game+item core", "extractedItems": 1663},
+    {"file": "assets/Se1zKGnR.wasm", "sizeBytes": 205009, "role": "auxiliary"}
+  ],
+  "itemTable": {"file": "item_table.json", "count": 1663, "source": "wasm_get_all_items()"},
+  "appItemDatabase": {"file": "item-database.json", "count": 893, "scope": "normal non-weapon items only (excludes gun/ammo/acc)"},
+  "iconUrlTemplate": "https://df-assets.lza11111.com{prePic with .png→.webp}",
+  "dynamicApis": ["/api/games/browse", "/api/games/{id}", "/api/games/{id}/records", "/api/prices", "/api/prices/{version}"],
+  "staticPathsMarkedUnknown": []
+}

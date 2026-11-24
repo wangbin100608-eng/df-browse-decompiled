@@ -1,122 +1,87 @@
-# 三角洲行动 · 理包模拟器 —— 浏览游戏模块反编译与可游玩站点
+# 三角洲行动 · 理包模拟器 —— 反编译、可游玩站点与 Android 盘点应用
 
-本仓库包含两样东西：
+本仓库包含三样成果：
 
-1. **`browse反编译.html`** —— 「浏览游戏」模块的**反编译源码浏览页**（静态单文件）。
-2. **`playable/`** —— 基于反编译成果重建的、**可实际游玩的站点**（完整前端镜像 + API 反向代理服务），线上地址：<https://game.czyz.eu.cc/>
+| 目录 | 内容 | 用途 |
+|---|---|---|
+| `browse反编译.html` | 「浏览游戏」模块反编译源码浏览页 | **看代码** |
+| `playable/` | 与 `https://dfc.lza11111.com/browse` 一样可游玩的网页（同源镜像 + API 代理） | **在浏览器玩** |
+| `DeltaInventory/` | **Android 原生应用**：本地视觉盘点、价值统计、二维背包优化 | **在手机玩/辅助盘点** |
 
-> 两者用途不同：前者用于**看代码**，后者用于**玩游戏**。
+> 三者的重点不同：反编译页用于阅读；playable 用于浏览器游玩；DeltaInventory 是独立 Android 应用，聚焦普通非武器物品的本地盘点与背包优化。
 
 ---
 
-## 一、可游玩站点（playable/）
+## 一、DeltaInventory（Android 应用）★ 新增
 
-### 线上体验
+### 简介
 
-- 地址：<https://game.czyz.eu.cc/>
-- 玩法路径：首页 → 「浏览场景」→ 选一个场景 → 「加载场景」→ 弹窗点「继续」（无需登录）→ 进入理包游戏。
-- 全部功能与原站 <https://dfc.lza11111.com/browse> 一致：场景列表/搜索/排序/评分、场景详情与排行榜、WASM 游戏核心、计时、物品与收益计算。
+本地视觉物品盘点与背包优化工具。仅处理**普通非武器物品**（893 件，来自 WASM 真实提取），不实现枪械/配件/弹药的识别或优化。全部识别与统计在本地完成，不上传云端。
 
-### 为什么能"一样游玩"
+**APK**：`DeltaInventory/DeltaInventory-v1.0.0-debug.apk`（57 MB，ARM64，v2 签名，可直接安装）
 
-原站是 Vite + React 的单页应用，游戏核心逻辑编译在 WebAssembly（`.wasm`）里，数据来自需鉴权的后端 API。因此**重写游戏逻辑不现实**，本项目采用保真路线：
+### 技术架构
 
-- **前端 100% 镜像**：把原站 `/browse` 及其全部传递依赖（110 个 JS chunk、1 个 CSS、2 个 WASM 核心、22 张 UI 图片等，共 138 个文件）原样下载到本地。
-- **WASM 原样运行**：游戏引擎 `BBjP65vW.wasm`、`Se1zKGnR.wasm` 直接从原站 CDN 拉取到本地，游戏行为与原站完全相同。
-- **API 同源反向代理**：前端写死的 `/api/*` 请求由本地 Node 服务转发到上游 `dfc.lza11111.com`。关键点在于——浏览器看到的是**同源** `/api/*`，彻底绕开跨域（原站 CORS 白名单不含自有域名，直连会被浏览器拦截）。反向代理同时透传 Cookie 与鉴权头，登录/提交记录等端点也能正常工作。
-- **静态资源改同源**：原 HTML 里的 CDN 基址 `https://df-assets.lza11111.com/web/` 改为 `/`，资源全部从本地提供。
+| 层 | 技术 |
+|---|---|
+| UI | Kotlin + Jetpack Compose（主页/盘点/待确认/统计/背包网格/历史/数据库/设置） |
+| 系统集成 | WindowManager 悬浮球 + MediaProjection 屏幕采集 + Foreground Service |
+| 视觉 | ONNX Runtime Android + OpenCV(JNI 变化检测/phash) |
+| 核心 | Rust（跨帧追踪、去重、价值统计、MaxRects/Bottom-Left/精确搜索装箱） |
+| 存储 | SQLite + Room（9 张表，离线优先，备份恢复） |
+| 离线工具 | Python（仅数据导入/模型训练，不参与 Android 运行时） |
 
-```
-浏览器 ──https──> game.czyz.eu.cc (Cloudflare Tunnel)
-                        │
-                        ├─ /assets/* 静态文件 ──> 本地镜像（playable/）
-                        ├─ /api/*    反向代理 ──> https://dfc.lza11111.com/api/*
-                        └─ *.wasm    本地 WASM 核心
-```
+关键设计：以**实例账本**为唯一真相，绝不逐帧累加识别数量；去重同时参考类型/区域/容器/位置/视觉签名/时间连续性，禁止仅凭名称或相似度合并；低置信度进人工确认队列，未确认不计入确定价值。
 
-### 本地运行
+### 已实现功能（需求全部 14 项）
 
-需要 Node.js 18+，无需安装任何依赖（仅用内置模块）。
+1. Android 悬浮窗（可拖动/点击进入暂停） 2. MediaProjection 实时屏幕采集 3. 普通物品视觉识别 4. 背包与地面完整盘点 5. 连续滑动跨帧追踪 6. 重复物品去重 7. 物品数据库 8. 价格数据管理 9. 低置信度人工确认 10. 二维背包摆放优化 11. 最终收益统计 12. 完整 UI 13. 自动化测试 14. 可安装 APK
+
+### 构建（完整 Android Studio 项目在 `DeltaInventory/`）
 
 ```bash
-cd playable
-node server.js
-# 默认监听 0.0.0.0:8095，可用环境变量 PORT 修改
+cd DeltaInventory
+bash tools/fetch-opencv.sh        # 下载 OpenCV ARM64 构建依赖（约190MB，已 gitignore）
+bash tools/build-rust-android.sh  # 编译 Rust core -> jniLibs
+# Android Studio 打开 DeltaInventory/ 需 JDK17 + SDK34 + NDK26 + CMake3.22
+gradle assembleDebug              # -> app/build/outputs/apk/debug/app-debug.apk
 ```
 
-然后浏览器打开 <http://localhost:8095/>。
+### 测试（真实执行结果）
 
-`server.js` 的职责：
+- Rust 核心：`cargo test` → **17/17 PASS**（连续滑动、重复计数、区域独立、拆分合并、过期价格、越界重叠等）
+- Android：`gradle testDebugUnitTest` → **9/9 PASS**
+- APK：v2 签名有效，SHA256 `007760354d36b05583fcbbec322ef36013632b71d2edd081bea14b8d84e1bb87`
 
-- 托管当前目录的静态文件，带合理缓存头（HTML 不缓存、资源长缓存）与 SPA 路由回退（无扩展名路径回退到 `index.html`）。
-- 把 `/api/*` 与 `/health` 反向代理到 `https://dfc.lza11111.com`，去除上游 CORS 头，让浏览器按同源处理。
-- 提供正确的 `Content-Type`（含 `application/wasm`），保证 WASM 能实例化。
+### 资源分析产物（`DeltaInventory/analysis/`）
 
-### 目录结构
+- `assets-manifest.json`、`item-database.json`（893 件普通物品）、`asset-inventory.csv`（1663 行）
+- `price-source-report.md`、`resource-analysis.md`
+- 物品数据来自直接实例化原站 WASM 调 `wasm_get_all_items()` 提取，非猜测。
 
-```
-playable/
-├── index.html                  # 原站 SPA 入口（CDN 基址已改为同源 /）
-├── manifest.json               # PWA manifest
-├── server.js                   # 静态托管 + API 反向代理服务
-├── *.png                       # 图标 / UI 装饰图（gold-icon、safebox、slot-placeholder 等）
-├── icons/                      # 品质边框、物品徽章等图片
-├── safebox/ slot-placeholder/  # 游戏格子占位图
-└── assets/
-    ├── index-DdGw8vbq.js       # 入口 chunk
-    ├── BVTo7rNE.js             # 浏览模块 chunk
-    ├── BJ1yUifx.js             # WASM glue 核心（674 KB）
-    ├── BBjP65vW.wasm           # 主游戏核心（3.5 MB）
-    ├── Se1zKGnR.wasm           # 辅助 WASM（205 KB）
-    ├── DwlFuPD4.css            # 全站样式
-    └── ...（共 110 个 JS）
-```
+### 模型说明（如实）
 
-统计：138 个文件，约 7.4 MB（JS 2.7 MB / WASM 3.6 MB / 图片 1.1 MB）。
+`item_detector.onnx` 是**未训练的骨架模型**，仅验证 ONNX 推理链路端到端可运行，mAP=0，不产生有效检测，也不宣称任何准确率。实际识别依赖离线物品库 + 感知哈希/颜色特征 + 人工确认。有标注数据后可用 `tools/train_detector.py`（离线）训练替换。详见 `DeltaInventory/docs/accuracy-report.md`。
 
-### 线上部署架构（当前实例）
-
-- 服务器：一台常驻主机，运行 `playable/server.js`（systemd 服务 `df-game.service`）。
-- 公网入口：Cloudflare Tunnel（`df-game`），DNS `game.czyz.eu.cc` CNAME 到该隧道，ingress 指向 `http://127.0.0.1:8095`。
-- 两个服务均配置开机自启与崩溃重启。
-
-> 说明：数据（场景、排行榜、价格等）实时来自原站 API，本地不存业务数据库。若上游接口变更或下线，游戏界面仍可打开，但动态数据会受影响。
+详细文档见 `DeltaInventory/README.md`、`docs/architecture.md`、`docs/database.md`、`docs/test-report.md`、`docs/performance-report.md`。
 
 ---
 
-## 二、反编译源码浏览页（browse反编译.html）
+## 二、可游玩网页（playable/）
 
-仓库根目录的单文件，约 5.3 MB，供**阅读代码**使用，不需要服务器，双击即可离线打开。
-
-- 来源：从 <https://dfc.lza11111.com/browse> 的 Vite 打包产物还原。
-- 内容：`/browse` 路由入口 `Y-x8muZd.js` 及其全部传递依赖，共 43 个模块，经 Prettier 格式化。
-- 功能：左侧文件树、文件名过滤、上/下一个模块切换、JS 语法高亮。
-- 在线浏览：<https://lb.czyz.eu.cc/browse反编译.html>（根目录 `index.html` 为跳转页）。
-- `CNAME` 文件内容：`lb.czyz.eu.cc`，用于 GitHub Pages 自定义域。
-
-> 该页只是源码阅读器，**不能游玩**；要玩游戏请用上面的 `playable/` 或 <https://game.czyz.eu.cc/>。
+- 线上：<https://game.czyz.eu.cc/>
+- 完整镜像原站前端（110 JS + 1 CSS + 2 WASM + 图片），Node 服务做静态托管 + `/api/*` 同源反向代理（绕过 CORS），游戏核心 WASM 原样运行，行为与原站一致。
+- 本地：`cd playable && node server.js` → <http://localhost:8095/>
 
 ---
 
-## 三、技术背景
+## 三、反编译源码浏览页（根目录）
 
-- 原站技术栈：Vite + React + TanStack Router，核心逻辑为 Rust/C 编译的 WebAssembly。
-- `/browse` 路由在入口 chunk 中通过 `__vite__mapDeps` 懒加载，依赖集合由此精确还原。
-- 关键 API：`/api/games/browse`（场景列表，无需鉴权）、`/api/games/:id`（详情）、`/api/games/:id/records`（排行榜）、`/api/prices`（价格）、`/api/games/:id/run-ticket`（运行凭证）等。
-- 上游 CORS 白名单仅含原站域名，自有域名直连会被拦截，故必须同源反向代理。
-
-## 四、免责声明
-
-本项目为技术逆向与本地化复现研究。游戏数据、图片、素材版权归腾讯公司及《三角洲行动》官方所有，仅用于学习与个人使用。
+- 单文件 `browse反编译.html`（5.3 MB），43 个格式化模块，左侧文件树/过滤/切换/高亮，离线可打开。
+- 在线：<https://lb.czyz.eu.cc/>；`CNAME` 为 `lb.czyz.eu.cc`。
 
 ---
 
-## 五、快速索引
+## 免责声明
 
-| 想要 | 去哪里 |
-|---|---|
-| 直接玩游戏 | <https://game.czyz.eu.cc/> |
-| 本地跑游戏 | `cd playable && node server.js` |
-| 看反编译源码 | 打开 `browse反编译.html` 或 <https://lb.czyz.eu.cc/> |
-| 了解游戏站原理 | 本文「一、可游玩站点」 |
-| 部署细节 | 本文「一 → 线上部署架构」 |
+游戏数据、图片、素材版权归腾讯公司及《三角洲行动》官方所有，本项目仅用于个人本地技术研究。

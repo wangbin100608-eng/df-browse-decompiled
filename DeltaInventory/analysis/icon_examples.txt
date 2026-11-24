@@ -1,0 +1,26 @@
+# objectID	name	length	width	prePic	assetUrl(webp)
+11050006001	金刚防弹衣	4	4	/playerhub/60004/object/p_11050006001.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050006001.webp
+18010000001	M4A1突击步枪	5	2	/playerhub/60004/object/p_18010000001.png	https://df-assets.lza11111.com/playerhub/60004/object/p_18010000001.webp
+37150600001	6.8x51mm AP	1	1	/playerhub/60004/object/p_37150600001.png	https://df-assets.lza11111.com/playerhub/60004/object/p_37150600001.webp
+14060000003	高级头盔维修组合	2	2	/playerhub/60004/object/p_14060000003.png	https://df-assets.lza11111.com/playerhub/60004/object/p_14060000003.webp
+13030000106	G3后握把	1	1	/playerhub/60004/object/p_13030000106.png	https://df-assets.lza11111.com/playerhub/60004/object/p_13030000106.webp
+11050006002	HA-2重型防弹衣	4	4	/playerhub/60004/object/p_11050006002.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050006002.webp
+11050006003	特里克MAS2.0装甲	4	4	/playerhub/60004/object/p_11050006003.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050006003.webp
+11050006004	泰坦防弹装甲	4	4	/playerhub/60004/object/p_11050006004.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050006004.webp
+11050005001	精英防弹背心	3	4	/playerhub/60004/object/p_11050005001.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050005001.webp
+11050005002	Hvk-2防弹衣	4	4	/playerhub/60004/object/p_11050005002.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050005002.webp
+11050005003	FS复合防弹衣	3	4	/playerhub/60004/object/p_11050005003.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050005003.webp
+11050005004	重型突击背心	4	4	/playerhub/60004/object/p_11050005004.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050005004.webp
+11050005007	赤枭重装突击背心	4	4	/playerhub/60004/object/p_11050005007.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050005007.webp
+11050004001	武士防弹背心	3	3	/playerhub/60004/object/p_11050004001.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050004001.webp
+11050004002	突击手防弹背心	3	4	/playerhub/60004/object/p_11050004002.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050004002.webp
+11050004003	DT-AVS防弹衣	3	4	/playerhub/60004/object/p_11050004003.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050004003.webp
+11050004004	MK-2战术背心	3	4	/playerhub/60004/object/p_11050004004.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050004004.webp
+11050004007	HMP特勤防弹衣	3	4	/playerhub/60004/object/p_11050004007.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050004007.webp
+11050003001	制式防弹背心	3	3	/playerhub/60004/object/p_11050003001.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050003001.webp
+11050003002	Hvk快拆防弹衣	3	3	/playerhub/60004/object/p_11050003002.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050003002.webp
+11050003003	TG-H防弹衣	3	4	/playerhub/60004/object/p_11050003003.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050003003.webp
+11050003004	射手战术背心	3	4	/playerhub/60004/object/p_11050003004.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050003004.webp
+11050002001	简易防刺服	3	3	/playerhub/60004/object/p_11050002001.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050002001.webp
+11050002002	HT战术背心	3	3	/playerhub/60004/object/p_11050002002.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050002002.webp
+11050002003	TG战术防弹衣	3	3	/playerhub/60004/object/p_11050002003.png	https://df-assets.lza11111.com/playerhub/60004/object/p_11050002003.webp

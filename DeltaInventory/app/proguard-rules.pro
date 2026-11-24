@@ -1,0 +1,2 @@
+-keep class com.deltainventory.app.** { *; }
+-keep class ai.onnxruntime.** { *; }
