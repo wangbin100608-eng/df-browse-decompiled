@@ -1,0 +1,1 @@
+import{t as e}from"./D_4n0szj.js";import{t}from"./8d8m-1eF.js";import{t as n}from"./_4SAIcqr.js";var r=e(),i=function(){let{contestId:e,gameId:i}=t.useParams(),{code:a}=t.useSearch();return(0,r.jsx)(n,{gameId:i,contestId:e,inviteCode:a})};export{i as component};

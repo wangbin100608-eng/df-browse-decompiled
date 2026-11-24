@@ -1,0 +1,1 @@
+import{t as e}from"./D_4n0szj.js";import{t}from"./CigSJ4AB.js";import{t as n}from"./DaNBZpha.js";var r=e(),i=function(){let{contestId:e}=t.useParams(),{code:i}=t.useSearch();return(0,r.jsx)(n,{contestId:e,inviteCode:i,tab:`problems`})};export{i as component};

@@ -1,0 +1,1 @@
+import{t as e}from"./BCGdu0Xz.js";import{t}from"./D_4n0szj.js";var n=t();function r({userId:t,className:r=``,children:i}){return t?(0,n.jsx)(e,{to:`/users/$userId`,params:{userId:t},onClick:e=>e.stopPropagation(),className:`hover:underline underline-offset-2 ${r}`,children:i}):(0,n.jsx)(`span`,{className:r,children:i})}export{r as t};

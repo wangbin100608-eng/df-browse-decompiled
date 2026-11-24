@@ -1,0 +1,1 @@
+import{t as e}from"./D_4n0szj.js";import{t}from"./CC5FwQnP.js";import{t as n}from"./DaNBZpha.js";var r=e(),i=function(){let{contestId:e}=t.useParams();return(0,r.jsx)(n,{contestId:e,tab:`announcements`})};export{i as component};

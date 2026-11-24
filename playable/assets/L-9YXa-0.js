@@ -1,0 +1,1 @@
+import{t as e}from"./D_4n0szj.js";import{t}from"./Bsl0jepv.js";import{t as n}from"./_4SAIcqr.js";var r=e(),i=function(){let{gameId:e}=t.useParams();return(0,r.jsx)(n,{gameId:e})};export{i as component};
