@@ -60,39 +60,90 @@ private fun Modifier.clickableNoRipple(onClick: () -> Unit): Modifier =
     this.clickable(onClick = onClick)
 
 @Composable
-fun ScanScreen(vm: ScanViewModel, onStart: () -> Unit, onStop: () -> Unit) {
-    val status by vm.status.collectAsState()
-    val progress by vm.progress.collectAsState()
-    val stats by vm.recognitionStats.collectAsState()
+fun ScanScreen(vm: ScanViewModel) {
+    val phase by vm.phase.collectAsState()
+    val gridInfo by vm.gridInfoText.collectAsState()
+    val confirmed by vm.confirmedItems.collectAsState()
+    val layout by vm.layoutResult.collectAsState()
     LazyColumn(Modifier.fillMaxSize().padding(16.dp)) {
         item {
             Card(Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(16.dp)) {
-                    Text("盘点会话", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                    Text("状态: $status   帧数: $progress")
-                    Spacer(Modifier.height(12.dp))
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Button(onClick = { vm.startSession(); onStart() }, enabled = status == "idle") { Text("开始") }
-                        OutlinedButton(onClick = vm::pause, enabled = status == "running") { Text("暂停") }
-                        OutlinedButton(onClick = vm::resume, enabled = status == "paused") { Text("恢复") }
-                        Button(onClick = { vm.stopSession(); onStop() }, enabled = status == "running" || status == "paused",
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB71C1C))) { Text("结束") }
+                    Text("物资盘点与摆放", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Text("当前阶段: ${when(phase){"idle"->"待开始";"scanning"->"识别中";"verified"->"已比对";"laid_out"->"策略已生成";else->phase}}")
+                    Text("格数: $gridInfo", color = Color.Gray, fontSize = 12.sp)
+                }
+            }
+        }
+        item { Spacer(Modifier.height(12.dp)) }
+        item {
+            Text("步骤 1 · 开始识别全部物资（物品/枪械/配件/弹药）", fontWeight = FontWeight.Bold)
+            Button(onClick = { vm.startRecognition() }, Modifier.fillMaxWidth(), enabled = phase == "idle") {
+                Text("开始识别全部物资")
+            }
+            Text("点击后授权屏幕采集，自动识别画面物资并从游戏读取背包/保险箱格数", color = Color.Gray, fontSize = 11.sp)
+        }
+        item { Spacer(Modifier.height(10.dp)) }
+        item {
+            Text("步骤 2 · 结束并比对数据库", fontWeight = FontWeight.Bold)
+            Button(onClick = { vm.finishAndVerify() }, Modifier.fillMaxWidth(),
+                enabled = phase == "scanning", colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB71C1C))) {
+                Text("结束并比对数据库")
+            }
+        }
+        item { Spacer(Modifier.height(10.dp)) }
+        item {
+            Text("步骤 3 · 输出完整摆放策略", fontWeight = FontWeight.Bold)
+            Button(onClick = { vm.buildLayout() }, Modifier.fillMaxWidth(), enabled = phase == "verified") {
+                Text("生成摆放策略")
+            }
+        }
+        if (phase == "verified" || phase == "laid_out") {
+            item {
+                Spacer(Modifier.height(12.dp))
+                Text("已确认物资 (${confirmed.size} 种):", fontWeight = FontWeight.Bold)
+                confirmed.forEach {
+                    Card(Modifier.fillMaxWidth().padding(vertical = 3.dp)) {
+                        Row(Modifier.padding(10.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text("${it.name}  ${it.w}x${it.h}  x${it.quantity}")
+                            Text("${it.price / 100}", color = Color(0xFFFFB300))
+                        }
                     }
                 }
             }
         }
-        item { Spacer(Modifier.height(12.dp)) }
-        item { Text("识别统计", fontWeight = FontWeight.Bold, fontSize = 16.sp) }
-        item {
-            listOf("帧数" to stats.frames, "新建实例" to stats.created, "关联匹配" to stats.matched,
-                "待确认" to stats.pending, "去重抑制" to stats.suppressed).forEach { (k, v) ->
-                Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(k); Text("$v", fontWeight = FontWeight.Bold)
+        if (layout != null) {
+            item {
+                Spacer(Modifier.height(12.dp))
+                Text("摆放策略", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                val l = layout!!
+                Text("背包: 放入 ${l.bag.placed.size} 件, 价值 ${l.bag.totalValueCents / 100}, 空余 ${l.bag.freeCells} 格, 耗时 ${l.bag.elapsedMs}ms")
+                Text("保险箱: 放入 ${l.safe.placed.size} 件, 价值 ${l.safe.totalValueCents / 100}, 空余 ${l.safe.freeCells} 格")
+                Text("地面物资: ${l.ground.size} 种")
+                // 背包网格可视化
+                Text("背包布局 (${l.bag.gridW}x${l.bag.gridH}):", color = Color.Gray)
+            }
+            item {
+                val l = layout!!
+                val gw = l.bag.gridW.coerceAtLeast(1)
+                val gh = l.bag.gridH.coerceAtLeast(1)
+                val map = l.bag.placed.associateBy { "${it.x},${it.y}" }
+                for (gy in 0 until gh) {
+                    Row {
+                        for (gx in 0 until gw) {
+                            val p = map["$gx,$gy"]
+                            Box(Modifier.size(28.dp).padding(1.dp).background(
+                                if (p != null) Color(0xFF2E7D32) else Color(0xFF21262D)
+                            ))
+                        }
+                    }
                 }
             }
+            item {
+                val l = layout!!
+                Text("未放入: ${l.bag.unplaced}", color = Color.Gray, fontSize = 11.sp)
+            }
         }
-        item { Spacer(Modifier.height(12.dp)) }
-        item { Text("说明：屏幕采集需授权；悬浮球可拖动，点击进入/暂停。低置信度物品进入待确认队列。", color = Color.Gray, fontSize = 12.sp) }
     }
 }
 

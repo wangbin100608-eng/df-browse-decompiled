@@ -13,6 +13,19 @@ import java.util.UUID
 class ScanViewModel(app: Application) : AndroidViewModel(app) {
     private val db = DatabaseProvider.get(app)
     private var tracker = CoreBridge.Tracker()
+    var processor: ScanProcessor? = null
+    /** 由 Activity 注入：发起屏幕采集授权 */
+    var requestCaptureAuth: (() -> Unit)? = null
+    /** 由 Activity 注入：停止屏幕采集 */
+    var stopCapture: (() -> Unit)? = null
+    private val _layoutResult = MutableStateFlow<ScanProcessor.LayoutResult?>(null)
+    val layoutResult: StateFlow<ScanProcessor.LayoutResult?> = _layoutResult.asStateFlow()
+    private val _confirmedItems = MutableStateFlow<List<ScanProcessor.ConfirmedItem>>(emptyList())
+    val confirmedItems: StateFlow<List<ScanProcessor.ConfirmedItem>> = _confirmedItems.asStateFlow()
+    private val _gridInfo = MutableStateFlow("未识别")
+    val gridInfoText: StateFlow<String> = _gridInfo.asStateFlow()
+    private val _phase = MutableStateFlow("idle") // idle/scanning/verified/laid_out
+    val phase: StateFlow<String> = _phase.asStateFlow()
     private var sessionId: String? = null
     private var frameIndex = 0L
 
@@ -146,6 +159,42 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun getDetail(id: String): CoreBridge.Instance? = tracker.active().firstOrNull { it.instanceId == id }
+
+    /** 三步流程：1 开始识别全部物资 */
+    fun startRecognition() {
+        if (requestCaptureAuth != null) {
+            requestCaptureAuth!!.invoke()   // 授权成功后 Activity 调 onCaptureAuthorized()
+        } else {
+            processor?.startRecognition()
+            _phase.value = "scanning"; _status.value = "running"
+        }
+    }
+    /** 授权成功后由 Activity 调用 */
+    fun onCaptureAuthorized() {
+        processor?.startRecognition()
+        _phase.value = "scanning"; _status.value = "running"
+    }
+
+    /** 三步流程：2 结束并比对数据库 */
+    fun finishAndVerify() {
+        stopCapture?.invoke()
+        viewModelScope.launch {
+            val list = processor?.finishAndVerify() ?: emptyList()
+            _confirmedItems.value = list
+            val g = processor?.gridInfo
+            _gridInfo.value = if (g != null && g.bagWidth > 0) "背包 ${g.bagWidth}x${g.bagHeight} · 保险箱 ${g.safeWidth}x${g.safeHeight}" else "未识别到格数(默认3x3)"
+            _phase.value = "verified"
+            _status.value = "stopped"
+        }
+    }
+
+    /** 三步流程：3 输出完整摆放策略 */
+    fun buildLayout() {
+        viewModelScope.launch {
+            _layoutResult.value = processor?.buildLayout()
+            _phase.value = "laid_out"
+        }
+    }
 
     private fun trackerReset() { tracker = CoreBridge.Tracker(); refresh() }
     fun resetAll() { trackerReset(); _instances.value = emptyList(); _pending.value = emptyList()

@@ -161,7 +161,8 @@ object CoreBridge {
                       val rotated: Boolean, val valueCents: Long)
     data class PackResult(val algorithm: String, val placed: List<Placed>,
                           val unplaced: Map<String, Int>, val totalValueCents: Long,
-                          val occupiedCells: Int, val freeCells: Int, val elapsedMs: Long)
+                          val occupiedCells: Int, val freeCells: Int, val elapsedMs: Long,
+                          val gridW: Int = 0, val gridH: Int = 0)
 
     suspend fun optimize(gridW: Int, gridH: Int, items: List<PackItem>): PackResult = withContext(Dispatchers.Default) {
         if (loaded) {
@@ -182,7 +183,8 @@ object CoreBridge {
                         p.getBoolean("rotated"), p.getLong("value_cents")))
                 }
                 return@withContext PackResult(r.getString("algorithm"), placed, emptyMap(),
-                    r.getLong("total_value_cents"), r.getInt("occupied_cells"), r.getInt("free_cells"), r.getLong("elapsed_ms"))
+                    r.getLong("total_value_cents"), r.getInt("occupied_cells"), r.getInt("free_cells"), r.getLong("elapsed_ms"),
+                    gridW, gridH)
             } catch (e: Exception) { Log.w(TAG, "native optimize failed: ${e.message}") }
         }
         maxRectsKotlin(gridW, gridH, items)
@@ -228,7 +230,7 @@ object CoreBridge {
         }
         val occupied = placed.sumOf { it.w * it.h }
         return PackResult("maxrects_kotlin", placed, unplaced, placed.sumOf { it.valueCents }, occupied,
-            gw * gh - occupied, System.currentTimeMillis() - start)
+            gw * gh - occupied, System.currentTimeMillis() - start, gw, gh)
     }
 
     private fun hamming(a: Long, b: Long): Int = java.lang.Long.bitCount(a xor b)

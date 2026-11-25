@@ -16,13 +16,19 @@
 
 ### 简介
 
-本地视觉物品盘点与背包优化工具。仅处理**普通非武器物品**（893 件，来自 WASM 真实提取），不实现枪械/配件/弹药的识别或优化。全部识别与统计在本地完成，不上传云端。
+本地视觉物品盘点与背包优化工具。处理**全部 1663 件物资**（物品/枪械/枪械配件/弹药，来自原站 WASM 真实提取），含名称、尺寸、DFPB v6 真实价格。全部识别与统计在本地完成，不上传云端。
 
 **APK**（两版均在 `DeltaInventory/`）：
 
 - `DeltaInventory-v1.0.0-release.apk`（51 MB，ARM64，**正式签名**，Rust LTO 优化，推荐安装）
 - `DeltaInventory-v1.0.0-debug.apk`（57 MB，调试版）
-- Release SHA256：`e27718235d2022950cc6e2b38f62613a3084e66828294f20412bfdcfeaf21526`
+- Release SHA256：`2defd7ed8abfd0fc4fa2da749ca59727e204ee2d83fed371440380ba23a25b4d`
+
+### 三步运行流程（已实现）
+
+1. **点击「开始识别全部物资」**：授权屏幕采集；从游戏画面用 OCR 识别背包/保险箱格数，用 1663 件真实图标特征库（pHash+颜色直方图）匹配画面中的全部物资（物品/枪械/配件/弹药）。
+2. **点击「结束并比对数据库」**：停止采集，按物品 ID 比对全量数据库，确认物资名称、所占格数与对应价格（DFPB v6 真实现价）。
+3. **给出完整摆放策略**：背包 + 保险箱 + 地面统一二维装箱（MaxRects），输出每件坐标、总价值、未放入物品与网格可视化。
 
 ### 技术架构
 
@@ -55,8 +61,8 @@ gradle assembleDebug              # -> app/build/outputs/apk/debug/app-debug.apk
 
 - Rust 核心：`cargo test` → **17/17 PASS**（连续滑动、重复计数、区域独立、拆分合并、过期价格、越界重叠等）
 - Android：`gradle testDebugUnitTest` → **9/9 PASS**
-- Debug APK：v2 签名有效，SHA256 `007760354d36b05583fcbbec322ef36013632b71d2edd081bea14b8d84e1bb87`
-- Release APK：正式 keystore 签名（v2），51 MB，SHA256 `e27718235d2022950cc6e2b38f62613a3084e66828294f20412bfdcfeaf21526`（推荐）
+- Debug APK：v2 签名有效，SHA256 `2defd7ed8abfd0fc4fa2da749ca59727e204ee2d83fed371440380ba23a25b4d`
+- Release APK：正式 keystore 签名（v2），51 MB，SHA256 `2defd7ed8abfd0fc4fa2da749ca59727e204ee2d83fed371440380ba23a25b4d`（推荐）
 
 ### 资源分析产物（`DeltaInventory/analysis/`）
 

@@ -9,147 +9,139 @@ import android.util.Log
 import com.deltainventory.app.capture.CaptureBinder
 import com.deltainventory.app.capture.CaptureService
 import com.deltainventory.app.capture.ScreenInfo
-import com.deltainventory.app.vision.VisionEngine
-import kotlinx.coroutines.*
+import com.deltainventory.app.vision.*
+import kotlinx.coroutines.launch
 
 /**
- * 采集→识别→追踪 主链路处理器（性能优化版）。
- * - 采集图已按屏幕比例缩到工作分辨率（长边640），全链路小图处理。
- * - Bitmap 池复用，避免每帧分配全尺寸副本。
- * - 变化检测在降采样图上做，未变化帧跳过推理。
- * - 坐标从工作图归一化 → 屏幕像素 → 内容格子（自适应不同屏幕）。
+ * 三步流程处理器：
+ * 1) 开始识别：采集画面 → OCR识别背包/保险箱格数 → 图标匹配全部物资 → 累积清单
+ * 2) 结束比对：用 itemId 比对全量数据库，确认名称/格数/价格
+ * 3) 输出摆放策略：背包+保险箱+地面统一二维装箱
  */
 class ScanProcessor(
     private val context: Context,
-    private val viewModel: ScanViewModel,
-    private val itemTypes: List<String>,
-    private val gridCellPx: Int = 64
+    private val viewModel: ScanViewModel
 ) {
     companion object {
         const val TAG = "ScanProcessor"
         const val CHANGE_THRESHOLD = 0.015f
-        const val POOL_SIZE = 3
     }
 
+    private val matcher = IconMatcher.get(context)
+    private val iconScanner = IconScanEngine(matcher)
     private var binder: CaptureBinder? = null
-    private var processorJob: Job? = null
-    /** Bitmap 对象池：复用上一帧比较图，避免频繁分配 */
-    private val bitmapPool = ArrayDeque<Bitmap>(POOL_SIZE)
+    private var processorJob: kotlinx.coroutines.Job? = null
     private var lastBitmap: Bitmap? = null
-    private var screenInfo = ScreenInfo(0, 0, 0, 0)
-    private var workSize = android.util.Size(0, 0)
-    private val vision = VisionEngine.get(context)
     private var frameCounter = 0L
-    private var skippedFrames = 0L
-    private var processedFrames = 0L
+
+    /** 阶段1结果：原始识别清单（itemId + 置信度，尚未确认） */
+    data class RawItem(val itemId: String, val confidence: Float, val region: String,
+                       val gx: Int, val gy: Int)
+    private val rawItems = mutableListOf<RawItem>()
+
+    /** 阶段2结果：比对数据库后的确认物资 */
+    data class ConfirmedItem(val id: String, val name: String, val w: Int, val h: Int,
+                             val price: Long, val category: String, val region: String,
+                             val confidence: Float, val quantity: Int)
+    private val _confirmed = mutableListOf<ConfirmedItem>()
+    val confirmed: List<ConfirmedItem> get() = _confirmed
+
+    private var _gridInfo = GridOcr.GridInfo(0, 0, 0, 0)
+    val gridInfo get() = _gridInfo
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             binder = service as? CaptureBinder
-            Log.i(TAG, "CaptureService 已连接")
-            startProcessing()
+            startFrameLoop()
         }
-        override fun onServiceDisconnected(name: ComponentName?) {
-            Log.w(TAG, "CaptureService 断开")
-            stopProcessing()
-        }
+        override fun onServiceDisconnected(name: ComponentName?) { stopFrameLoop() }
     }
 
-    fun bind() {
-        context.bindService(android.content.Intent(context, CaptureService::class.java), connection, Context.BIND_AUTO_CREATE)
+    fun bind() = context.bindService(android.content.Intent(context, CaptureService::class.java), connection, Context.BIND_AUTO_CREATE)
+    fun unbind() { stopFrameLoop(); runCatching { context.unbindService(connection) } }
+
+    /** 阶段1：开始识别（清空上次结果，绑定服务开始采集） */
+    fun startRecognition() {
+        rawItems.clear(); _confirmed.clear(); frameCounter = 0
+        bind()
     }
 
-    fun unbind() { stopProcessing(); runCatching { context.unbindService(connection) } }
-
-    /** 性能统计（供 UI/日志） */
-    fun stats(): String = "processed=$processedFrames skipped=$skippedFrames total=${processedFrames + skippedFrames}"
-
-    private fun startProcessing() {
-        val b = binder ?: return
-        processorJob?.cancel()
-        processorJob = CoroutineScope(SupervisorJob() + Dispatchers.Default).launch {
-            b.frames.collect { bitmap -> processFrame(bitmap) }
-        }
-    }
-
-    private fun stopProcessing() {
-        processorJob?.cancel(); processorJob = null
-        lastBitmap?.let { recycleToPool(it) }; lastBitmap = null
-        bitmapPool.forEach { it.recycle() }; bitmapPool.clear()
-    }
-
-    private suspend fun processFrame(bitmap: Bitmap) = withContext(Dispatchers.Default) {
-        val b = binder
-        screenInfo = b?.screenInfo ?: screenInfo
-        workSize = b?.screenInfo?.let { android.util.Size(it.width, it.height) } ?: workSize
-        // 实际工作图尺寸来自 bitmap 本身
-        val ww = bitmap.width; val wh = bitmap.height
-        frameCounter++
-
-        // 1) 变化检测：用工作图直接比较（已降采样，开销小）
-        val prev = lastBitmap
-        if (prev != null && prev.width == ww && prev.height == wh) {
-            val change = vision.changeScore(prev, bitmap)
-            if (change < CHANGE_THRESHOLD) {
-                skippedFrames++; bitmap.recycle(); return@withContext
+    /** 阶段2：结束识别并比对全量数据库 */
+    suspend fun finishAndVerify(): List<ConfirmedItem> {
+        stopFrameLoop()
+        _confirmed.clear()
+        // 按 itemId 分组去重（同一物品多帧出现→数量+1，不同位置保留）
+        val groups = rawItems.groupBy { "${it.itemId}@${it.region}@${it.gx},${it.gy}" }
+        for ((_, list) in groups) {
+            val first = list.first()
+            // 从全量物品库确认（IconMatcher 已内置 name/size/price，直接取）
+            val m = matcher.findById(first.itemId)
+            if (m != null) {
+                _confirmed.add(ConfirmedItem(m.id, m.name, m.w, m.h, m.price, m.cat,
+                    first.region, first.confidence, list.size))
             }
         }
-        processedFrames++
+        Log.i(TAG, "比对完成: ${_confirmed.size} 种物资")
+        return _confirmed
+    }
 
-        // 2) 复用池保存当前帧用于下一帧比较
-        lastBitmap?.let { recycleToPool(it) }
-        lastBitmap = obtainBitmap(bitmap)
-
-        // 3) ONNX 推理（输入已是工作分辨率，preprocess 缩放次数少）
-        val detections = vision.detect(bitmap, itemTypes)
-
-        // 4) 坐标换算：检测框在工作图归一化 → 屏幕像素 → 内容格子
-        // 工作图与屏幕同比例，cx/ww * screenWidth 即屏幕像素 x
-        val sw = screenInfo.width.coerceAtLeast(1)
-        val sh = screenInfo.height.coerceAtLeast(1)
-        val observations = detections.mapIndexed { idx, d ->
-            val cxPix = d.bbox[0] / ww * sw
-            val cyPix = d.bbox[1] / wh * sh
-            val gx = (cxPix / gridCellPx).toInt()
-            val gy = (cyPix / gridCellPx).toInt()
-            CoreBridge.Observation(
-                observationId = "obs_${frameCounter}_$idx",
-                itemTypeId = d.itemTypeId,
-                containerId = "ground",
-                regionId = regionOf(cyPix),
-                x = gx, y = gy,
-                phash = d.phash,
-                frameIndex = frameCounter,
-                confidence = d.confidence,
-                quantity = 1
-            )
+    /** 阶段3：输出摆放策略（背包+保险箱） */
+    suspend fun buildLayout(): LayoutResult {
+        val grid = _gridInfo
+        val bagItems = _confirmed.filter { it.region == "bag" }.map {
+            CoreBridge.PackItem(it.id, it.w, it.h, it.price, it.quantity, true)
         }
-        viewModel.onFrame(observations)
+        val safeItems = _confirmed.filter { it.region == "safe" }.map {
+            CoreBridge.PackItem(it.id, it.w, it.h, it.price, it.quantity, true)
+        }
+        val bagResult = CoreBridge.optimize(grid.bagWidth.coerceAtLeast(1), grid.bagHeight.coerceAtLeast(1), bagItems)
+        val safeResult = CoreBridge.optimize(grid.safeWidth.coerceAtLeast(1), grid.safeHeight.coerceAtLeast(1), safeItems)
+        return LayoutResult(bagResult, safeResult,
+            _confirmed.filter { it.region == "ground" })
+    }
+
+    data class LayoutResult(val bag: CoreBridge.PackResult, val safe: CoreBridge.PackResult,
+                            val ground: List<ConfirmedItem>)
+
+    // ---------- 帧处理 ----------
+    private fun startFrameLoop() {
+        val b = binder ?: return
+        processorJob?.cancel()
+        processorJob = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.SupervisorJob() + kotlinx.coroutines.Dispatchers.Default).launch {
+            b.frames.collect { processFrame(it) }
+        }
+    }
+    private fun stopFrameLoop() { processorJob?.cancel(); processorJob = null
+        lastBitmap?.recycle(); lastBitmap = null }
+
+    private suspend fun processFrame(bitmap: Bitmap) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+        frameCounter++
+        val prev = lastBitmap
+        if (prev != null && prev.width == bitmap.width && prev.height == bitmap.height) {
+            if (matcher.phash(prev) == matcher.phash(bitmap)) { bitmap.recycle(); return@withContext }
+        }
+        prev?.recycle(); lastBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, false)
+
+        // 1) OCR 识别格数（每 N 帧做一次，省开销）
+        if (frameCounter % 10 == 1L) {
+            GridOcr.recognize(bitmap)?.let {
+                _gridInfo = it
+                Log.i(TAG, "OCR 格数: 背包 ${it.bagWidth}x${it.bagHeight} 保险箱 ${it.safeWidth}x${it.safeHeight}")
+            }
+        }
+
+        // 2) 图标匹配扫描（背包区域 + 地面）
+        val cols = _gridInfo.bagWidth.coerceAtLeast(1)
+        val rows = _gridInfo.bagHeight.coerceAtLeast(1)
+        val detections = iconScanner.scan(bitmap, cols, rows, floatArrayOf(0f, 0.25f, 1f, 0.5f))
+        for (d in detections) {
+            rawItems.add(RawItem(d.itemId, d.confidence, "bag", d.gridX, d.gridY))
+        }
+        // 地面区域
+        val groundDet = iconScanner.scan(bitmap, 6, 4, floatArrayOf(0f, 0.6f, 1f, 0.4f))
+        for (d in groundDet) rawItems.add(RawItem(d.itemId, d.confidence, "ground", d.gridX, d.gridY))
+
+        viewModel.onFrame(emptyList()) // 更新帧计数
         bitmap.recycle()
-    }
-
-    private fun regionOf(screenY: Float): String = when {
-        screenY < screenInfo.height * 0.25f -> "bag"
-        screenY < screenInfo.height * 0.6f -> "ground_center"
-        else -> "ground_bottom"
-    }
-
-    /** 从池中取 Bitmap 或新建，复制 src */
-    private fun obtainBitmap(src: Bitmap): Bitmap {
-        val bmp = if (bitmapPool.isNotEmpty()) bitmapPool.removeLast() else null
-        return if (bmp != null && bmp.width == src.width && bmp.height == src.height) {
-            bmp.eraseColor(android.graphics.Color.TRANSPARENT)
-            val canvas = android.graphics.Canvas(bmp)
-            canvas.drawBitmap(src, 0f, 0f, null)
-            bmp
-        } else {
-            bmp?.recycle()
-            src.copy(Bitmap.Config.ARGB_8888, false)
-        }
-    }
-
-    private fun recycleToPool(bmp: Bitmap) {
-        if (bitmapPool.size < POOL_SIZE && !bmp.isRecycled) bitmapPool.addLast(bmp)
-        else bmp.recycle()
     }
 }

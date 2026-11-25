@@ -43,7 +43,7 @@ fun Theme(content: @Composable () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppNav(onStartScan: () -> Unit, onStopScan: () -> Unit, vm: ScanViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun AppNav(vm: ScanViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     val navController = rememberNavController()
     data class NavItem(val route: String, val label: String, val icon: ImageVector)
     val items = listOf(
@@ -77,7 +77,7 @@ fun AppNav(onStartScan: () -> Unit, onStopScan: () -> Unit, vm: ScanViewModel = 
                 onNavigate = { navController.navigate(it) },
                 extraActions = listOf("历史" to Routes.HISTORY, "数据库" to Routes.DATABASE, "设置" to Routes.SETTINGS)
             ) }
-            composable(Routes.SCAN) { ScanScreen(vm, onStartScan, onStopScan) }
+            composable(Routes.SCAN) { ScanScreen(vm) }
             composable(Routes.REVIEW) { ReviewScreen(vm, onDetail = { navController.navigate(Routes.detail(it)) }) }
             composable(Routes.STATS) { StatsScreen(vm) }
             composable(Routes.GRID) { GridScreen(vm) }

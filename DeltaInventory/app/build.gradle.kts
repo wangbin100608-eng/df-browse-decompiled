@@ -86,6 +86,7 @@ dependencies {
 
     // ONNX Runtime
     implementation("com.microsoft.onnxruntime:onnxruntime-android:1.18.0")
+    implementation("com.google.mlkit:text-recognition:16.0.1")
 
     // OpenCV (from local AAR if present, otherwise Maven)
 
