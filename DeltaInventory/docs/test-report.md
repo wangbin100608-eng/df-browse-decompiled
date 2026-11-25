@@ -35,6 +35,17 @@
 执行环境：Vultr 4 核 AMD EPYC / 15GB RAM，Gradle 8.7 + AGP 8.5.2，耗时 26 秒。
 （配置 `testOptions.unitTests.isReturnDefaultValues=true` 使 android.util.Log 在 JVM 测试中可运行。）
 
+## Release APK 验证（新服务器 45.63.100.185，8 核 / 30GB）
+
+| 项目 | 结果 |
+|---|---|
+| Release 构建 | BUILD SUCCESSFUL in 1m 28s |
+| 签名 | v2 scheme 有效，正式 keystore 签名 |
+| SHA256 | `3f73ceeddf0956d95d06e6ed14d5c8a40db5b8a115203c99cfe4df9e0e287ffc` |
+| 结构 | 164 文件，含 libdi_core.so / libdi_vision.so / libonnxruntime.so / libopencv_java4.so，无损坏 |
+| Rust 测试 | 17/17 PASS |
+| Android 测试 | 9/9 PASS（`tests="9" failures="0" errors="0"`） |
+
 ## 准确率评估
 
 ### 视觉检测模型

@@ -18,7 +18,11 @@
 
 本地视觉物品盘点与背包优化工具。仅处理**普通非武器物品**（893 件，来自 WASM 真实提取），不实现枪械/配件/弹药的识别或优化。全部识别与统计在本地完成，不上传云端。
 
-**APK**：`DeltaInventory/DeltaInventory-v1.0.0-debug.apk`（57 MB，ARM64，v2 签名，可直接安装）
+**APK**（两版均在 `DeltaInventory/`）：
+
+- `DeltaInventory-v1.0.0-release.apk`（51 MB，ARM64，**正式签名**，Rust LTO 优化，推荐安装）
+- `DeltaInventory-v1.0.0-debug.apk`（57 MB，调试版）
+- Release SHA256：`3f73ceeddf0956d95d06e6ed14d5c8a40db5b8a115203c99cfe4df9e0e287ffc`
 
 ### 技术架构
 
@@ -51,7 +55,8 @@ gradle assembleDebug              # -> app/build/outputs/apk/debug/app-debug.apk
 
 - Rust 核心：`cargo test` → **17/17 PASS**（连续滑动、重复计数、区域独立、拆分合并、过期价格、越界重叠等）
 - Android：`gradle testDebugUnitTest` → **9/9 PASS**
-- APK：v2 签名有效，SHA256 `007760354d36b05583fcbbec322ef36013632b71d2edd081bea14b8d84e1bb87`
+- Debug APK：v2 签名有效，SHA256 `007760354d36b05583fcbbec322ef36013632b71d2edd081bea14b8d84e1bb87`
+- Release APK：正式 keystore 签名（v2），51 MB，SHA256 `3f73ceeddf0956d95d06e6ed14d5c8a40db5b8a115203c99cfe4df9e0e287ffc`（推荐）
 
 ### 资源分析产物（`DeltaInventory/analysis/`）
 
