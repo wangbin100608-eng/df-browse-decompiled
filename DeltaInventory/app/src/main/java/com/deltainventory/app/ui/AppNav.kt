@@ -43,7 +43,7 @@ fun Theme(content: @Composable () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppNav(onStartScan: () -> Unit, onStopScan: () -> Unit, vm: ScanViewModel = viewModel()) {
+fun AppNav(onStartScan: () -> Unit, onStopScan: () -> Unit, vm: ScanViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     val navController = rememberNavController()
     data class NavItem(val route: String, val label: String, val icon: ImageVector)
     val items = listOf(
