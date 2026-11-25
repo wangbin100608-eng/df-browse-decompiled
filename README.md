@@ -22,7 +22,7 @@
 
 - `DeltaInventory-v1.0.0-release.apk`（51 MB，ARM64，**正式签名**，Rust LTO 优化，推荐安装）
 - `DeltaInventory-v1.0.0-debug.apk`（57 MB，调试版）
-- Release SHA256：`3a3c53099d4d520b5e39b33d1b5daa1211d2a9c814f2d105c0f62ea5ed55a7d6`
+- Release SHA256：`e27718235d2022950cc6e2b38f62613a3084e66828294f20412bfdcfeaf21526`
 
 ### 技术架构
 
@@ -56,7 +56,7 @@ gradle assembleDebug              # -> app/build/outputs/apk/debug/app-debug.apk
 - Rust 核心：`cargo test` → **17/17 PASS**（连续滑动、重复计数、区域独立、拆分合并、过期价格、越界重叠等）
 - Android：`gradle testDebugUnitTest` → **9/9 PASS**
 - Debug APK：v2 签名有效，SHA256 `007760354d36b05583fcbbec322ef36013632b71d2edd081bea14b8d84e1bb87`
-- Release APK：正式 keystore 签名（v2），51 MB，SHA256 `3a3c53099d4d520b5e39b33d1b5daa1211d2a9c814f2d105c0f62ea5ed55a7d6`（推荐）
+- Release APK：正式 keystore 签名（v2），51 MB，SHA256 `e27718235d2022950cc6e2b38f62613a3084e66828294f20412bfdcfeaf21526`（推荐）
 
 ### 资源分析产物（`DeltaInventory/analysis/`）
 

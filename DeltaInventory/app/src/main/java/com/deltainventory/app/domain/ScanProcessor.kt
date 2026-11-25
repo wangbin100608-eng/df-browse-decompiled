@@ -13,26 +13,35 @@ import com.deltainventory.app.vision.VisionEngine
 import kotlinx.coroutines.*
 
 /**
- * 采集→识别→追踪 主链路处理器。
- * 订阅 CaptureService 的 Bitmap 帧流，做变化检测、ONNX 推理、坐标换算，
- * 生成 Observation 交给 ScanViewModel.onFrame。
- *
- * 屏幕自适应：推理输入固定 640x640，但检测框坐标从归一化换算回当前屏幕像素，
- * 再按格子映射为内容坐标；屏幕尺寸变化时通过 ScreenInfo 动态换算。
+ * 采集→识别→追踪 主链路处理器（性能优化版）。
+ * - 采集图已按屏幕比例缩到工作分辨率（长边640），全链路小图处理。
+ * - Bitmap 池复用，避免每帧分配全尺寸副本。
+ * - 变化检测在降采样图上做，未变化帧跳过推理。
+ * - 坐标从工作图归一化 → 屏幕像素 → 内容格子（自适应不同屏幕）。
  */
 class ScanProcessor(
     private val context: Context,
     private val viewModel: ScanViewModel,
-    private val itemTypes: List<String>,     // class_id -> itemTypeId 映射
-    private val gridCellPx: Int = 64          // 每格像素（可配置）
+    private val itemTypes: List<String>,
+    private val gridCellPx: Int = 64
 ) {
+    companion object {
+        const val TAG = "ScanProcessor"
+        const val CHANGE_THRESHOLD = 0.015f
+        const val POOL_SIZE = 3
+    }
 
     private var binder: CaptureBinder? = null
     private var processorJob: Job? = null
+    /** Bitmap 对象池：复用上一帧比较图，避免频繁分配 */
+    private val bitmapPool = ArrayDeque<Bitmap>(POOL_SIZE)
     private var lastBitmap: Bitmap? = null
     private var screenInfo = ScreenInfo(0, 0, 0, 0)
+    private var workSize = android.util.Size(0, 0)
     private val vision = VisionEngine.get(context)
     private var frameCounter = 0L
+    private var skippedFrames = 0L
+    private var processedFrames = 0L
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -47,14 +56,13 @@ class ScanProcessor(
     }
 
     fun bind() {
-        val intent = android.content.Intent(context, CaptureService::class.java)
-        context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        context.bindService(android.content.Intent(context, CaptureService::class.java), connection, Context.BIND_AUTO_CREATE)
     }
 
-    fun unbind() {
-        stopProcessing()
-        runCatching { context.unbindService(connection) }
-    }
+    fun unbind() { stopProcessing(); runCatching { context.unbindService(connection) } }
+
+    /** 性能统计（供 UI/日志） */
+    fun stats(): String = "processed=$processedFrames skipped=$skippedFrames total=${processedFrames + skippedFrames}"
 
     private fun startProcessing() {
         val b = binder ?: return
@@ -65,38 +73,50 @@ class ScanProcessor(
     }
 
     private fun stopProcessing() {
-        processorJob?.cancel()
-        processorJob = null
-        lastBitmap?.recycle(); lastBitmap = null
+        processorJob?.cancel(); processorJob = null
+        lastBitmap?.let { recycleToPool(it) }; lastBitmap = null
+        bitmapPool.forEach { it.recycle() }; bitmapPool.clear()
     }
 
     private suspend fun processFrame(bitmap: Bitmap) = withContext(Dispatchers.Default) {
-        screenInfo = binder?.screenInfo ?: screenInfo
+        val b = binder
+        screenInfo = b?.screenInfo ?: screenInfo
+        workSize = b?.screenInfo?.let { android.util.Size(it.width, it.height) } ?: workSize
+        // 实际工作图尺寸来自 bitmap 本身
+        val ww = bitmap.width; val wh = bitmap.height
         frameCounter++
 
-        // 1) 变化检测：未变化帧跳过推理（省电省CPU）
+        // 1) 变化检测：用工作图直接比较（已降采样，开销小）
         val prev = lastBitmap
-        if (prev != null && prev.width == bitmap.width && prev.height == bitmap.height) {
+        if (prev != null && prev.width == ww && prev.height == wh) {
             val change = vision.changeScore(prev, bitmap)
-            if (change < CHANGE_THRESHOLD) { bitmap.recycle(); return@withContext }
+            if (change < CHANGE_THRESHOLD) {
+                skippedFrames++; bitmap.recycle(); return@withContext
+            }
         }
-        prev?.recycle()
-        lastBitmap = copyBitmap(bitmap) // 保留一份用于下一帧比较
+        processedFrames++
 
-        // 2) ONNX 推理
+        // 2) 复用池保存当前帧用于下一帧比较
+        lastBitmap?.let { recycleToPool(it) }
+        lastBitmap = obtainBitmap(bitmap)
+
+        // 3) ONNX 推理（输入已是工作分辨率，preprocess 缩放次数少）
         val detections = vision.detect(bitmap, itemTypes)
 
-        // 3) 检测框坐标：归一化 -> 屏幕像素 -> 内容格子坐标（自适应屏幕）
+        // 4) 坐标换算：检测框在工作图归一化 → 屏幕像素 → 内容格子
+        // 工作图与屏幕同比例，cx/ww * screenWidth 即屏幕像素 x
+        val sw = screenInfo.width.coerceAtLeast(1)
+        val sh = screenInfo.height.coerceAtLeast(1)
         val observations = detections.mapIndexed { idx, d ->
-            val cxPix = d.bbox[0] * screenInfo.width
-            val cyPix = d.bbox[1] * screenInfo.height
+            val cxPix = d.bbox[0] / ww * sw
+            val cyPix = d.bbox[1] / wh * sh
             val gx = (cxPix / gridCellPx).toInt()
             val gy = (cyPix / gridCellPx).toInt()
             CoreBridge.Observation(
                 observationId = "obs_${frameCounter}_$idx",
                 itemTypeId = d.itemTypeId,
-                containerId = "ground",                 // 默认地面；区域判定可由 bbox 所在 UI 区域细化
-                regionId = regionOf(cxPix, cyPix),
+                containerId = "ground",
+                regionId = regionOf(cyPix),
                 x = gx, y = gy,
                 phash = d.phash,
                 frameIndex = frameCounter,
@@ -104,23 +124,32 @@ class ScanProcessor(
                 quantity = 1
             )
         }
-
-        // 4) 交给账本追踪
         viewModel.onFrame(observations)
         bitmap.recycle()
     }
 
-    /** 根据屏幕坐标划分内容区域（不同区域独立坐标系） */
-    private fun regionOf(px: Float, py: Float): String = when {
-        py < screenInfo.height * 0.25f -> "bag"
-        py < screenInfo.height * 0.6f -> "ground_center"
+    private fun regionOf(screenY: Float): String = when {
+        screenY < screenInfo.height * 0.25f -> "bag"
+        screenY < screenInfo.height * 0.6f -> "ground_center"
         else -> "ground_bottom"
     }
 
-    private fun copyBitmap(src: Bitmap): Bitmap = src.copy(Bitmap.Config.ARGB_8888, false)
+    /** 从池中取 Bitmap 或新建，复制 src */
+    private fun obtainBitmap(src: Bitmap): Bitmap {
+        val bmp = if (bitmapPool.isNotEmpty()) bitmapPool.removeLast() else null
+        return if (bmp != null && bmp.width == src.width && bmp.height == src.height) {
+            bmp.eraseColor(android.graphics.Color.TRANSPARENT)
+            val canvas = android.graphics.Canvas(bmp)
+            canvas.drawBitmap(src, 0f, 0f, null)
+            bmp
+        } else {
+            bmp?.recycle()
+            src.copy(Bitmap.Config.ARGB_8888, false)
+        }
+    }
 
-    companion object {
-        const val TAG = "ScanProcessor"
-        const val CHANGE_THRESHOLD = 0.02f
+    private fun recycleToPool(bmp: Bitmap) {
+        if (bitmapPool.size < POOL_SIZE && !bmp.isRecycled) bitmapPool.addLast(bmp)
+        else bmp.recycle()
     }
 }

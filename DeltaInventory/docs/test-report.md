@@ -41,7 +41,7 @@
 |---|---|
 | Release 构建 | BUILD SUCCESSFUL in 1m 28s |
 | 签名 | v2 scheme 有效，正式 keystore 签名 |
-| SHA256 | `3a3c53099d4d520b5e39b33d1b5daa1211d2a9c814f2d105c0f62ea5ed55a7d6` |
+| SHA256 | `e27718235d2022950cc6e2b38f62613a3084e66828294f20412bfdcfeaf21526` |
 | 结构 | 164 文件，含 libdi_core.so / libdi_vision.so / libonnxruntime.so / libopencv_java4.so，无损坏 |
 | Rust 测试 | 17/17 PASS |
 | Android 测试 | 9/9 PASS（`tests="9" failures="0" errors="0"`） |

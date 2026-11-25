@@ -38,6 +38,8 @@ class CaptureService : Service() {
         const val ACTION_STOP = "di.action.STOP"
         const val ACTION_RECONFIGURE = "di.action.RECONFIGURE"
         const val ACTION_CAPTURE_STOPPED = "di.action.CAPTURE_STOPPED"
+        // 工作分辨率：长边限制，显著降低全链路内存与拷贝；仍保留屏幕真实尺寸用于坐标换算
+        const val WORK_MAX_DIM = 640
         const val EXTRA_RESULT_CODE = "result_code"
         const val EXTRA_RESULT_DATA = "result_data"
     }
@@ -50,11 +52,15 @@ class CaptureService : Service() {
     private var wm: WindowManager? = null
     private var isRunning = false
     private var isPaused = false
+    private var captureThread: HandlerThread? = null
+    private var captureHandler: Handler? = null
     private var resultCode = 0
     private var resultData: Intent? = null
 
     // 屏幕自适应信息
     var currentScreenInfo = ScreenInfo(0, 0, 0, 0)
+        private set
+    var currentWorkSize = android.util.Size(0, 0)
         private set
 
     // 转 Bitmap 后的帧流（供识别流水线消费）
@@ -101,15 +107,26 @@ class CaptureService : Service() {
             .also { it.registerCallback(callback, Handler(Looper.getMainLooper())) }
 
         val metrics = currentMetrics()
-        val width = metrics.widthPixels
-        val height = metrics.heightPixels
+        val screenW = metrics.widthPixels
+        val screenH = metrics.heightPixels
         val density = metrics.densityDpi
         val rotation = (getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
-        currentScreenInfo = ScreenInfo(width, height, density, rotation)
+        currentScreenInfo = ScreenInfo(screenW, screenH, density, rotation)
+
+        // 工作分辨率：按屏幕比例把长边缩到 WORK_MAX_DIM，全链路都用小图
+        val scale = WORK_MAX_DIM.toFloat() / maxOf(screenW, screenH)
+        val workW = (screenW * scale).toInt().coerceAtLeast(1)
+        val workH = (screenH * scale).toInt().coerceAtLeast(1)
+        currentWorkSize = android.util.Size(workW, workH)
+
+        // 后台线程处理帧，避免阻塞主线程
+        captureThread?.quitSafely()
+        captureThread = HandlerThread("DI_Capture", Process.THREAD_PRIORITY_BACKGROUND).also { it.start() }
+        captureHandler = Handler(captureThread!!.looper)
 
         imageReader?.setOnImageAvailableListener(null, null)
         imageReader?.close()
-        imageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 3).also { reader ->
+        imageReader = ImageReader.newInstance(workW, workH, PixelFormat.RGBA_8888, 2).also { reader ->
             reader.setOnImageAvailableListener({ r ->
                 val image = r.acquireLatestImage() ?: return@setOnImageAvailableListener
                 try {
@@ -118,19 +135,19 @@ class CaptureService : Service() {
                         if (!frameBitmapFlow.tryEmit(bmp)) bmp.recycle() // 背压：丢弃
                     }
                 } finally { image.close() }
-            }, Handler(Looper.getMainLooper()))
+            }, captureHandler)
         }
 
         virtualDisplay?.release()
         virtualDisplay = projection?.createVirtualDisplay(
-            "DI_Capture", width, height, density,
+            "DI_Capture", workW, workH, density,
             DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-            imageReader?.surface, null, Handler(Looper.getMainLooper())
+            imageReader?.surface, null, captureHandler
         )
         if (floatingBall == null) addFloatingBall(getSystemService(WINDOW_SERVICE) as WindowManager)
         isRunning = true
         isPaused = false
-        Log.i(TAG, "采集启动(自适应) ${width}x${height} density=$density rotation=$rotation")
+        Log.i(TAG, "采集启动(自适应) ${screenW}x${screenH}(work=${workW}x${workH}) density=$density rotation=$rotation")
     }
 
     private fun currentMetrics(): DisplayMetrics {
@@ -152,13 +169,13 @@ class CaptureService : Service() {
         val buffer = plane.buffer
         val pixelStride = plane.pixelStride
         val rowStride = plane.rowStride
-        val rowPadding = rowStride - pixelStride * currentScreenInfo.width
-        val w = currentScreenInfo.width + rowPadding / pixelStride
-        val h = currentScreenInfo.height
+        val rowPadding = rowStride - pixelStride * currentWorkSize.width
+        val w = currentWorkSize.width + rowPadding / pixelStride
+        val h = currentWorkSize.height
         val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         bitmap.copyPixelsFromBuffer(buffer)
-        return if (w != currentScreenInfo.width)
-            Bitmap.createBitmap(bitmap, 0, 0, currentScreenInfo.width, h).also { bitmap.recycle() }
+        return if (w != currentWorkSize.width)
+            Bitmap.createBitmap(bitmap, 0, 0, currentWorkSize.width, h).also { bitmap.recycle() }
         else bitmap
     }
 
@@ -221,7 +238,11 @@ class CaptureService : Service() {
         clampFloatingBall()
     }
 
-    override fun onDestroy() { stopCapture("destroy"); scope.cancel(); super.onDestroy() }
+    override fun onDestroy() {
+        stopCapture("destroy"); scope.cancel()
+        captureThread?.quitSafely(); captureThread = null
+        super.onDestroy()
+    }
 
     private fun createChannel() {
         if (Build.VERSION.SDK_INT >= 26)

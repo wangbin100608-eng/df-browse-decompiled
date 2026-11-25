@@ -21,6 +21,20 @@
 
 （精确数字以 `cargo test` 输出的 elapsed_ms 为准；Rust 核心用 `#[profile.release] lto=true`。）
 
+## 性能优化（本轮实测改进）
+
+| 优化项 | 改动前 | 改动后 | 收益 |
+|---|---|---|---|
+| 采集分辨率 | 全屏 1080×2400 逐帧 copyPixelsFromBuffer | VirtualDisplay/ImageReader 用工作分辨率（长边 640，等比缩放） | 像素量降 ~10×，内存/拷贝大幅下降 |
+| 帧处理线程 | ImageReader listener 在主线程 | HandlerThread 后台线程 | 不阻塞 UI |
+| 变化检测 | JNI 传两张全屏 IntArray，native 转全尺寸 Mat | 工作图上直接降采样到 64×64 灰度差分，不构造全尺寸 Mat | JNI 拷贝与计算降 ~100× |
+| 感知哈希 | 全尺寸 resize + 转 Mat | 工作图直接采样到 9×8 灰度 | 避免全尺寸 Mat |
+| Bitmap 副本 | 每帧 copyBitmap 新分配 | Bitmap 对象池（3 个）复用 | 消除每帧分配/GC |
+| 预处理缓冲 | 每帧 new FloatArray(4.6MB)+IntArray | 复用 floatCache/bufPixels/inputName | 消除每帧大数组分配 |
+| 背压 | extraBufferCapacity=2 | ImageReader maxImages=2 + tryEmit 丢弃 | 有界内存 |
+| 静止帧 | 变化检测后仍推理 | change < 0.015 跳过推理 | 静止画面零推理开销 |
+
+验证：Debug/Release 均 BUILD SUCCESSFUL，Rust 17/17 + Android 9/9 全通过。
 ## 移动端优化措施
 
 | 措施 | 实现 | 效果 |

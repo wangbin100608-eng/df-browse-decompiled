@@ -28,11 +28,17 @@ class VisionEngine private constructor(private val ctx: Context) {
         const val INPUT_W = 640L
         const val INPUT_H = 640L
         const val MIN_CONF = 0.35f
+        const val INV_255 = 1f / 255f
     }
 
     private var session: OrtSession? = null
     private var env: OrtEnvironment? = null
     private var opencvAvailable = false
+    // 复用缓冲，避免每帧分配大数组
+    private var pixelCache: IntArray? = null       // changeScore/phash 用（工作图尺寸）
+    private var bufPixels: IntArray? = null        // preprocess 用（640x640）
+    private var floatCache: FloatArray? = null
+    private var inputName: String? = null
 
     init {
         try { System.loadLibrary("di_vision"); opencvAvailable = true
@@ -45,7 +51,8 @@ class VisionEngine private constructor(private val ctx: Context) {
     private external fun nativePhash(pixels: IntArray, w: Int, h: Int): Long
 
     private fun pixels(bmp: Bitmap): IntArray {
-        val arr = IntArray(bmp.width * bmp.height)
+        val need = bmp.width * bmp.height
+        val arr = pixelCache?.takeIf { it.size >= need } ?: IntArray(need).also { pixelCache = it }
         bmp.getPixels(arr, 0, bmp.width, 0, 0, bmp.width, bmp.height)
         return arr
     }
@@ -83,10 +90,10 @@ class VisionEngine private constructor(private val ctx: Context) {
         val results = mutableListOf<Detection>()
         if (available && session != null) {
             try {
-                val inputName = session!!.inputNames.first()
+                if (inputName == null) inputName = session!!.inputNames.first()
                 val input = preprocess(bitmap)
                 val tensor = OnnxTensor.createTensor(env, FloatBuffer.wrap(input), longArrayOf(1L, 3L, INPUT_H, INPUT_W))
-                val out = session!!.run(mapOf(inputName to tensor))
+                val out = session!!.run(mapOf(inputName!! to tensor))
                 tensor.close()
                 // 解析输出（YOLO 风格 [1,N,6]：x,y,w,h,conf,class]）—— 模型说明见 models/README.md
                 val arr = out[0].value as Array<*>
@@ -164,21 +171,26 @@ class VisionEngine private constructor(private val ctx: Context) {
     }
 
     private fun preprocess(bmp: Bitmap): FloatArray {
-        val scaled = Bitmap.createScaledBitmap(bmp, INPUT_W.toInt(), INPUT_H.toInt(), true)
-        val buf = FloatArray(3 * INPUT_W.toInt() * INPUT_H.toInt())
-        val pixels = IntArray(INPUT_W.toInt() * INPUT_H.toInt())
-        scaled.getPixels(pixels, 0, INPUT_W.toInt(), 0, 0, INPUT_W.toInt(), INPUT_H.toInt())
-        val wh = INPUT_W.toInt() * INPUT_H.toInt()
-        for (i in pixels.indices) {
-            val c = pixels[i]
-            buf[i] = ((c shr 16 and 0xFF) / 255f - 0.5f) / 0.5f
-            buf[wh + i] = ((c shr 8 and 0xFF) / 255f - 0.5f) / 0.5f
-            buf[2 * wh + i] = ((c and 0xFF) / 255f - 0.5f) / 0.5f
+        val w = INPUT_W.toInt(); val h = INPUT_H.toInt()
+        val wh = w * h
+        val buf = floatCache?.takeIf { it.size >= wh * 3 } ?: FloatArray(wh * 3).also { floatCache = it }
+        val px = bufPixels?.takeIf { it.size >= wh } ?: IntArray(wh).also { bufPixels = it }
+        // 工作图已接近 640，若尺寸相同直接用 pixels()，否则缩放
+        if (bmp.width == w && bmp.height == h) bmp.getPixels(px, 0, w, 0, 0, w, h)
+        else {
+            val scaled = Bitmap.createScaledBitmap(bmp, w, h, true)
+            scaled.getPixels(px, 0, w, 0, 0, w, h)
+            scaled.recycle()
         }
-        scaled.recycle()
+        for (i in 0 until wh) {
+            val c = px[i]
+            buf[i] = ((c shr 16 and 0xFF) * INV_255 - 1f)
+            buf[wh + i] = ((c shr 8 and 0xFF) * INV_255 - 1f)
+            buf[2 * wh + i] = ((c and 0xFF) * INV_255 - 1f)
+        }
         return buf
     }
 
-    fun close() { session?.close(); session = null }
+    fun close() { session?.close(); session = null; pixelCache = null; bufPixels = null; floatCache = null }
 
 }
