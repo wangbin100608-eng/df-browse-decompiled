@@ -11,6 +11,7 @@ import java.util.UUID
 
 /** 盘点会话状态与业务逻辑 */
 class ScanViewModel(app: Application) : AndroidViewModel(app) {
+    private val appCtx = app.applicationContext
     private val db = DatabaseProvider.get(app)
     private var tracker = CoreBridge.Tracker()
     var processor: ScanProcessor? = null
@@ -24,6 +25,8 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
     val confirmedItems: StateFlow<List<ScanProcessor.ConfirmedItem>> = _confirmedItems.asStateFlow()
     private val _gridInfo = MutableStateFlow("未识别")
     val gridInfoText: StateFlow<String> = _gridInfo.asStateFlow()
+    private val _pendingConfirm = MutableStateFlow<List<Pair<String, List<String>>>>(emptyList())
+    val pendingConfirm: StateFlow<List<Pair<String, List<String>>>> = _pendingConfirm.asStateFlow()
     private val _phase = MutableStateFlow("idle") // idle/scanning/verified/laid_out
     val phase: StateFlow<String> = _phase.asStateFlow()
     private var sessionId: String? = null
@@ -160,6 +163,55 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
 
     fun getDetail(id: String): CoreBridge.Instance? = tracker.active().firstOrNull { it.instanceId == id }
 
+    val history = db.sessionDao().all()
+
+    // 可调识别参数
+    var matchThreshold = 0.55f
+        private set
+    var hashMaxDist = 20
+        private set
+    fun setMatchThreshold(v: Float) { matchThreshold = v; processor?.matchThreshold = v }
+    fun setHashDist(v: Int) { hashMaxDist = v; processor?.hashMaxDist = v; processor?.setHashDist(v) }
+
+    /** 从 assets 导入全量物品库到 Room */
+    fun importDatabase(onDone: (String) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val json = appCtx.assets.open("item-database.json").use { it.readBytes().toString(Charsets.UTF_8) }
+                val arr = org.json.JSONObject(json).getJSONArray("items")
+                val entities = (0 until arr.length()).map { i ->
+                    val o = arr.getJSONObject(i)
+                    ItemEntity(o.getString("itemId"), o.getString("name"), o.optString("shortName").ifEmpty { null },
+                        o.getInt("width"), o.getInt("height"), o.optString("category"),
+                        o.opt("baseValueCents")?.let { if (it is Number) it.toLong() else null }, o.optString("iconPath").ifEmpty { null })
+                }
+                db.itemDao().upsertAll(entities)
+                onDone("导入 ${entities.size} 件物品成功")
+            } catch (e: Exception) { onDone("导入失败: ${e.message}") }
+        }
+    }
+
+    fun backupDatabase(destPath: String, onDone: (String) -> Unit) {
+        try { DatabaseProvider.backup(appCtx, java.io.File(destPath)); onDone("备份成功") }
+        catch (e: Exception) { onDone("备份失败: ${e.message}") }
+    }
+
+    fun restoreDatabase(srcPath: String, onDone: (String) -> Unit) {
+        try { DatabaseProvider.restore(appCtx, java.io.File(srcPath)); onDone("恢复成功，请重启应用") }
+        catch (e: Exception) { onDone("恢复失败: ${e.message}") }
+    }
+
+    /** 由 ScanProcessor 每帧调用，更新识别统计 */
+    fun noteFrame(created: Int, skipped: Boolean) {
+        val st = _recognitionStats.value
+        _recognitionStats.value = st.copy(
+            frames = st.frames + 1,
+            created = st.created + created,
+            pending = processor?.pendingItems?.size?.toLong() ?: st.pending
+        )
+        _progress.value = st.frames + 1
+    }
+
     /** 三步流程：1 开始识别全部物资 */
     fun startRecognition() {
         if (requestCaptureAuth != null) {
@@ -181,6 +233,23 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             val list = processor?.finishAndVerify() ?: emptyList()
             _confirmedItems.value = list
+            _pendingConfirm.value = processor?.pendingNames() ?: emptyList()
+            // 持久化会话与识别实例
+            val sid = "scan_${System.currentTimeMillis()}"
+            sessionId = sid
+            viewModelScope.launch {
+                db.sessionDao().insert(ScanSessionEntity(sid, System.currentTimeMillis()))
+                list.forEach { c ->
+                    db.instanceDao().upsert(ItemInstanceEntity(
+                        instanceId = "${sid}_${c.id}_${c.region}", sessionId = sid,
+                        itemTypeId = c.id, containerId = c.region, regionId = c.region,
+                        posX = 0, posY = 0, viewportOffsetY = 0, phash = 0, colorHist = "",
+                        firstSeenFrame = 0, lastSeenFrame = _progress.value,
+                        confidence = c.confidence, trackingStatus = "Confirmed", quantity = c.quantity,
+                        humanConfirmed = false
+                    ))
+                }
+            }
             val g = processor?.gridInfo
             _gridInfo.value = if (g != null && g.bagWidth > 0) "背包 ${g.bagWidth}x${g.bagHeight} · 保险箱 ${g.safeWidth}x${g.safeHeight}" else "未识别到格数(默认3x3)"
             _phase.value = "verified"
@@ -188,11 +257,34 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    fun confirmPending(cellId: String, chosenId: String) {
+        processor?.confirmPending(cellId, chosenId)
+        _pendingConfirm.value = processor?.pendingNames() ?: emptyList()
+    }
+    fun discardPending(cellId: String) {
+        processor?.discardPending(cellId)
+        _pendingConfirm.value = processor?.pendingNames() ?: emptyList()
+    }
+
     /** 三步流程：3 输出完整摆放策略 */
     fun buildLayout() {
         viewModelScope.launch {
-            _layoutResult.value = processor?.buildLayout()
+            val result = processor?.buildLayout()
+            _layoutResult.value = result
             _phase.value = "laid_out"
+            sessionId?.let { sid ->
+                if (result != null) viewModelScope.launch {
+                    db.optimizationDao().insert(OptimizationResultEntity(
+                        sessionId = sid, algorithm = result.bag.algorithm,
+                        gridWidth = result.bag.gridW, gridHeight = result.bag.gridH,
+                        resultJson = result.bag.placed.map { "${it.id}@${it.x},${it.y}" }.joinToString(";"),
+                        totalValueCents = result.bag.totalValueCents + result.safe.totalValueCents,
+                        placedCount = result.bag.placed.size + result.safe.placed.size,
+                        unplacedCount = result.bag.unplaced.size,
+                        elapsedMs = result.bag.elapsedMs + result.safe.elapsedMs
+                    ))
+                }
+            }
         }
     }
 

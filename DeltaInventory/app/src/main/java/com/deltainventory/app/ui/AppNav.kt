@@ -81,9 +81,9 @@ fun AppNav(vm: ScanViewModel = androidx.lifecycle.viewmodel.compose.viewModel())
             composable(Routes.REVIEW) { ReviewScreen(vm, onDetail = { navController.navigate(Routes.detail(it)) }) }
             composable(Routes.STATS) { StatsScreen(vm) }
             composable(Routes.GRID) { GridScreen(vm) }
-            composable(Routes.HISTORY) { HistoryScreen() }
-            composable(Routes.DATABASE) { DatabaseScreen() }
-            composable(Routes.SETTINGS) { SettingsScreen() }
+            composable(Routes.HISTORY) { HistoryScreen(vm) }
+            composable(Routes.DATABASE) { DatabaseScreen(vm) }
+            composable(Routes.SETTINGS) { SettingsScreen(vm) }
             composable(Routes.DETAIL) { backStackEntry ->
                 InstanceDetailScreen(backStackEntry.arguments?.getString("instanceId") ?: "", vm)
             }

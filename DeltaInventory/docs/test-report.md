@@ -35,17 +35,6 @@
 执行环境：Vultr 4 核 AMD EPYC / 15GB RAM，Gradle 8.7 + AGP 8.5.2，耗时 26 秒。
 （配置 `testOptions.unitTests.isReturnDefaultValues=true` 使 android.util.Log 在 JVM 测试中可运行。）
 
-## Release APK 验证（新服务器 45.63.100.185，8 核 / 30GB）
-
-| 项目 | 结果 |
-|---|---|
-| Release 构建 | BUILD SUCCESSFUL in 1m 28s |
-| 签名 | v2 scheme 有效，正式 keystore 签名 |
-| SHA256 | `2defd7ed8abfd0fc4fa2da749ca59727e204ee2d83fed371440380ba23a25b4d` |
-| 结构 | 164 文件，含 libdi_core.so / libdi_vision.so / libonnxruntime.so / libopencv_java4.so，无损坏 |
-| Rust 测试 | 17/17 PASS |
-| Android 测试 | 9/9 PASS（`tests="9" failures="0" errors="0"`） |
-
 ## 准确率评估
 
 ### 视觉检测模型
@@ -70,3 +59,20 @@
 - 内存不足：`frameFlow` 有界丢弃 + Image.close() 及时释放。
 - 配置变化（旋转）：`handleConfigurationChanged()` 重建 VirtualDisplay。
 - 异常结束：`onDestroy` → `stopCapture("destroy")` + CoroutineScope.cancel()。
+
+## P3 验证覆盖（本轮新增）
+
+- `FlowLogicTest.kt`：9 项纯逻辑测试（多格合并、区域隔离、置信度分流、OCR 格数解析），JVM 可跑。
+- `DeviceSmokeTest.kt`（androidTest）：真机冒烟——包安装、特征库加载。**当前环境无 Android 设备，未实际执行**，需在真机 `gradle connectedAndroidTest` 运行。
+- 真机端到端（图标匹配准确率、OCR 格数识别、悬浮窗+采集）受设备/游戏画面影响，无法在编译环境验证，属已知限制。
+
+## 本轮 P1/P2/P3 完善后测试结果
+
+| 项目 | 结果 |
+|---|---|
+| Rust 核心 | 17/17 PASS |
+| Android 单元测试 | 18/18 PASS（CoreLogic 9 + FlowLogic 9） |
+| Release APK | BUILD SUCCESSFUL，v2 签名有效，SHA256 `26aa28af64b7db1fe8ee3a439bbbf328369b8610c5440d01049616a336afaf7a` |
+| 新增覆盖 | 多格合并、区域隔离、置信度分流、OCR 格数解析（FlowLogicTest）；真机冒烟代码（DeviceSmokeTest，需设备） |
+
+功能完善：图标匹配鲁棒性（中心裁剪+亮度归一化）、多格物品合并、低置信度人工确认、历史/数据库/设置页实做、识别统计、结果持久化、三步流程单测。

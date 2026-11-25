@@ -13,6 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -65,6 +67,7 @@ fun ScanScreen(vm: ScanViewModel) {
     val gridInfo by vm.gridInfoText.collectAsState()
     val confirmed by vm.confirmedItems.collectAsState()
     val layout by vm.layoutResult.collectAsState()
+    val pendingList by vm.pendingConfirm.collectAsState()
     LazyColumn(Modifier.fillMaxSize().padding(16.dp)) {
         item {
             Card(Modifier.fillMaxWidth()) {
@@ -107,6 +110,23 @@ fun ScanScreen(vm: ScanViewModel) {
                         Row(Modifier.padding(10.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                             Text("${it.name}  ${it.w}x${it.h}  x${it.quantity}")
                             Text("${it.price / 100}", color = Color(0xFFFFB300))
+                        }
+                    }
+                }
+            }
+        }
+        if (pendingList.isNotEmpty()) {
+            item {
+                Spacer(Modifier.height(12.dp))
+                Text("待确认物资 (${pendingList.size})", fontWeight = FontWeight.Bold, color = Color(0xFFFFB300))
+                pendingList.forEach { (cellId, names) ->
+                    Card(Modifier.fillMaxWidth().padding(vertical = 3.dp)) {
+                        Column(Modifier.padding(10.dp)) {
+                            Text("位置 $cellId · 候选: ${names.joinToString(" / ")}", fontSize = 12.sp)
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Button(onClick = { vm.confirmPending(cellId, names.firstOrNull() ?: "") }, Modifier.height(36.dp)) { Text("确认", fontSize = 12.sp) }
+                                OutlinedButton(onClick = { vm.discardPending(cellId) }, Modifier.height(36.dp)) { Text("删除", fontSize = 12.sp) }
+                            }
                         }
                     }
                 }
@@ -226,31 +246,60 @@ fun GridScreen(vm: ScanViewModel) {
 }
 
 @Composable
-fun HistoryScreen() {
+fun HistoryScreen(vm: ScanViewModel) {
+    val sessions by vm.history.collectAsState(initial = emptyList())
     LazyColumn(Modifier.fillMaxSize().padding(16.dp)) {
-        item { SectionTitle("历史记录") }
-        item { Text("历史盘点会话保存在本地数据库，可在数据库页面管理。", color = Color.Gray) }
+        item { SectionTitle("历史记录 (${sessions.size})") }
+        items(sessions) { ses ->
+            Card(Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+                Column(Modifier.padding(12.dp)) {
+                    Text("会话 ${ses.sessionId.takeLast(12)}", fontWeight = FontWeight.Bold)
+                    Text("开始: ${java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(java.util.Date(ses.startedAt))}", fontSize = 12.sp, color = Color.Gray)
+                    Text("状态: ${ses.status}  帧数: ${ses.frameCount}", fontSize = 12.sp, color = Color.Gray)
+                }
+            }
+        }
+        if (sessions.isEmpty()) item { Text("暂无历史记录，完成一次盘点后自动保存", color = Color.Gray) }
     }
 }
 
 @Composable
-fun DatabaseScreen() {
-    Column(Modifier.fillMaxSize().padding(16.dp)) {
+fun DatabaseScreen(vm: ScanViewModel) {
+    var msg by remember { mutableStateOf("") }
+    Column(Modifier.fillMaxSize().padding(16.dp).verticalScroll(rememberScrollState())) {
         SectionTitle("数据库管理")
-        Text("9 张表：items / item_images / item_prices / containers / item_instances / scan_sessions / frame_records / recognition_events / optimization_results")
-        Text("支持数据导入、备份与恢复。物品数据库从 item-database.json（893 件普通物品）导入。")
-        Button(onClick = { /* 导入逻辑见 tools/import_assets.py */ }, Modifier.padding(top = 12.dp)) { Text("导入物品数据库") }
+        Text("9 张表：items / item_images / item_prices / containers / item_instances / scan_sessions / frame_records / recognition_events / optimization_results",
+            fontSize = 12.sp, color = Color.Gray)
+        Spacer(Modifier.height(12.dp))
+        Button(onClick = { vm.importDatabase { msg = it } }, Modifier.fillMaxWidth()) { Text("导入全量物品库 (1663 件)") }
+        Spacer(Modifier.height(8.dp))
+        val backupPath = vm.appCtxBackupPath()
+        OutlinedButton(onClick = { vm.backupDatabase(backupPath) { msg = it } }, Modifier.fillMaxWidth()) { Text("备份数据库") }
+        OutlinedButton(onClick = { vm.restoreDatabase(backupPath) { msg = it } }, Modifier.fillMaxWidth()) { Text("恢复数据库") }
+        Spacer(Modifier.height(12.dp))
+        Text(msg, color = if (msg.contains("失败")) Color.Red else Color(0xFF4CAF50))
+        Text("备份路径: $backupPath", fontSize = 10.sp, color = Color.Gray)
     }
 }
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(vm: ScanViewModel) {
+    var threshold by remember { mutableStateOf(0.55f) }
+    var maxDist by remember { mutableStateOf(20) }
     Column(Modifier.fillMaxSize().padding(16.dp)) {
         SectionTitle("设置")
-        Text("视觉识别置信度阈值、追踪参数、价格过期天数等均可在本地配置。")
-        Text("模型: untrained-stub-v1（未训练，仅验证链路）", color = Color.Gray)
+        Text("图标匹配置信度阈值: ${String.format("%.2f", threshold)}")
+        Slider(value = threshold, onValueChange = { threshold = it; vm.setMatchThreshold(it) }, valueRange = 0.3f..0.9f)
+        Text("感知哈希最大汉明距离: $maxDist")
+        Slider(value = maxDist.toFloat(), onValueChange = { maxDist = it.toInt(); vm.setHashDist(maxDist) }, valueRange = 8f..32f)
+        Spacer(Modifier.height(12.dp))
+        Text("视觉模型: untrained-stub-v1（识别用图标特征库，不依赖该模型）", color = Color.Gray, fontSize = 12.sp)
+        Text("识别范围: 全部 1663 件物资（物品/枪械/配件/弹药）", color = Color.Gray, fontSize = 12.sp)
     }
 }
+
+private fun ScanViewModel.appCtxBackupPath(): String =
+    "${android.os.Environment.getExternalStorageDirectory()}/DeltaInventory_backup.db"
 
 @Composable
 fun InstanceDetailScreen(id: String, vm: ScanViewModel) {

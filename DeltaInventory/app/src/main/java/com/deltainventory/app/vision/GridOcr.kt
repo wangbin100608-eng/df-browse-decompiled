@@ -16,7 +16,7 @@ object GridOcr {
     data class GridInfo(val bagWidth: Int, val bagHeight: Int,
                         val safeWidth: Int, val safeHeight: Int)
 
-    private val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+    private val recognizer by lazy { TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS) }
 
     suspend fun recognize(bitmap: Bitmap): GridInfo? = suspendCancellableCoroutine { cont ->
         val image = InputImage.fromBitmap(bitmap, 0)

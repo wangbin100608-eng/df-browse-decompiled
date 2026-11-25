@@ -18,6 +18,8 @@ class IconMatcher private constructor(ctx: Context) {
 
     private val features = mutableListOf<ItemFeature>()
     val count get() = features.size
+    /** 可运行时调整的最大汉明距离（设置页） */
+    var maxHashDist: Int = MAX_HASH_DIST
 
     init {
         try {
@@ -41,7 +43,7 @@ class IconMatcher private constructor(ctx: Context) {
         fun get(ctx: Context): IconMatcher = instance ?: synchronized(this) {
             instance ?: IconMatcher(ctx.applicationContext).also { instance = it }
         }
-        const val MAX_HASH_DIST = 16
+        const val MAX_HASH_DIST = 20   // 放宽以容忍游戏截图干扰
     }
 
     /** 计算输入图的 dHash（9x8 灰度） */
@@ -56,14 +58,33 @@ class IconMatcher private constructor(ctx: Context) {
         return h
     }
 
+    /** 中心裁剪 70% 后计算 dHash，去除格子边框/高亮干扰 */
+    fun phashCenter(bmp: Bitmap): Long {
+        val w = (bmp.width * 0.7f).toInt().coerceAtLeast(9)
+        val h = (bmp.height * 0.7f).toInt().coerceAtLeast(8)
+        val x = (bmp.width - w) / 2; val y = (bmp.height - h) / 2
+        val crop = android.graphics.Bitmap.createBitmap(bmp, x, y, w, h)
+        val small = android.graphics.Bitmap.createScaledBitmap(crop, 9, 8, true)
+        crop.recycle()
+        val px = IntArray(72); small.getPixels(px, 0, 9, 0, 0, 9, 8); small.recycle()
+        var hash = 0L
+        for (yy in 0 until 8) for (xx in 0 until 8)
+            hash = (hash shl 1) or (if ((px[yy*9+xx] and 0xFF) > (px[yy*9+xx+1] and 0xFF)) 1L else 0L)
+        return hash
+    }
+
+    /** 亮度归一化的颜色直方图：减去平均亮度，抗光照变化 */
     fun colorHist(bmp: Bitmap): FloatArray {
         val small = android.graphics.Bitmap.createScaledBitmap(bmp, 32, 32, true)
         val px = IntArray(1024); small.getPixels(px, 0, 32, 0, 0, 32, 32)
         small.recycle()
         val hist = FloatArray(16)
+        var sumR = 0; var sumG = 0
+        for (c in px) { sumR += (c shr 16 and 0xFF); sumG += (c shr 8 and 0xFF) }
+        val avgR = sumR / 1024; val avgG = sumG / 1024
         for (c in px) {
-            val r = (c shr 16 and 0xFF) shr 6
-            val g = (c shr 8 and 0xFF) shr 6
+            val r = (((c shr 16 and 0xFF) - avgR + 256) / 64).coerceIn(0, 3)
+            val g = (((c shr 8 and 0xFF) - avgG + 256) / 64).coerceIn(0, 3)
             hist[r * 4 + g] += 1f / 1024
         }
         return hist
@@ -75,20 +96,22 @@ class IconMatcher private constructor(ctx: Context) {
      */
     fun findById(id: String): ItemFeature? = features.find { it.id == id }
 
-    fun match(bmp: Bitmap, minScore: Float = 0.55f): Match? {
-        if (features.isEmpty()) return null
-        val h = phash(bmp)
+    fun match(bmp: Bitmap, minScore: Float = 0.55f): Match? = matchTop(bmp, minScore, 1).firstOrNull()
+
+    /** 返回 topN 候选（供低置信度人工确认），按 score 降序 */
+    fun matchTop(bmp: Bitmap, minScore: Float = 0.35f, topN: Int = 3): List<Match> {
+        if (features.isEmpty()) return emptyList()
+        val h = phash(bmp)   // 与特征库 Python 整图 dHash 一致
         val hist = colorHist(bmp)
-        var best: ItemFeature? = null
-        var bestScore = -1f
+        val scored = mutableListOf<Match>()
         for (f in features) {
             val dist = java.lang.Long.bitCount(h xor f.phash)
-            if (dist > MAX_HASH_DIST) continue
+            if (dist > maxHashDist) continue
             var hd = 0f
             for (i in 0 until 16) hd += kotlin.math.abs(hist[i] - f.hist[i])
-            val score = (1f - dist.toFloat() / MAX_HASH_DIST) * 0.7f + (1f - hd.coerceAtMost(1f)) * 0.3f
-            if (score > bestScore) { bestScore = score; best = f }
+            val score = (1f - dist.toFloat() / maxHashDist) * 0.65f + (1f - hd.coerceAtMost(1f)) * 0.35f
+            if (score >= minScore) scored.add(Match(f, score))
         }
-        return best?.let { Match(it, bestScore) }?.takeIf { it.score >= minScore }
+        return scored.sortedByDescending { it.score }.take(topN)
     }
 }
