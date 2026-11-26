@@ -62,3 +62,21 @@ class FlowLogicTest {
         assertNull(GridOcr.parseGrid("没有格数信息"))
     }
 }
+
+// P0 区域检测与数量 OCR 纯函数测试
+class RegionAndQtyTest {
+    @Test fun findBandPicksHighestDensity() {
+        val density = floatArrayOf(0f,0f,0f, 5f,5f,5f,5f, 0f,0f,0f)
+        val band = com.deltainventory.app.vision.RegionDetector.findBand(density, 4)
+        assertTrue(band[0] in 3..4); assertTrue(band[1] in 7..8)
+    }
+    @Test fun findBandEmptySafe() {
+        val band = com.deltainventory.app.vision.RegionDetector.findBand(floatArrayOf(), 4)
+        assertEquals(0, band[0]); assertEquals(0, band[1])
+    }
+    @Test fun parseQuantityFromOcrText() {
+        assertEquals(3, com.deltainventory.app.vision.GridOcr.parseQuantity("3"))
+        assertEquals(12, com.deltainventory.app.vision.GridOcr.parseQuantity("x12"))
+        assertEquals(1, com.deltainventory.app.vision.GridOcr.parseQuantity("无数字"))
+    }
+}

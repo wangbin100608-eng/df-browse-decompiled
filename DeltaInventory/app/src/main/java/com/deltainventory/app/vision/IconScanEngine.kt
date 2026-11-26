@@ -46,9 +46,7 @@ class IconScanEngine(private val matcher: IconMatcher) {
                 val w = cw.coerceAtMost(bitmap.width - x)
                 val h = ch.coerceAtMost(bitmap.height - y)
                 if (w < 8 || h < 8) continue
-                val cell = Bitmap.createBitmap(bitmap, x, y, w, h)
-                val m = matcher.match(cell, minScore)
-                cell.recycle()
+                val m = matcher.matchRegion(bitmap, x, y, w, h, minScore)
                 if (m != null) {
                     results.add(CellDetection(
                         gridX = gx, gridY = gy,

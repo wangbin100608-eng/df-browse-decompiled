@@ -1,98 +1,98 @@
-# 三角洲行动 · 理包模拟器 —— 反编译、可游玩站点与 Android 盘点应用
+# DeltaInventory — Android 智能物品盘点与背包优化系统
 
-本仓库包含三样成果：
-
-| 目录 | 内容 | 用途 |
-|---|---|---|
-| `browse反编译.html` | 「浏览游戏」模块反编译源码浏览页 | **看代码** |
-| `playable/` | 与 `https://dfc.lza11111.com/browse` 一样可游玩的网页（同源镜像 + API 代理） | **在浏览器玩** |
-| `DeltaInventory/` | **Android 原生应用**：本地视觉盘点、价值统计、二维背包优化 | **在手机玩/辅助盘点** |
-
-> 三者的重点不同：反编译页用于阅读；playable 用于浏览器游玩；DeltaInventory 是独立 Android 应用，聚焦普通非武器物品的本地盘点与背包优化。
+基于 `df-browse-decompiled` 仓库逆向提取的真实游戏数据构建的 **Android 原生应用**：本地视觉盘点全部物资、价值统计、二维背包布局优化。所有识别与统计在本地完成，不使用云端 AI。
 
 ---
 
-## 一、DeltaInventory（Android 应用）★ 新增
+## 一、这是什么
 
-### 简介
+- **范围**：全部 **1663 件**物资（普通物品 795 / 枪械配件 582 / 弹药 119 / 防具 98 / 枪械 69），名称和尺寸来自原站 WASM `wasm_get_all_items()` 真实提取，价格来自 DFPB v6（2026-11-17）快照。
+- **识别方式**：1663 件真实物品图标的特征库（dHash + 亮度归一化颜色直方图）本地匹配，**不依赖未训练模型**；ONNX Runtime 链路保留但非识别依赖。
+- **格数识别**：ML Kit 本地 OCR 从游戏画面读背包/保险箱网格尺寸；`RegionDetector` 用边缘密度动态定位网格区域，替代硬编码。
+- **输出**：背包 + 保险箱 + 地面物资的完整摆放策略（MaxRects 二维装箱）。
 
-本地视觉物品盘点与背包优化工具。处理**全部 1663 件物资**（物品/枪械/枪械配件/弹药，来自原站 WASM 真实提取），含名称、尺寸、DFPB v6 真实价格。全部识别与统计在本地完成，不上传云端。
+## 二、三步运行流程
 
-**APK**（两版均在 `DeltaInventory/`）：
+1. **点击「开始识别全部物资」**
+   授权 MediaProjection 屏幕采集 → 自适应分辨率采集（长边 640 工作图，后台线程）→ OCR 读格数、边缘检测定位区域 → 图标特征匹配扫描背包/地面/保险箱 → 低置信度（0.35~0.55）进待确认队列。
+2. **点击「结束并比对数据库」**
+   停止采集 → 跨格合并（按物品已知宽高把相邻同格合并为单一实例）→ 从 Room 数据库查最新价格（含来源/更新时间/过期判断）→ OCR 读数量角标 → 确认物资名称/格数/价格/数量。
+3. **给出完整摆放策略**
+   背包 + 保险箱分别 MaxRects 装箱，输出每件坐标、总价值、未放入物品、空余格数、网格可视化；结果写入 Room 持久化。
 
-- `DeltaInventory-v1.0.0-release.apk`（51 MB，ARM64，**正式签名**，Rust LTO 优化，推荐安装）
-- `DeltaInventory-v1.0.0-debug.apk`（57 MB，调试版）
-- Release SHA256：`26aa28af64b7db1fe8ee3a439bbbf328369b8610c5440d01049616a336afaf7a`
+## 三、技术架构
 
-### 三步运行流程（已实现）
-
-1. **点击「开始识别全部物资」**：授权屏幕采集；从游戏画面用 OCR 识别背包/保险箱格数，用 1663 件真实图标特征库（pHash+颜色直方图）匹配画面中的全部物资（物品/枪械/配件/弹药）。
-2. **点击「结束并比对数据库」**：停止采集，按物品 ID 比对全量数据库，确认物资名称、所占格数与对应价格（DFPB v6 真实现价）。
-3. **给出完整摆放策略**：背包 + 保险箱 + 地面统一二维装箱（MaxRects），输出每件坐标、总价值、未放入物品与网格可视化。
-
-### 技术架构
+```
+屏幕帧(自适应工作分辨率)
+  → CaptureService(MediaProjection + Foreground Service + 悬浮球, 后台HandlerThread)
+  → Binder 帧流(有界缓冲/背压)
+  → ScanProcessor
+      ├─ RegionDetector  动态边缘密度定位网格区域
+      ├─ GridOcr         ML Kit 本地 OCR：格数 & 数量角标
+      ├─ IconScanEngine  网格切分 + IconMatcher.matchRegion (HashMap索引/分桶加速)
+      └─ ClusterMerger   跨格合并 / 数量判定 / 置信度分流(纯逻辑)
+  → ScanViewModel(StateFlow) → Compose UI(8页)
+  → Room(9表: items/prices/instances/sessions/frames/events/optimizations/containers/images)
+  → Rust 核心(libdi_core.so: 追踪/价值/MaxRects) / OpenCV JNI(变化检测/phash)
+```
 
 | 层 | 技术 |
 |---|---|
-| UI | Kotlin + Jetpack Compose（主页/盘点/待确认/统计/背包网格/历史/数据库/设置） |
-| 系统集成 | WindowManager 悬浮球 + MediaProjection 屏幕采集 + Foreground Service |
-| 视觉 | ONNX Runtime Android + OpenCV(JNI 变化检测/phash) |
-| 核心 | Rust（跨帧追踪、去重、价值统计、MaxRects/Bottom-Left/精确搜索装箱） |
-| 存储 | SQLite + Room（9 张表，离线优先，备份恢复） |
-| 离线工具 | Python（仅数据导入/模型训练，不参与 Android 运行时） |
+| UI | Kotlin + Jetpack Compose（主页/三步盘点/待确认/统计/背包网格/历史/数据库/设置） |
+| 系统集成 | WindowManager 悬浮球、MediaProjection、Foreground Service |
+| 视觉 | ML Kit OCR + 图标特征匹配 + OpenCV(JNI) |
+| 核心 | Rust（跨帧追踪、去重、价值统计、装箱）+ Kotlin 镜像实现 |
+| 存储 | SQLite + Room 9 表，离线优先，导入/备份/恢复 |
+| 离线工具 | Python（图标特征/物品数据提取；模型训练脚本），不参与 Android 运行时 |
 
-关键设计：以**实例账本**为唯一真相，绝不逐帧累加识别数量；去重同时参考类型/区域/容器/位置/视觉签名/时间连续性，禁止仅凭名称或相似度合并；低置信度进人工确认队列，未确认不计入确定价值。
+## 四、性能优化
 
-### 已实现功能（需求全部 14 项）
+| 优化 | 实现 |
+|---|---|
+| 采集分辨率 | VirtualDisplay/ImageReader 用长边 640 工作图（按屏幕比例），像素量降约 10× |
+| 帧处理线程 | 后台 HandlerThread，不阻塞 UI |
+| 变化检测 | JNI 直接降采样 64×64 灰度差分，不构造全尺寸 Mat；静止帧跳过 |
+| 匹配加速 | 特征库 HashMap id 索引 + pHash 高 16 位分桶，只比较邻近桶；`matchRegion` 避免每格 createBitmap；复用 px72/px1024 缓冲 |
+| 内存 | Bitmap 对象池、像素/浮点缓冲复用、Image 及时 close、背压丢弃 |
+| 数据库 | sessionId/itemTypeId/containerId/frameIndex 索引，Room 事务 |
 
-1. Android 悬浮窗（可拖动/点击进入暂停） 2. MediaProjection 实时屏幕采集 3. 普通物品视觉识别 4. 背包与地面完整盘点 5. 连续滑动跨帧追踪 6. 重复物品去重 7. 物品数据库 8. 价格数据管理 9. 低置信度人工确认 10. 二维背包摆放优化 11. 最终收益统计 12. 完整 UI 13. 自动化测试 14. 可安装 APK
+## 五、测试
 
-### 构建（完整 Android Studio 项目在 `DeltaInventory/`）
+| 套件 | 结果 |
+|---|---|
+| Rust `cargo test` | **17/17 PASS**（追踪/去重/滑动/拆分合并/价格/装箱） |
+| Android `CoreLogicTest` | **9/9 PASS** |
+| Android `FlowLogicTest` | **9/9 PASS**（多格合并/区域隔离/置信度分流/OCR格数） |
+| Android `RegionAndQtyTest` | **3/3 PASS**（区域带检测/数量解析） |
+| `DeviceSmokeTest` (androidTest) | 真机冒烟代码；**当前无设备环境未执行** |
+
+Release APK：正式 keystore 签名（v2 有效），SHA256 `0dc85c017b3162e109c67c16ca90b5408fabd1d1b4c18490a3cd39516504f60b`。
+
+## 六、已知限制（如实）
+
+- **无真机端到端验证**：图标匹配准确率、OCR 格数/数量、悬浮窗/采集受真实设备与游戏画面影响，仅完成编译与纯逻辑测试。
+- **模型状态**：`item_detector.onnx` 是未训练骨架（mAP=0），不用于识别；识别靠图标特征库。有标注数据后可用 `tools/train_detector.py` 训练替换。
+- **区域启发式**：`RegionDetector` 基于边缘密度，对复杂 UI 可能定位偏差，可回退默认区域；设置页可调阈值。
+- **保险箱区域**：当前按画面右上小网格扫描，若游戏 UI 布局不同需调整区域参数。
+
+## 七、构建
 
 ```bash
 cd DeltaInventory
-bash tools/fetch-opencv.sh        # 下载 OpenCV ARM64 构建依赖（约190MB，已 gitignore）
+bash tools/fetch-opencv.sh        # 下载 OpenCV ARM64 构建依赖（gitignore，不入库）
 bash tools/build-rust-android.sh  # 编译 Rust core -> jniLibs
-# Android Studio 打开 DeltaInventory/ 需 JDK17 + SDK34 + NDK26 + CMake3.22
-gradle assembleDebug              # -> app/build/outputs/apk/debug/app-debug.apk
+# JDK17 + Android SDK34 + NDK26.3 + CMake3.22
+gradle assembleRelease            # app/build/outputs/apk/release/app-release.apk
 ```
 
-### 测试（真实执行结果）
+## 八、交付内容
 
-- Rust 核心：`cargo test` → **17/17 PASS**（连续滑动、重复计数、区域独立、拆分合并、过期价格、越界重叠等）
-- Android：`gradle testDebugUnitTest` → **9/9 PASS**
-- Debug APK：v2 签名有效，SHA256 `26aa28af64b7db1fe8ee3a439bbbf328369b8610c5440d01049616a336afaf7a`
-- Release APK：正式 keystore 签名（v2），51 MB，SHA256 `26aa28af64b7db1fe8ee3a439bbbf328369b8610c5440d01049616a336afaf7a`（推荐）
+- `DeltaInventory-v1.0.0-release.apk`（正式签名，推荐安装）
+- `DeltaInventory-v1.0.0-debug.apk`（调试版）
+- 完整 Android Studio 工程：Kotlin 源码、Rust 核心、C++/OpenCV JNI、ONNX 模型、特征库、Room 表、测试
+- `analysis/`：assets-manifest.json、item-database.json、item-features.json、asset-inventory.csv、price-source-report.md、resource-analysis.md
+- `docs/`：architecture、database、test-report、performance-report、accuracy-report
 
-### 资源分析产物（`DeltaInventory/analysis/`）
-
-- `assets-manifest.json`、`item-database.json`（893 件普通物品）、`asset-inventory.csv`（1663 行）
-- `price-source-report.md`、`resource-analysis.md`
-- 物品数据来自直接实例化原站 WASM 调 `wasm_get_all_items()` 提取，非猜测。
-
-### 模型说明（如实）
-
-`item_detector.onnx` 是**未训练的骨架模型**，仅验证 ONNX 推理链路端到端可运行，mAP=0，不产生有效检测，也不宣称任何准确率。实际识别依赖离线物品库 + 感知哈希/颜色特征 + 人工确认。有标注数据后可用 `tools/train_detector.py`（离线）训练替换。详见 `DeltaInventory/docs/accuracy-report.md`。
-
-详细文档见 `DeltaInventory/README.md`、`docs/architecture.md`、`docs/database.md`、`docs/test-report.md`、`docs/performance-report.md`。
-
----
-
-## 二、可游玩网页（playable/）
-
-- 线上：<https://game.czyz.eu.cc/>
-- 完整镜像原站前端（110 JS + 1 CSS + 2 WASM + 图片），Node 服务做静态托管 + `/api/*` 同源反向代理（绕过 CORS），游戏核心 WASM 原样运行，行为与原站一致。
-- 本地：`cd playable && node server.js` → <http://localhost:8095/>
-
----
-
-## 三、反编译源码浏览页（根目录）
-
-- 单文件 `browse反编译.html`（5.3 MB），43 个格式化模块，左侧文件树/过滤/切换/高亮，离线可打开。
-- 在线：<https://lb.czyz.eu.cc/>；`CNAME` 为 `lb.czyz.eu.cc`。
-
----
-
-## 免责声明
+## 九、免责声明
 
 游戏数据、图片、素材版权归腾讯公司及《三角洲行动》官方所有，本项目仅用于个人本地技术研究。

@@ -72,7 +72,16 @@
 |---|---|
 | Rust 核心 | 17/17 PASS |
 | Android 单元测试 | 18/18 PASS（CoreLogic 9 + FlowLogic 9） |
-| Release APK | BUILD SUCCESSFUL，v2 签名有效，SHA256 `26aa28af64b7db1fe8ee3a439bbbf328369b8610c5440d01049616a336afaf7a` |
+| Release APK | BUILD SUCCESSFUL，v2 签名有效，SHA256 `0dc85c017b3162e109c67c16ca90b5408fabd1d1b4c18490a3cd39516504f60b` |
 | 新增覆盖 | 多格合并、区域隔离、置信度分流、OCR 格数解析（FlowLogicTest）；真机冒烟代码（DeviceSmokeTest，需设备） |
 
 功能完善：图标匹配鲁棒性（中心裁剪+亮度归一化）、多格物品合并、低置信度人工确认、历史/数据库/设置页实做、识别统计、结果持久化、三步流程单测。
+
+## 全项检查后最终验证
+
+| 项目 | 结果 |
+|---|---|
+| Rust 核心 | 17/17 PASS |
+| Android 单测 | 21/21 PASS（CoreLogic 9 + FlowLogic 9 + RegionAndQty 3） |
+| Release APK | v2 签名有效，SHA256 `0dc85c017b3162e109c67c16ca90b5408fabd1d1b4c18490a3cd39516504f60b` |
+| 全项补齐 | P0（动态区域/数量OCR/价格走库/保险箱扫描）+ 性能（索引分桶/区域匹配/缓冲复用）全部完成 |

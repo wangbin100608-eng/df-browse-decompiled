@@ -28,6 +28,24 @@ object GridOcr {
             .addOnFailureListener { cont.resume(null) }
     }
 
+    /** 从单格图片读取数量角标（1-99），无数字返回 1 */
+    suspend fun readQuantity(bitmap: Bitmap): Int = suspendCancellableCoroutine { cont ->
+        val image = InputImage.fromBitmap(bitmap, 0)
+        recognizer.process(image)
+            .addOnSuccessListener { r ->
+                val nums = Regex("\\d{1,2}").findAll(r.text).map { it.value.toInt() }
+                    .filter { it in 1..99 }.toList()
+                cont.resume(nums.firstOrNull() ?: 1)
+            }
+            .addOnFailureListener { cont.resume(1) }
+    }
+
+    /** 纯函数：从文本提取数量（可单测） */
+    fun parseQuantity(text: String): Int {
+        val nums = Regex("\\d{1,2}").findAll(text).map { it.value.toInt() }.filter { it in 1..99 }.toList()
+        return nums.firstOrNull() ?: 1
+    }
+
     /** 解析 OCR 文本中的格数 */
     fun parseGrid(text: String): GridInfo? {
         val t = text.lowercase()

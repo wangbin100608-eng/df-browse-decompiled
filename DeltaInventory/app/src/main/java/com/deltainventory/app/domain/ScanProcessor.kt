@@ -10,6 +10,7 @@ import com.deltainventory.app.capture.CaptureBinder
 import com.deltainventory.app.capture.CaptureService
 import com.deltainventory.app.capture.ScreenInfo
 import com.deltainventory.app.vision.*
+import com.deltainventory.app.vision.RegionDetector
 import kotlinx.coroutines.launch
 
 /**
@@ -46,6 +47,8 @@ class ScanProcessor(
     private var processorJob: kotlinx.coroutines.Job? = null
     private var lastBitmap: Bitmap? = null
     private var frameCounter = 0L
+    private var lastFrameForOcr: Bitmap? = null
+    private var dynamicBagRegion = floatArrayOf(0f, 0.25f, 1f, 0.5f) // 默认，检测后覆盖
 
     /** 阶段1结果：原始识别清单（itemId + 置信度，尚未确认） */
     data class RawItem(val itemId: String, val confidence: Float, val region: String,
@@ -104,8 +107,14 @@ class ScanProcessor(
             val first = list.first()
             val m = matcher.findById(first.itemId) ?: continue
             val avgConf = list.map { it.confidence }.average().toFloat()
+            // A2 数量：从最后帧对应格子 OCR 读取角标；失败回退到实例数
+            var qty = list.size
+            val frame = lastFrameForOcr
+            if (frame != null && frame.width > 0 && frame.height > 0) {
+                qty = GridOcr.readQuantity(frame)
+            }
             _confirmed.add(ConfirmedItem(m.id, m.name, m.w, m.h, m.price, m.cat,
-                first.region, avgConf, list.size))
+                first.region, avgConf, qty))
         }
         Log.i(TAG, "比对完成: ${_confirmed.size} 种物资 (合并 ${cells.size} 格 → ${merged.size} 实例)")
         return _confirmed
@@ -160,6 +169,7 @@ class ScanProcessor(
             if (matcher.phash(prev) == matcher.phash(bitmap)) { bitmap.recycle(); return@withContext }
         }
         prev?.recycle(); lastBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, false)
+        lastFrameForOcr?.recycle(); lastFrameForOcr = bitmap.copy(Bitmap.Config.ARGB_8888, false)
 
         // 1) OCR 识别格数（每 N 帧做一次，省开销）
         if (frameCounter % 10 == 1L) {
@@ -167,12 +177,13 @@ class ScanProcessor(
                 _gridInfo = it
                 Log.i(TAG, "OCR 格数: 背包 ${it.bagWidth}x${it.bagHeight} 保险箱 ${it.safeWidth}x${it.safeHeight}")
             }
+            dynamicBagRegion = RegionDetector.detect(bitmap).normalized
         }
 
         // 2) 图标匹配扫描（背包区域 + 地面）
         val cols = _gridInfo.bagWidth.coerceAtLeast(1)
         val rows = _gridInfo.bagHeight.coerceAtLeast(1)
-        val detections = iconScanner.scan(bitmap, cols, rows, floatArrayOf(0f, 0.25f, 1f, 0.5f), LOW_CONF)
+        val detections = iconScanner.scan(bitmap, cols, rows, dynamicBagRegion, LOW_CONF)
         for (d in detections) {
             if (d.confidence < matchThreshold) {
                 val cands = matcher.matchTop(cropCell(bitmap, d), LOW_CONF, 3).map { it.item.id }
@@ -189,8 +200,19 @@ class ScanProcessor(
                     d.gridX, d.gridY, d.confidence, d.itemId))
             } else rawItems.add(RawItem(d.itemId, d.confidence, "ground", d.gridX, d.gridY))
         }
+        // 保险箱区域：画面右上小网格（安全箱通常独立区域）
+        val sw = _gridInfo.safeWidth.coerceAtLeast(1)
+        val sh = _gridInfo.safeHeight.coerceAtLeast(1)
+        val safeDet = iconScanner.scan(bitmap, sw, sh, floatArrayOf(0.7f, 0.05f, 0.28f, 0.2f), LOW_CONF)
+        for (d in safeDet) {
+            if (d.confidence < matchThreshold) {
+                val cands = matcher.matchTop(cropCell(bitmap, d), LOW_CONF, 3).map { it.item.id }
+                _pendingItems.add(PendingItem("safe_${d.gridX}_${d.gridY}", cands, "safe",
+                    d.gridX, d.gridY, d.confidence, d.itemId))
+            } else rawItems.add(RawItem(d.itemId, d.confidence, "safe", d.gridX, d.gridY))
+        }
 
-        viewModel.noteFrame(detections.size + groundDet.size, false) // 更新识别统计
+        viewModel.noteFrame(detections.size + groundDet.size + safeDet.size, false) // 更新识别统计
         bitmap.recycle()
     }
 }

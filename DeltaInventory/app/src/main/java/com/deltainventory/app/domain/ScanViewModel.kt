@@ -186,7 +186,18 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
                         o.opt("baseValueCents")?.let { if (it is Number) it.toLong() else null }, o.optString("iconPath").ifEmpty { null })
                 }
                 db.itemDao().upsertAll(entities)
-                onDone("导入 ${entities.size} 件物品成功")
+                // 同时导入价格快照（DFPB v6 真实价格）
+                val priceRows = (0 until arr.length()).mapNotNull { i ->
+                    val o = arr.getJSONObject(i)
+                    val v = o.optLong("displayValueCents", 0L)
+                    if (v <= 0) null else ItemPriceEntity(
+                        itemId = o.getString("itemId"), valueCents = v,
+                        source = "DFPB_v6", updatedAt = 1763308800000L, // 2026-11-17
+                        version = 6, validDays = 30
+                    )
+                }
+                priceRows.forEach { db.priceDao().insert(it) }
+                onDone("导入 ${entities.size} 件物品、${priceRows.size} 条价格成功")
             } catch (e: Exception) { onDone("导入失败: ${e.message}") }
         }
     }
@@ -231,7 +242,12 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
     fun finishAndVerify() {
         stopCapture?.invoke()
         viewModelScope.launch {
-            val list = processor?.finishAndVerify() ?: emptyList()
+            var list = processor?.finishAndVerify() ?: emptyList()
+            // A3 价格走 Room 数据库：用最新价格与更新时间/来源覆盖快照价
+            list = list.map { c ->
+                val p = db.priceDao().latest(c.id)
+                if (p != null) c.copy(price = p.valueCents) else c
+            }
             _confirmedItems.value = list
             _pendingConfirm.value = processor?.pendingNames() ?: emptyList()
             // 持久化会话与识别实例
