@@ -27,23 +27,40 @@ class IconMatcher private constructor(ctx: Context) {
     private var px1024 = IntArray(1024)
 
     init {
+        // 特征库的 ph 是 64-bit dHash 的「无符号」十进制表示（0..2^64-1）。
+        // 必须按无符号解析成位模式相同的 long，才能与 phash()/matchRegion 返回的
+        // 有符号 long 正确异或；用有符号 toLong()/parseLong 会在 ph > Long.MAX_VALUE 时
+        // 抛 NumberFormatException，进而（旧逻辑）中断整个库加载。
+        var loaded = 0
+        var skipped = 0
         try {
             val json = ctx.assets.open("item-features.json").use { it.readBytes().toString(Charsets.UTF_8) }
             val arr = JSONObject(json).getJSONArray("features")
             for (i in 0 until arr.length()) {
-                val o = arr.getJSONObject(i)
-                val h = FloatArray(16)
-                val ja = o.getJSONArray("hist")
-                for (k in 0 until 16) h[k] = ja.getDouble(k).toFloat()
-                val f = ItemFeature(
-                    o.getString("id"), o.getString("name"), o.getInt("w"), o.getInt("h"),
-                    o.getString("cat"), o.getLong("price"), o.getString("ph").toLong(), h
-                )
-                features.add(f); byId[f.id] = f
-                val key = (f.phash shr 48).toInt()
-                buckets.getOrPut(key) { mutableListOf() }.add(f)
+                // 单条容错：任何一条数据异常只跳过该条，不让整库失效。
+                try {
+                    val o = arr.getJSONObject(i)
+                    val h = FloatArray(16)
+                    val ja = o.getJSONArray("hist")
+                    for (k in 0 until 16) h[k] = ja.getDouble(k).toFloat()
+                    val f = ItemFeature(
+                        o.getString("id"), o.getString("name"), o.getInt("w"), o.getInt("h"),
+                        o.getString("cat"), o.getLong("price"),
+                        java.lang.Long.parseUnsignedLong(o.getString("ph")), h
+                    )
+                    features.add(f); byId[f.id] = f
+                    val key = (f.phash shr 48).toInt()
+                    buckets.getOrPut(key) { mutableListOf() }.add(f)
+                    loaded++
+                } catch (e: Exception) {
+                    skipped++
+                    android.util.Log.w("IconMatcher", "跳过异常特征条目 #$i: ${e.message}")
+                }
             }
-        } catch (e: Exception) { android.util.Log.e("IconMatcher", "特征库加载失败: ${e.message}") }
+            android.util.Log.i("IconMatcher", "特征库加载完成: loaded=$loaded skipped=$skipped")
+        } catch (e: Exception) {
+            android.util.Log.e("IconMatcher", "特征库加载失败: ${e.message}")
+        }
     }
 
     companion object {
@@ -54,49 +71,34 @@ class IconMatcher private constructor(ctx: Context) {
         const val MAX_HASH_DIST = 20   // 放宽以容忍游戏截图干扰
     }
 
-    /** 计算输入图的 dHash（9x8 灰度） */
-    fun phash(bmp: Bitmap): Long {
-        val small = android.graphics.Bitmap.createScaledBitmap(bmp, 9, 8, true)
-        small.getPixels(px72, 0, 9, 0, 0, 9, 8)
-        small.recycle()
-        var h = 0L
-        for (y in 0 until 8) for (x in 0 until 8) {
-            h = (h shl 1) or (if (px72[y * 9 + x] and 0xFF > px72[y * 9 + x + 1] and 0xFF) 1L else 0L)
-        }
-        return h
-    }
+    /**
+     * 计算输入图的 dHash（9x8 灰度）。
+     * 必须与特征库生成脚本逐位一致：步长采样到 9x8，灰度=(R*77+G*150+B*29)>>8，
+     * 再对每行相邻像素做 64 次 (a>b) 比较。之前用 createScaledBitmap(双线性)+Blue
+     * 通道与特征库(LANCZOS/灰度)不一致，导致识别近似随机。
+     */
+    fun phash(bmp: Bitmap): Long = StepHash.phash(bmp, 0, 0, bmp.width, bmp.height)
 
-    /** 中心裁剪 70% 后计算 dHash，去除格子边框/高亮干扰 */
+    /** 步长采样 dHash：委托 StepHash，确保与特征库生成端及 APK 完全一致（含预乘语义） */
+    private fun stepPhash(bmp: Bitmap, x: Int, y: Int, w: Int, h: Int): Long =
+        StepHash.phash(bmp, x, y, w, h)
+
+    /** 中心裁剪 70% 后计算 dHash，去除格子边框/高亮干扰（步长采样/灰度，与特征库一致） */
     fun phashCenter(bmp: Bitmap): Long {
         val w = (bmp.width * 0.7f).toInt().coerceAtLeast(9)
         val h = (bmp.height * 0.7f).toInt().coerceAtLeast(8)
         val x = (bmp.width - w) / 2; val y = (bmp.height - h) / 2
-        val crop = android.graphics.Bitmap.createBitmap(bmp, x, y, w, h)
-        val small = android.graphics.Bitmap.createScaledBitmap(crop, 9, 8, true)
-        crop.recycle()
-        small.getPixels(px72, 0, 9, 0, 0, 9, 8); small.recycle()
-        var hash = 0L
-        for (yy in 0 until 8) for (xx in 0 until 8)
-            hash = (hash shl 1) or (if ((px72[yy*9+xx] and 0xFF) > (px72[yy*9+xx+1] and 0xFF)) 1L else 0L)
-        return hash
+        return stepPhash(bmp, x, y, w, h)
     }
 
-    /** 亮度归一化的颜色直方图：减去平均亮度，抗光照变化 */
-    fun colorHist(bmp: Bitmap): FloatArray {
-        val small = android.graphics.Bitmap.createScaledBitmap(bmp, 32, 32, true)
-        small.getPixels(px1024, 0, 32, 0, 0, 32, 32)
-        small.recycle()
-        val hist = FloatArray(16)
-        var sumR = 0; var sumG = 0
-        for (c in px1024) { sumR += (c shr 16 and 0xFF); sumG += (c shr 8 and 0xFF) }
-        val avgR = sumR / 1024; val avgG = sumG / 1024
-        for (c in px1024) {
-            val r = (((c shr 16 and 0xFF) - avgR + 256) / 64).coerceIn(0, 3)
-            val g = (((c shr 8 and 0xFF) - avgG + 256) / 64).coerceIn(0, 3)
-            hist[r * 4 + g] += 1f / 1024
-        }
-        return hist
-    }
+    /**
+     * 亮度归一化的颜色直方图：步长采样 32x32，按与特征库一致的公式分桶。
+     * 生成端：avgR/avgG 为样本均值，ri=clamp((r-avgR+256)//64,0,3)，gi 同理，hist[ri*4+gi]+=1/1024。
+     */
+    fun colorHist(bmp: Bitmap): FloatArray = StepHash.hist(bmp, 0, 0, bmp.width, bmp.height)
+
+    private fun stepHist(bmp: Bitmap, x: Int, y: Int, w: Int, h: Int): FloatArray =
+        StepHash.hist(bmp, x, y, w, h)
 
     /**
      * 匹配：先按汉明距离过滤候选，再用直方图距离打分。
@@ -109,30 +111,9 @@ class IconMatcher private constructor(ctx: Context) {
     /** 直接从大图的矩形区域匹配，避免每格 createBitmap（性能优化） */
     fun matchRegion(src: Bitmap, x: Int, y: Int, w: Int, h: Int, minScore: Float = 0.55f): Match? {
         if (features.isEmpty() || w < 4 || h < 4) return null
-        // 缩放区域到 9x8 / 32x32 时直接用 Matrix 源矩形
-        val small9 = Bitmap.createBitmap(9, 8, Bitmap.Config.ARGB_8888)
-        val c9 = android.graphics.Canvas(small9)
-        c9.drawBitmap(src, android.graphics.Rect(x, y, x+w, y+h),
-            android.graphics.Rect(0, 0, 9, 8), null)
-        small9.getPixels(px72, 0, 9, 0, 0, 9, 8); small9.recycle()
-        var hh = 0L
-        for (yy in 0 until 8) for (xx in 0 until 8)
-            hh = (hh shl 1) or (if ((px72[yy*9+xx] and 0xFF) > (px72[yy*9+xx+1] and 0xFF)) 1L else 0L)
-
-        val small32 = Bitmap.createBitmap(32, 32, Bitmap.Config.ARGB_8888)
-        val c32 = android.graphics.Canvas(small32)
-        c32.drawBitmap(src, android.graphics.Rect(x, y, x+w, y+h),
-            android.graphics.Rect(0, 0, 32, 32), null)
-        small32.getPixels(px1024, 0, 32, 0, 0, 32, 32); small32.recycle()
-        var sumR=0; var sumG=0
-        for (c in px1024) { sumR += (c shr 16 and 0xFF); sumG += (c shr 8 and 0xFF) }
-        val avgR=sumR/1024; val avgG=sumG/1024
-        val hist=FloatArray(16)
-        for (c in px1024) {
-            val r=(((c shr 16 and 0xFF)-avgR+256)/64).coerceIn(0,3)
-            val g=(((c shr 8 and 0xFF)-avgG+256)/64).coerceIn(0,3)
-            hist[r*4+g]+=1f/1024
-        }
+        // 与特征库一致的步长采样 dHash / 直方图（不再用 createScaledBitmap 双线性+Blue）
+        val hh = stepPhash(src, x, y, w, h)
+        val hist = stepHist(src, x, y, w, h)
         val hi=(hh shr 48).toInt()
         val cand=HashSet<ItemFeature>()
         for (dk in -1..1) buckets[hi+dk]?.let { cand.addAll(it) }
