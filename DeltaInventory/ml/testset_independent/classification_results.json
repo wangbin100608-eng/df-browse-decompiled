@@ -1,0 +1,287 @@
+{
+ "model": "clf-resnet18-v1",
+ "testset": "independent-timepoints",
+ "samples": 31,
+ "accuracy": 0.8064516129032258,
+ "macroP": 0.40565476190459804,
+ "macroR": 0.3452380952380009,
+ "macroF1": 0.3641774891771662,
+ "avg_infer_ms": 44.10494141930324,
+ "per_class": {
+  ".357左轮": {
+   "precision": 0.0,
+   "recall": 0.0,
+   "f1": 0.0,
+   "support": 0
+  },
+  "5.56x45mm CINDER": {
+   "precision": 0.8571428571427346,
+   "recall": 0.8571428571427346,
+   "f1": 0.8571428571422346,
+   "support": 7
+  },
+  "5.56x45mm M995": {
+   "precision": 0.9999999999997999,
+   "recall": 0.9999999999997999,
+   "f1": 0.9999999999992999,
+   "support": 5
+  },
+  "CAT止血带": {
+   "precision": 0.0,
+   "recall": 0.0,
+   "f1": 0.0,
+   "support": 0
+  },
+  "DICH训练头盔": {
+   "precision": 0.9999999999995,
+   "recall": 0.499999999999875,
+   "f1": 0.6666666666659999,
+   "support": 4
+  },
+  "GA野战背包": {
+   "precision": 0.0,
+   "recall": 0.0,
+   "f1": 0.0,
+   "support": 0
+  },
+  "M1911": {
+   "precision": 0.0,
+   "recall": 0.0,
+   "f1": 0.0,
+   "support": 0
+  },
+  "MHS 战术头盔": {
+   "precision": 0.9999999999995,
+   "recall": 0.9999999999995,
+   "f1": 0.9999999999989999,
+   "support": 2
+  },
+  "Mini-14射手步枪": {
+   "precision": 0.0,
+   "recall": 0.0,
+   "f1": 0.0,
+   "support": 0
+  },
+  "UZI冲锋枪": {
+   "precision": 0.0,
+   "recall": 0.0,
+   "f1": 0.0,
+   "support": 0
+  },
+  "北极星": {
+   "precision": 0.0,
+   "recall": 0.0,
+   "f1": 0.0,
+   "support": 0
+  },
+  "复合弓": {
+   "precision": 0.0,
+   "recall": 0.0,
+   "f1": 0.0,
+   "support": 0
+  },
+  "强效注射器": {
+   "precision": 0.79999999999984,
+   "recall": 0.6666666666665555,
+   "f1": 0.7272727272720991,
+   "support": 6
+  },
+  "武士防弹背心": {
+   "precision": 0.8333333333331945,
+   "recall": 0.9999999999997999,
+   "f1": 0.9090909090902478,
+   "support": 5
+  },
+  "突击手防弹背心": {
+   "precision": 0.0,
+   "recall": 0.0,
+   "f1": 0.0,
+   "support": 0
+  },
+  "黑鹰野战胸挂": {
+   "precision": 0.9999999999989999,
+   "recall": 0.49999999999975,
+   "f1": 0.6666666666657777,
+   "support": 2
+  }
+ },
+ "errors": [
+  {
+   "frame": "v2_new_1.0",
+   "ts": 1.0,
+   "source": "v2",
+   "gt": "强效注射器",
+   "pred": "5.56x45mm CINDER",
+   "conf": 0.1959950178861618,
+   "bbox": [
+    510,
+    1430,
+    620,
+    1550
+   ]
+  },
+  {
+   "frame": "v2_new_7.0",
+   "ts": 7.0,
+   "source": "v2",
+   "gt": "DICH训练头盔",
+   "pred": "复合弓",
+   "conf": 0.20764192938804626,
+   "bbox": [
+    630,
+    810,
+    840,
+    1010
+   ]
+  },
+  {
+   "frame": "v2_new_8.0",
+   "ts": 8.0,
+   "source": "v2",
+   "gt": "DICH训练头盔",
+   "pred": "CAT止血带",
+   "conf": 0.13433602452278137,
+   "bbox": [
+    630,
+    810,
+    840,
+    1010
+   ]
+  },
+  {
+   "frame": "v1_new_2.0",
+   "ts": 2.0,
+   "source": "v1",
+   "gt": "5.56x45mm CINDER",
+   "pred": "武士防弹背心",
+   "conf": 0.19660508632659912,
+   "bbox": [
+    640,
+    700,
+    760,
+    840
+   ]
+  },
+  {
+   "frame": "v1_new_3.0",
+   "ts": 3.0,
+   "source": "v1",
+   "gt": "强效注射器",
+   "pred": "突击手防弹背心",
+   "conf": 0.30601683259010315,
+   "bbox": [
+    510,
+    700,
+    620,
+    840
+   ]
+  },
+  {
+   "frame": "v1_new_0.0",
+   "ts": 0.0,
+   "source": "v1",
+   "gt": "黑鹰野战胸挂",
+   "pred": "强效注射器",
+   "conf": 0.14554357528686523,
+   "bbox": [
+    1160,
+    570,
+    1420,
+    700
+   ]
+  }
+ ],
+ "rejected_annotations": [
+  {
+   "frame": "v2_new_3.0",
+   "name": "MHS 战术头盔",
+   "x0": 1670,
+   "y0": 530,
+   "x1": 1820,
+   "y1": 680,
+   "source_video": "v2",
+   "timestamp_s": 3.0,
+   "origin": "独立时间点帧（未进入 train/val/test）",
+   "human_review": "rejected",
+   "reject_reason": "框内为空白/UI文字/非目标物品"
+  },
+  {
+   "frame": "v2_new_7.0",
+   "name": "MHS 战术头盔",
+   "x0": 1670,
+   "y0": 530,
+   "x1": 1820,
+   "y1": 680,
+   "source_video": "v2",
+   "timestamp_s": 7.0,
+   "origin": "独立时间点帧（未进入 train/val/test）",
+   "human_review": "rejected",
+   "reject_reason": "框内为空白/UI文字/非目标物品"
+  },
+  {
+   "frame": "v2_new_8.0",
+   "name": "强效注射器",
+   "x0": 510,
+   "y0": 700,
+   "x1": 620,
+   "y1": 820,
+   "source_video": "v2",
+   "timestamp_s": 8.0,
+   "origin": "独立时间点帧（未进入 train/val/test）",
+   "human_review": "rejected",
+   "reject_reason": "框内为空白/UI文字/非目标物品"
+  },
+  {
+   "frame": "v1_new_2.0",
+   "name": "强效注射器",
+   "x0": 510,
+   "y0": 700,
+   "x1": 620,
+   "y1": 840,
+   "source_video": "v1",
+   "timestamp_s": 2.0,
+   "origin": "独立时间点帧（未进入 train/val/test）",
+   "human_review": "rejected",
+   "reject_reason": "框内为空白/UI文字/非目标物品"
+  },
+  {
+   "frame": "v1_new_2.0",
+   "name": "CAT止血带",
+   "x0": 870,
+   "y0": 300,
+   "x1": 1000,
+   "y1": 480,
+   "source_video": "v1",
+   "timestamp_s": 2.0,
+   "origin": "独立时间点帧（未进入 train/val/test）",
+   "human_review": "rejected",
+   "reject_reason": "框内为空白/UI文字/非目标物品"
+  },
+  {
+   "frame": "v1_new_3.0",
+   "name": "强效注射器",
+   "x0": 800,
+   "y0": 700,
+   "x1": 920,
+   "y1": 840,
+   "source_video": "v1",
+   "timestamp_s": 3.0,
+   "origin": "独立时间点帧（未进入 train/val/test）",
+   "human_review": "rejected",
+   "reject_reason": "框内为空白/UI文字/非目标物品"
+  },
+  {
+   "frame": "v1_new_3.0",
+   "name": "CAT止血带",
+   "x0": 870,
+   "y0": 300,
+   "x1": 1000,
+   "y1": 480,
+   "source_video": "v1",
+   "timestamp_s": 3.0,
+   "origin": "独立时间点帧（未进入 train/val/test）",
+   "human_review": "rejected",
+   "reject_reason": "框内为空白/UI文字/非目标物品"
+  }
+ ]
+}
