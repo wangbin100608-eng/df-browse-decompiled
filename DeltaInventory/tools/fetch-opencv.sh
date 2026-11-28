@@ -23,5 +23,9 @@ cp -r "$SRC/3rdparty" "$ROOT/app/sdk/native/"
 cp -r "$SRC/libs" "$ROOT/app/sdk/native/"
 find "$ROOT/app/sdk/native" -type d \( -name x86 -o -name x86_64 -o -name armeabi-v7a \) -exec rm -rf {} + 2>/dev/null || true
 
+# OpenCVConfig.cmake 从自身位置推导 install path 到 ${ROOT}/sdk/native，
+# 而上面把库放在 ${ROOT}/app/sdk/native；建软链统一两处，避免 CMake 找不到静态库。
+ln -sfn app/sdk "$ROOT/sdk"
+
 rm -rf "$TMP"
-echo "OpenCV 构建依赖就绪。现在可：cd $ROOT && gradle assembleDebug"
+echo "OpenCV 构建依赖就绪。现在可：cd $ROOT && gradle assembleRelease"

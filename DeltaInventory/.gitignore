@@ -10,6 +10,7 @@ build/
 # OpenCV 构建依赖（由 tools/fetch-opencv.sh 重建，约190MB）
 app/opencv_sdk/
 app/sdk/
+sdk
 
 # IDE
 .idea/
