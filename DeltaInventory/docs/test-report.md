@@ -63,8 +63,8 @@
 ## P3 验证覆盖（本轮新增）
 
 - `FlowLogicTest.kt`：9 项纯逻辑测试（多格合并、区域隔离、置信度分流、OCR 格数解析），JVM 可跑。
-- `DeviceSmokeTest.kt`（androidTest）：真机冒烟——包安装、特征库加载。**当前环境无 Android 设备，未实际执行**，需在真机 `gradle connectedAndroidTest` 运行。
-- 真机端到端（图标匹配准确率、OCR 格数识别、悬浮窗+采集）受设备/游戏画面影响，无法在编译环境验证，属已知限制。
+- `DeviceSmokeTest.kt`（androidTest）：真机冒烟代码。**已在 Redroid 11 (x86_64) 上以动态验证替代执行**：包安装成功、1663 件特征库加载正常、无崩溃；真实 Android 设备仍需 `gradle connectedAndroidTest`。
+- 真机端到端：**已在 Redroid 上验证采集权限流程（悬浮窗授权）、1663 件物品导入；纯图标识别 5/5 正确**。但官方模拟器真实渲染格子上 dHash 域漂移导致 4/4 错配，游戏内识别尚不可用，需带标注的真实截图训练局部特征/CNN 模型。详见 accuracy-report.md。
 
 ## 本轮 P1/P2/P3 完善后测试结果
 
@@ -72,7 +72,7 @@
 |---|---|
 | Rust 核心 | 17/17 PASS |
 | Android 单元测试 | 18/18 PASS（CoreLogic 9 + FlowLogic 9） |
-| Release APK | BUILD SUCCESSFUL，v2 签名有效，SHA256 `0dc85c017b3162e109c67c16ca90b5408fabd1d1b4c18490a3cd39516504f60b` |
+| Release APK | BUILD SUCCESSFUL，v2 签名有效，SHA256 `e202065b81f0c4c31fb70ea80afdddfc99f6db7d422e44eb7137b44bca24c850` |
 | 新增覆盖 | 多格合并、区域隔离、置信度分流、OCR 格数解析（FlowLogicTest）；真机冒烟代码（DeviceSmokeTest，需设备） |
 
 功能完善：图标匹配鲁棒性（中心裁剪+亮度归一化）、多格物品合并、低置信度人工确认、历史/数据库/设置页实做、识别统计、结果持久化、三步流程单测。
@@ -83,5 +83,5 @@
 |---|---|
 | Rust 核心 | 17/17 PASS |
 | Android 单测 | 21/21 PASS（CoreLogic 9 + FlowLogic 9 + RegionAndQty 3） |
-| Release APK | v2 签名有效，SHA256 `0dc85c017b3162e109c67c16ca90b5408fabd1d1b4c18490a3cd39516504f60b` |
+| Release APK | v2 签名有效，SHA256 `e202065b81f0c4c31fb70ea80afdddfc99f6db7d422e44eb7137b44bca24c850` |
 | 全项补齐 | P0（动态区域/数量OCR/价格走库/保险箱扫描）+ 性能（索引分桶/区域匹配/缓冲复用）全部完成 |
