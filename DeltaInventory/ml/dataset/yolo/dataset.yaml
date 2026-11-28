@@ -1,0 +1,6 @@
+path: /root/工作区/df-browse-decompiled/DeltaInventory/ml/dataset/yolo
+train: images/train
+val: images/val
+test: images/test
+nc: 16
+names: [".357左轮", "5.56x45mm CINDER", "5.56x45mm M995", "CAT止血带", "DICH训练头盔", "GA野战背包", "M1911", "MHS 战术头盔", "Mini-14射手步枪", "UZI冲锋枪", "北极星", "复合弓", "强效注射器", "武士防弹背心", "突击手防弹背心", "黑鹰野战胸挂"]

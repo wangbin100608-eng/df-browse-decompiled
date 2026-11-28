@@ -1,19 +1,98 @@
-{"frame": "v1_2.5", "name": "UZI冲锋枪", "x0": 1640, "y0": 290, "x1": 2060, "y1": 470}
-{"frame": "v1_2.5", "name": "M1911", "x0": 2180, "y0": 290, "x1": 2460, "y1": 460}
-{"frame": "v1_2.5", "name": "北极星", "x0": 2190, "y0": 570, "x1": 2480, "y1": 690}
-{"frame": "v1_2.5", "name": "突击手防弹背心", "x0": 2140, "y0": 850, "x1": 2400, "y1": 1080}
-{"frame": "v1_2.5", "name": "5.56x45mm CINDER", "x0": 640, "y0": 570, "x1": 760, "y1": 700}
-{"frame": "v1_2.5", "name": "强效注射器", "x0": 510, "y0": 570, "x1": 620, "y1": 700}
-{"frame": "v1_2.5", "name": "5.56x45mm CINDER", "x0": 50, "y0": 1230, "x1": 180, "y1": 1360}
-{"frame": "v1_2.5", "name": "5.56x45mm M995", "x0": 190, "y0": 1230, "x1": 320, "y1": 1360}
-{"frame": "v1_2.5", "name": "5.56x45mm M995", "x0": 330, "y0": 1230, "x1": 460, "y1": 1360}
-{"frame": "v2_2.5", "name": "MHS 战术头盔", "x0": 1660, "y0": 500, "x1": 1820, "y1": 660}
-{"frame": "v2_2.5", "name": "武士防弹背心", "x0": 2120, "y0": 480, "x1": 2300, "y1": 720}
-{"frame": "v2_2.5", "name": "GA野战背包", "x0": 500, "y0": 980, "x1": 690, "y1": 1140}
-{"frame": "v2_2.5", "name": "CAT止血带", "x0": 700, "y0": 980, "x1": 790, "y1": 1080}
-{"frame": "v2_2.5", "name": "强效注射器", "x0": 850, "y0": 980, "x1": 960, "y1": 1080}
-{"frame": "v2_2.5", "name": "强效注射器", "x0": 510, "y0": 700, "x1": 620, "y1": 820}
-{"frame": "v2_2.5", "name": "强效注射器", "x0": 960, "y0": 700, "x1": 1070, "y1": 820}
-{"frame": "v2_2.5", "name": "5.56x45mm CINDER", "x0": 50, "y0": 1240, "x1": 180, "y1": 1370}
-{"frame": "v2_2.5", "name": "5.56x45mm M995", "x0": 190, "y0": 1240, "x1": 320, "y1": 1370}
-{"frame": "v2_2.5", "name": "5.56x45mm CINDER", "x0": 330, "y0": 1240, "x1": 460, "y1": 1370}
+{"frame": "v1_2.5", "name": "UZI冲锋枪", "x0": 1640, "y0": 290, "x1": 2060, "y1": 470, "source": "v1", "timestamp_s": 2.5}
+{"frame": "v1_2.5", "name": "M1911", "x0": 2180, "y0": 290, "x1": 2460, "y1": 460, "source": "v1", "timestamp_s": 2.5}
+{"frame": "v1_2.5", "name": "北极星", "x0": 2190, "y0": 570, "x1": 2480, "y1": 690, "source": "v1", "timestamp_s": 2.5}
+{"frame": "v1_2.5", "name": "突击手防弹背心", "x0": 2140, "y0": 850, "x1": 2400, "y1": 1080, "source": "v1", "timestamp_s": 2.5}
+{"frame": "v1_2.5", "name": "5.56x45mm CINDER", "x0": 640, "y0": 570, "x1": 760, "y1": 700, "source": "v1", "timestamp_s": 2.5}
+{"frame": "v1_2.5", "name": "强效注射器", "x0": 510, "y0": 570, "x1": 620, "y1": 700, "source": "v1", "timestamp_s": 2.5}
+{"frame": "v1_2.5", "name": "5.56x45mm CINDER", "x0": 50, "y0": 1230, "x1": 180, "y1": 1360, "source": "v1", "timestamp_s": 2.5}
+{"frame": "v1_2.5", "name": "5.56x45mm M995", "x0": 190, "y0": 1230, "x1": 320, "y1": 1360, "source": "v1", "timestamp_s": 2.5}
+{"frame": "v1_2.5", "name": "5.56x45mm M995", "x0": 330, "y0": 1230, "x1": 460, "y1": 1360, "source": "v1", "timestamp_s": 2.5}
+{"frame": "v2_2.5", "name": "MHS 战术头盔", "x0": 1660, "y0": 500, "x1": 1820, "y1": 660, "source": "v2", "timestamp_s": 2.5}
+{"frame": "v2_2.5", "name": "武士防弹背心", "x0": 2120, "y0": 480, "x1": 2300, "y1": 720, "source": "v2", "timestamp_s": 2.5}
+{"frame": "v2_2.5", "name": "GA野战背包", "x0": 500, "y0": 980, "x1": 690, "y1": 1140, "source": "v2", "timestamp_s": 2.5}
+{"frame": "v2_2.5", "name": "CAT止血带", "x0": 700, "y0": 980, "x1": 790, "y1": 1080, "source": "v2", "timestamp_s": 2.5}
+{"frame": "v2_2.5", "name": "强效注射器", "x0": 850, "y0": 980, "x1": 960, "y1": 1080, "source": "v2", "timestamp_s": 2.5}
+{"frame": "v2_2.5", "name": "强效注射器", "x0": 510, "y0": 700, "x1": 620, "y1": 820, "source": "v2", "timestamp_s": 2.5}
+{"frame": "v2_2.5", "name": "强效注射器", "x0": 960, "y0": 700, "x1": 1070, "y1": 820, "source": "v2", "timestamp_s": 2.5}
+{"frame": "v2_2.5", "name": "5.56x45mm CINDER", "x0": 50, "y0": 1240, "x1": 180, "y1": 1370, "source": "v2", "timestamp_s": 2.5}
+{"frame": "v2_2.5", "name": "5.56x45mm M995", "x0": 190, "y0": 1240, "x1": 320, "y1": 1370, "source": "v2", "timestamp_s": 2.5}
+{"frame": "v2_2.5", "name": "5.56x45mm CINDER", "x0": 330, "y0": 1240, "x1": 460, "y1": 1370, "source": "v2", "timestamp_s": 2.5}
+{"frame": "v1_0.5", "name": "Mini-14射手步枪", "x0": 520, "y0": 300, "x1": 1100, "y1": 440, "source": "v1", "timestamp_s": 0.5}
+{"frame": "v1_0.5", "name": ".357左轮", "x0": 1180, "y0": 300, "x1": 1420, "y1": 440, "source": "v1", "timestamp_s": 0.5}
+{"frame": "v1_0.5", "name": "复合弓", "x0": 540, "y0": 540, "x1": 1120, "y1": 720, "source": "v1", "timestamp_s": 0.5}
+{"frame": "v1_0.5", "name": "黑鹰野战胸挂", "x0": 1160, "y0": 570, "x1": 1420, "y1": 700, "source": "v1", "timestamp_s": 0.5}
+{"frame": "v1_0.5", "name": "DICH训练头盔", "x0": 630, "y0": 810, "x1": 840, "y1": 1010, "source": "v1", "timestamp_s": 0.5}
+{"frame": "v1_0.5", "name": "UZI冲锋枪", "x0": 1620, "y0": 280, "x1": 2070, "y1": 480, "source": "v1", "timestamp_s": 0.5}
+{"frame": "v1_0.5", "name": "M1911", "x0": 2180, "y0": 290, "x1": 2470, "y1": 480, "source": "v1", "timestamp_s": 0.5}
+{"frame": "v1_0.5", "name": "北极星", "x0": 2180, "y0": 570, "x1": 2480, "y1": 700, "source": "v1", "timestamp_s": 0.5}
+{"frame": "v1_0.5", "name": "突击手防弹背心", "x0": 2140, "y0": 810, "x1": 2400, "y1": 1020, "source": "v1", "timestamp_s": 0.5}
+{"frame": "v1_0.5", "name": "5.56x45mm CINDER", "x0": 50, "y0": 1230, "x1": 180, "y1": 1360, "source": "v1", "timestamp_s": 0.5}
+{"frame": "v1_0.5", "name": "5.56x45mm M995", "x0": 190, "y0": 1230, "x1": 320, "y1": 1360, "source": "v1", "timestamp_s": 0.5}
+{"frame": "v1_0.5", "name": "CAT止血带", "x0": 860, "y0": 1140, "x1": 980, "y1": 1300, "source": "v1", "timestamp_s": 0.5}
+{"frame": "v1_4.5", "name": "UZI冲锋枪", "x0": 1620, "y0": 280, "x1": 2070, "y1": 480, "source": "v1", "timestamp_s": 4.5}
+{"frame": "v1_4.5", "name": "M1911", "x0": 2180, "y0": 290, "x1": 2470, "y1": 480, "source": "v1", "timestamp_s": 4.5}
+{"frame": "v1_4.5", "name": "北极星", "x0": 2180, "y0": 570, "x1": 2480, "y1": 700, "source": "v1", "timestamp_s": 4.5}
+{"frame": "v1_4.5", "name": "突击手防弹背心", "x0": 2140, "y0": 810, "x1": 2400, "y1": 1020, "source": "v1", "timestamp_s": 4.5}
+{"frame": "v1_4.5", "name": "CAT止血带", "x0": 870, "y0": 300, "x1": 1000, "y1": 480, "source": "v1", "timestamp_s": 4.5}
+{"frame": "v1_4.5", "name": "5.56x45mm CINDER", "x0": 640, "y0": 700, "x1": 760, "y1": 840, "source": "v1", "timestamp_s": 4.5}
+{"frame": "v1_4.5", "name": "强效注射器", "x0": 500, "y0": 700, "x1": 620, "y1": 840, "source": "v1", "timestamp_s": 4.5}
+{"frame": "v1_4.5", "name": "强效注射器", "x0": 800, "y0": 700, "x1": 920, "y1": 840, "source": "v1", "timestamp_s": 4.5}
+{"frame": "v1_4.5", "name": "强效注射器", "x0": 960, "y0": 700, "x1": 1080, "y1": 840, "source": "v1", "timestamp_s": 4.5}
+{"frame": "v1_4.5", "name": "5.56x45mm CINDER", "x0": 50, "y0": 1230, "x1": 180, "y1": 1360, "source": "v1", "timestamp_s": 4.5}
+{"frame": "v1_4.5", "name": "5.56x45mm M995", "x0": 190, "y0": 1230, "x1": 320, "y1": 1360, "source": "v1", "timestamp_s": 4.5}
+{"frame": "v1_5.5", "name": "UZI冲锋枪", "x0": 1620, "y0": 280, "x1": 2070, "y1": 480, "source": "v1", "timestamp_s": 5.5}
+{"frame": "v1_5.5", "name": "M1911", "x0": 2180, "y0": 290, "x1": 2470, "y1": 480, "source": "v1", "timestamp_s": 5.5}
+{"frame": "v1_5.5", "name": "北极星", "x0": 2180, "y0": 570, "x1": 2480, "y1": 700, "source": "v1", "timestamp_s": 5.5}
+{"frame": "v1_5.5", "name": "突击手防弹背心", "x0": 2140, "y0": 810, "x1": 2400, "y1": 1020, "source": "v1", "timestamp_s": 5.5}
+{"frame": "v1_5.5", "name": "5.56x45mm CINDER", "x0": 640, "y0": 700, "x1": 760, "y1": 840, "source": "v1", "timestamp_s": 5.5}
+{"frame": "v1_5.5", "name": "强效注射器", "x0": 500, "y0": 700, "x1": 620, "y1": 840, "source": "v1", "timestamp_s": 5.5}
+{"frame": "v2_1.5", "name": "MHS 战术头盔", "x0": 1670, "y0": 430, "x1": 1820, "y1": 620, "source": "v2", "timestamp_s": 1.5}
+{"frame": "v2_1.5", "name": "武士防弹背心", "x0": 2160, "y0": 420, "x1": 2320, "y1": 640, "source": "v2", "timestamp_s": 1.5}
+{"frame": "v2_1.5", "name": "GA野战背包", "x0": 510, "y0": 980, "x1": 690, "y1": 1140, "source": "v2", "timestamp_s": 1.5}
+{"frame": "v2_1.5", "name": "CAT止血带", "x0": 700, "y0": 980, "x1": 800, "y1": 1080, "source": "v2", "timestamp_s": 1.5}
+{"frame": "v2_1.5", "name": "强效注射器", "x0": 510, "y0": 700, "x1": 620, "y1": 820, "source": "v2", "timestamp_s": 1.5}
+{"frame": "v2_1.5", "name": "强效注射器", "x0": 960, "y0": 700, "x1": 1070, "y1": 820, "source": "v2", "timestamp_s": 1.5}
+{"frame": "v2_1.5", "name": "5.56x45mm CINDER", "x0": 50, "y0": 1240, "x1": 180, "y1": 1370, "source": "v2", "timestamp_s": 1.5}
+{"frame": "v2_1.5", "name": "5.56x45mm M995", "x0": 190, "y0": 1240, "x1": 320, "y1": 1370, "source": "v2", "timestamp_s": 1.5}
+{"frame": "v2_3.5", "name": "MHS 战术头盔", "x0": 1670, "y0": 430, "x1": 1820, "y1": 620, "source": "v2", "timestamp_s": 3.5}
+{"frame": "v2_3.5", "name": "武士防弹背心", "x0": 2160, "y0": 420, "x1": 2320, "y1": 640, "source": "v2", "timestamp_s": 3.5}
+{"frame": "v2_3.5", "name": "GA野战背包", "x0": 510, "y0": 980, "x1": 690, "y1": 1140, "source": "v2", "timestamp_s": 3.5}
+{"frame": "v2_3.5", "name": "CAT止血带", "x0": 700, "y0": 980, "x1": 800, "y1": 1080, "source": "v2", "timestamp_s": 3.5}
+{"frame": "v2_3.5", "name": "强效注射器", "x0": 510, "y0": 700, "x1": 620, "y1": 820, "source": "v2", "timestamp_s": 3.5}
+{"frame": "v2_3.5", "name": "强效注射器", "x0": 960, "y0": 700, "x1": 1070, "y1": 820, "source": "v2", "timestamp_s": 3.5}
+{"frame": "v2_3.5", "name": "5.56x45mm CINDER", "x0": 50, "y0": 1240, "x1": 180, "y1": 1370, "source": "v2", "timestamp_s": 3.5}
+{"frame": "v2_3.5", "name": "5.56x45mm M995", "x0": 190, "y0": 1240, "x1": 320, "y1": 1370, "source": "v2", "timestamp_s": 3.5}
+{"frame": "v2_4.5", "name": "MHS 战术头盔", "x0": 1670, "y0": 430, "x1": 1820, "y1": 620, "source": "v2", "timestamp_s": 4.5}
+{"frame": "v2_4.5", "name": "武士防弹背心", "x0": 2160, "y0": 420, "x1": 2320, "y1": 640, "source": "v2", "timestamp_s": 4.5}
+{"frame": "v2_4.5", "name": "GA野战背包", "x0": 510, "y0": 980, "x1": 690, "y1": 1140, "source": "v2", "timestamp_s": 4.5}
+{"frame": "v2_4.5", "name": "CAT止血带", "x0": 700, "y0": 980, "x1": 800, "y1": 1080, "source": "v2", "timestamp_s": 4.5}
+{"frame": "v2_4.5", "name": "强效注射器", "x0": 510, "y0": 700, "x1": 620, "y1": 820, "source": "v2", "timestamp_s": 4.5}
+{"frame": "v2_4.5", "name": "强效注射器", "x0": 960, "y0": 700, "x1": 1070, "y1": 820, "source": "v2", "timestamp_s": 4.5}
+{"frame": "v2_4.5", "name": "5.56x45mm CINDER", "x0": 50, "y0": 1240, "x1": 180, "y1": 1370, "source": "v2", "timestamp_s": 4.5}
+{"frame": "v2_4.5", "name": "5.56x45mm M995", "x0": 190, "y0": 1240, "x1": 320, "y1": 1370, "source": "v2", "timestamp_s": 4.5}
+{"frame": "v2_6.5", "name": "MHS 战术头盔", "x0": 1670, "y0": 430, "x1": 1820, "y1": 620, "source": "v2", "timestamp_s": 6.5}
+{"frame": "v2_6.5", "name": "武士防弹背心", "x0": 2160, "y0": 420, "x1": 2320, "y1": 640, "source": "v2", "timestamp_s": 6.5}
+{"frame": "v2_6.5", "name": "GA野战背包", "x0": 510, "y0": 980, "x1": 690, "y1": 1140, "source": "v2", "timestamp_s": 6.5}
+{"frame": "v2_6.5", "name": "CAT止血带", "x0": 700, "y0": 980, "x1": 800, "y1": 1080, "source": "v2", "timestamp_s": 6.5}
+{"frame": "v2_6.5", "name": "强效注射器", "x0": 510, "y0": 700, "x1": 620, "y1": 820, "source": "v2", "timestamp_s": 6.5}
+{"frame": "v2_6.5", "name": "强效注射器", "x0": 960, "y0": 700, "x1": 1070, "y1": 820, "source": "v2", "timestamp_s": 6.5}
+{"frame": "v2_6.5", "name": "5.56x45mm CINDER", "x0": 50, "y0": 1240, "x1": 180, "y1": 1370, "source": "v2", "timestamp_s": 6.5}
+{"frame": "v2_6.5", "name": "5.56x45mm M995", "x0": 190, "y0": 1240, "x1": 320, "y1": 1370, "source": "v2", "timestamp_s": 6.5}
+{"frame": "v2_8.5", "name": "MHS 战术头盔", "x0": 1670, "y0": 430, "x1": 1820, "y1": 620, "source": "v2", "timestamp_s": 8.5}
+{"frame": "v2_8.5", "name": "武士防弹背心", "x0": 2160, "y0": 420, "x1": 2320, "y1": 640, "source": "v2", "timestamp_s": 8.5}
+{"frame": "v2_8.5", "name": "GA野战背包", "x0": 510, "y0": 980, "x1": 690, "y1": 1140, "source": "v2", "timestamp_s": 8.5}
+{"frame": "v2_8.5", "name": "CAT止血带", "x0": 700, "y0": 980, "x1": 800, "y1": 1080, "source": "v2", "timestamp_s": 8.5}
+{"frame": "v2_8.5", "name": "强效注射器", "x0": 510, "y0": 700, "x1": 620, "y1": 820, "source": "v2", "timestamp_s": 8.5}
+{"frame": "v2_8.5", "name": "强效注射器", "x0": 960, "y0": 700, "x1": 1070, "y1": 820, "source": "v2", "timestamp_s": 8.5}
+{"frame": "v2_8.5", "name": "5.56x45mm CINDER", "x0": 50, "y0": 1240, "x1": 180, "y1": 1370, "source": "v2", "timestamp_s": 8.5}
+{"frame": "v2_8.5", "name": "5.56x45mm M995", "x0": 190, "y0": 1240, "x1": 320, "y1": 1370, "source": "v2", "timestamp_s": 8.5}
+{"frame": "v1_1.5", "name": "Mini-14射手步枪", "x0": 520, "y0": 300, "x1": 1100, "y1": 440, "source": "v1", "timestamp_s": 1.5}
+{"frame": "v1_1.5", "name": ".357左轮", "x0": 1180, "y0": 300, "x1": 1420, "y1": 440, "source": "v1", "timestamp_s": 1.5}
+{"frame": "v1_1.5", "name": "复合弓", "x0": 540, "y0": 540, "x1": 1120, "y1": 720, "source": "v1", "timestamp_s": 1.5}
+{"frame": "v1_1.5", "name": "黑鹰野战胸挂", "x0": 1160, "y0": 570, "x1": 1420, "y1": 700, "source": "v1", "timestamp_s": 1.5}
+{"frame": "v1_1.5", "name": "DICH训练头盔", "x0": 630, "y0": 810, "x1": 840, "y1": 1010, "source": "v1", "timestamp_s": 1.5}
+{"frame": "v1_1.5", "name": "CAT止血带", "x0": 870, "y0": 300, "x1": 1000, "y1": 480, "source": "v1", "timestamp_s": 1.5}
+{"frame": "v1_1.5", "name": "UZI冲锋枪", "x0": 1620, "y0": 280, "x1": 2070, "y1": 480, "source": "v1", "timestamp_s": 1.5}
+{"frame": "v1_1.5", "name": "M1911", "x0": 2180, "y0": 290, "x1": 2470, "y1": 480, "source": "v1", "timestamp_s": 1.5}
+{"frame": "v1_1.5", "name": "北极星", "x0": 2180, "y0": 570, "x1": 2480, "y1": 700, "source": "v1", "timestamp_s": 1.5}
+{"frame": "v1_1.5", "name": "突击手防弹背心", "x0": 2140, "y0": 810, "x1": 2400, "y1": 1020, "source": "v1", "timestamp_s": 1.5}

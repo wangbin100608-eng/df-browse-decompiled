@@ -1,0 +1,27 @@
+[2026-11-28T12:50:29] === 分类模型 A 训练 | dataset=ds-7529c232b6f4 classes=16 epochs=20 ===
+[2026-11-28T12:50:29] 样本 train=53 val=8 test=37
+[2026-11-28T12:50:30] epoch 1/20 loss=2.6703 val_acc=0.3750 val_macroF1=0.1875
+[2026-11-28T12:50:31]   保存最佳模型 val_acc=0.3750
+[2026-11-28T12:50:31] epoch 2/20 loss=1.1440 val_acc=0.5000 val_macroF1=0.2187
+[2026-11-28T12:50:32]   保存最佳模型 val_acc=0.5000
+[2026-11-28T12:50:32] epoch 3/20 loss=0.6366 val_acc=0.7500 val_macroF1=0.3000
+[2026-11-28T12:50:32]   保存最佳模型 val_acc=0.7500
+[2026-11-28T12:50:33] epoch 4/20 loss=0.3540 val_acc=0.7500 val_macroF1=0.3000
+[2026-11-28T12:50:34] epoch 5/20 loss=0.2145 val_acc=0.7500 val_macroF1=0.2917
+[2026-11-28T12:50:35] epoch 6/20 loss=0.1753 val_acc=0.7500 val_macroF1=0.2917
+[2026-11-28T12:50:36] epoch 7/20 loss=0.1609 val_acc=0.6250 val_macroF1=0.2750
+[2026-11-28T12:50:37] epoch 8/20 loss=0.0709 val_acc=0.6250 val_macroF1=0.2750
+[2026-11-28T12:50:37] epoch 9/20 loss=0.1638 val_acc=0.6250 val_macroF1=0.2750
+[2026-11-28T12:50:38] epoch 10/20 loss=0.0899 val_acc=0.7500 val_macroF1=0.2917
+[2026-11-28T12:50:39] epoch 11/20 loss=0.0750 val_acc=0.7500 val_macroF1=0.2917
+[2026-11-28T12:50:40] epoch 12/20 loss=0.0348 val_acc=0.7500 val_macroF1=0.2917
+[2026-11-28T12:50:41] epoch 13/20 loss=0.0377 val_acc=0.7500 val_macroF1=0.2917
+[2026-11-28T12:50:42] epoch 14/20 loss=0.0314 val_acc=0.6250 val_macroF1=0.2750
+[2026-11-28T12:50:42] epoch 15/20 loss=0.0842 val_acc=0.6250 val_macroF1=0.2750
+[2026-11-28T12:50:43] epoch 16/20 loss=0.0218 val_acc=0.6250 val_macroF1=0.2750
+[2026-11-28T12:50:44] epoch 17/20 loss=0.0263 val_acc=0.6250 val_macroF1=0.2750
+[2026-11-28T12:50:45] epoch 18/20 loss=0.0146 val_acc=0.6250 val_macroF1=0.2750
+[2026-11-28T12:50:46] epoch 19/20 loss=0.0217 val_acc=0.6250 val_macroF1=0.2750
+[2026-11-28T12:50:47] epoch 20/20 loss=0.0197 val_acc=0.6250 val_macroF1=0.2750
+[2026-11-28T12:50:47] TEST acc=0.8649 macroP=0.7973 macroR=0.7917 infer=2.37ms
+[2026-11-28T12:50:47] 评估完成，失败案例 5 张已保存，结果 -> evaluation.json

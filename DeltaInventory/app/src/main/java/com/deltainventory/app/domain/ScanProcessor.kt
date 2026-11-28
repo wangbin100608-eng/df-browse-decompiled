@@ -39,6 +39,14 @@ class ScanProcessor(
     }
 
     private val matcher = IconMatcher.get(context)
+    private val yolo = YoloDetector.get(context)
+    /** YOLO 标签 -> itemId（与 detector_yolov8n.onnx 输出类别顺序一致） */
+    private val yoloItemIds: List<String> = try {
+        val jo = org.json.JSONObject(context.assets.open("models/yolo_labels.json").use { it.readBytes().toString(Charsets.UTF_8) })
+        val arr = jo.getJSONArray("labels")
+        (0 until arr.length()).map { arr.getJSONObject(it).optString("item_id", "") }
+    } catch (e: Exception) { Log.w(TAG, "yolo_labels 加载失败: ${e.message}"); emptyList() }
+    var yoloEnabled = yolo.available && yoloItemIds.isNotEmpty()
     var matchThreshold = HIGH_CONF
     var hashMaxDist = 20
     fun setHashDist(v: Int) { matcher.maxHashDist = v }
@@ -110,7 +118,7 @@ class ScanProcessor(
             // A2 数量：从最后帧对应格子 OCR 读取角标；失败回退到实例数
             var qty = list.size
             val frame = lastFrameForOcr
-            if (frame != null && frame.width > 0 && frame.height > 0) {
+            if (!yoloEnabled && frame != null && frame.width > 0 && frame.height > 0) {
                 qty = GridOcr.readQuantity(frame)
             }
             _confirmed.add(ConfirmedItem(m.id, m.name, m.w, m.h, m.price, m.cat,
@@ -171,8 +179,8 @@ class ScanProcessor(
         prev?.recycle(); lastBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, false)
         lastFrameForOcr?.recycle(); lastFrameForOcr = bitmap.copy(Bitmap.Config.ARGB_8888, false)
 
-        // 1) OCR 识别格数（每 N 帧做一次，省开销）
-        if (frameCounter % 10 == 1L) {
+        // 1) OCR 识别格数（每 N 帧做一次，省开销）——YOLO 模式不依赖格数，跳过以免阻塞/崩溃
+        if (!yoloEnabled && frameCounter % 10 == 1L) {
             GridOcr.recognize(bitmap)?.let {
                 _gridInfo = it
                 Log.i(TAG, "OCR 格数: 背包 ${it.bagWidth}x${it.bagHeight} 保险箱 ${it.safeWidth}x${it.safeHeight}")
@@ -180,7 +188,33 @@ class ScanProcessor(
             dynamicBagRegion = RegionDetector.detect(bitmap).normalized
         }
 
-        // 2) 图标匹配扫描（背包区域 + 地面）
+        // 1.5) YOLO 检测（新模型，迁移学习）：直接在整图定位物品，不依赖 OCR 格数
+        var yoloHit = 0
+        if (yoloEnabled && frameCounter % 3 == 1L) {
+            val dets = yolo.detect(bitmap, yoloItemIds)
+            for (d in dets) {
+                val iid = yoloItemIds.getOrNull(d.cls) ?: continue
+                // 按 bbox 中心点归属区域：右半画布=战利品(ground)，左下=安全箱(safe)，其余=背包(bag)
+                val cx = d.x + d.w / 2f; val cy = d.y + d.h / 2f
+                val region = when {
+                    cx > 0.55f && cy < 0.75f -> "ground"
+                    cx < 0.2f && cy > 0.6f -> "safe"
+                    else -> "bag"
+                }
+                val gx = (cx * 20).toInt(); val gy = (cy * 20).toInt()
+                if (d.conf < matchThreshold) {
+                    _pendingItems.add(PendingItem("yolo_${d.cls}_${gx}_${gy}",
+                        listOf(iid), region, gx, gy, d.conf, iid))
+                } else {
+                    rawItems.add(RawItem(iid, d.conf, region, gx, gy))
+                }
+                yoloHit++
+            }
+            Log.i(TAG, "YOLO 检测: ${dets.size} 个 (${dets.take(3).joinToString { "${it.label}:${String.format("%.2f", it.conf)}" }})")
+        }
+
+        // 2) 图标匹配扫描（兜底：YOLO 不可用时用 dHash；两者并存时 YOLO 已覆盖主要物品）
+        if (!yoloEnabled) {
         val cols = _gridInfo.bagWidth.coerceAtLeast(1)
         val rows = _gridInfo.bagHeight.coerceAtLeast(1)
         val detections = iconScanner.scan(bitmap, cols, rows, dynamicBagRegion, LOW_CONF)
@@ -210,9 +244,10 @@ class ScanProcessor(
                 _pendingItems.add(PendingItem("safe_${d.gridX}_${d.gridY}", cands, "safe",
                     d.gridX, d.gridY, d.confidence, d.itemId))
             } else rawItems.add(RawItem(d.itemId, d.confidence, "safe", d.gridX, d.gridY))
+            }
         }
 
-        viewModel.noteFrame(detections.size + groundDet.size + safeDet.size, false) // 更新识别统计
+        viewModel.noteFrame(if (yoloEnabled) yoloHit else 0, false) // 更新识别统计
         bitmap.recycle()
     }
 }

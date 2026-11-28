@@ -1,0 +1,85 @@
+{
+ "model": "det-yolov8n-v1",
+ "labels": [
+  {
+   "class_id": 0,
+   "name": ".357左轮",
+   "item_id": "18070000003"
+  },
+  {
+   "class_id": 1,
+   "name": "5.56x45mm CINDER",
+   "item_id": "37100400003"
+  },
+  {
+   "class_id": 2,
+   "name": "5.56x45mm M995",
+   "item_id": "37100500001"
+  },
+  {
+   "class_id": 3,
+   "name": "CAT止血带",
+   "item_id": "14040000001"
+  },
+  {
+   "class_id": 4,
+   "name": "DICH训练头盔",
+   "item_id": "11010004003"
+  },
+  {
+   "class_id": 5,
+   "name": "GA野战背包",
+   "item_id": "11080003004"
+  },
+  {
+   "class_id": 6,
+   "name": "M1911",
+   "item_id": "18070000033"
+  },
+  {
+   "class_id": 7,
+   "name": "MHS 战术头盔",
+   "item_id": "11010004002"
+  },
+  {
+   "class_id": 8,
+   "name": "Mini-14射手步枪",
+   "item_id": "18050000002"
+  },
+  {
+   "class_id": 9,
+   "name": "UZI冲锋枪",
+   "item_id": "18020000004"
+  },
+  {
+   "class_id": 10,
+   "name": "北极星",
+   "item_id": ""
+  },
+  {
+   "class_id": 11,
+   "name": "复合弓",
+   "item_id": "18150000001"
+  },
+  {
+   "class_id": 12,
+   "name": "强效注射器",
+   "item_id": "14020000003"
+  },
+  {
+   "class_id": 13,
+   "name": "武士防弹背心",
+   "item_id": "11050004001"
+  },
+  {
+   "class_id": 14,
+   "name": "突击手防弹背心",
+   "item_id": "11050004002"
+  },
+  {
+   "class_id": 15,
+   "name": "黑鹰野战胸挂",
+   "item_id": "11070005003"
+  }
+ ]
+}

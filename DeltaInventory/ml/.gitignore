@@ -1,0 +1,23 @@
+# 训练中间产物（可从脚本重建）
+**/checkpoint.pt
+**/last.pt
+**/yolov8n/args.yaml
+**/yolov8n/results.csv
+**/yolov8n/confusion_matrix.png
+**/yolov8n/results.png
+**/yolov8n/F1_curve.png
+**/yolov8n/P_curve.png
+**/yolov8n/R_curve.png
+**/yolov8n/PR_curve.png
+**/yolov8n/labels.jpg
+**/yolov8n/train_batch*.jpg
+**/yolov8n/val_batch*.jpg
+**/.cache/
+**/__pycache__/
+*.pyc
+# 原始大帧图（保留标注清单即可重建裁剪；源帧在 research/train/annotate）
+dataset/images/**
+dataset/yolo/images/**
+dataset/yolo/labels/*.cache
+# 检测失败案例图（2.3M，可选保留）
+# experiments/detector_yolov8n/failures/**
