@@ -66,11 +66,11 @@
 | Android `RegionAndQtyTest` | **3/3 PASS**（区域带检测/数量解析） |
 | `DeviceSmokeTest` (androidTest) | 真机冒烟代码；**当前无设备环境未执行** |
 
-Release APK：正式 keystore 签名（v2 有效），SHA256 `0dc85c017b3162e109c67c16ca90b5408fabd1d1b4c18490a3cd39516504f60b`。
+Release APK：正式 keystore 签名（v2 有效），SHA256 `e202065b81f0c4c31fb70ea80afdddfc99f6db7d422e44eb7137b44bca24c850`。
 
 ## 六、已知限制（如实）
 
-- **无真机端到端验证**：图标匹配准确率、OCR 格数/数量、悬浮窗/采集受真实设备与游戏画面影响，仅完成编译与纯逻辑测试。
+- **真实游戏画面识别未完成**：已在 Redroid 11 上完成动态验证（特征库加载、采集权限流程、1663 件导入、21/21 单测通过），并修复两处运行时缺陷（无符号哈希溢出、特征库与运行时采样算法不一致）。纯图标识别 5/5 正确；但官方模拟器真实渲染格子上 dHash 失效（4/4 错配，属算法域漂移限制），游戏内识别尚不可用，需带标注的真实截图训练局部特征/CNN 模型。详见 `DeltaInventory/docs/accuracy-report.md`。
 - **模型状态**：`item_detector.onnx` 是未训练骨架（mAP=0），不用于识别；识别靠图标特征库。有标注数据后可用 `tools/train_detector.py` 训练替换。
 - **区域启发式**：`RegionDetector` 基于边缘密度，对复杂 UI 可能定位偏差，可回退默认区域；设置页可调阈值。
 - **保险箱区域**：当前按画面右上小网格扫描，若游戏 UI 布局不同需调整区域参数。
