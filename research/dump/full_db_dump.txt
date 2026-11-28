@@ -1,0 +1,54 @@
+
+===== android_metadata (rows=1) =====
+columns: locale
+('en_US',)
+
+===== containers (rows=0) =====
+columns: containerId, name, type, gridWidth, gridHeight, sessionId
+
+===== frame_records (rows=0) =====
+columns: id, sessionId, frameIndex, capturedAt, imagePath, changeScore, inferenceMs
+
+===== item_images (rows=0) =====
+columns: id, itemId, localPath, remoteUrl, phash, width, height, license
+
+===== item_instances (rows=0) =====
+columns: instanceId, sessionId, itemTypeId, containerId, regionId, posX, posY, viewportOffsetY, phash, colorHist, firstSeenFrame, lastSeenFrame, confidence, trackingStatus, quantity, humanConfirmed
+
+===== item_prices (rows=1663) =====
+columns: id, itemId, valueCents, source, updatedAt, version, validDays
+(1, '11050006001', 1045157, 'DFPB_v6', 1763308800000, 6, 30)
+(2, '11050006002', 2522692, 'DFPB_v6', 1763308800000, 6, 30)
+(3, '11050006003', 874771, 'DFPB_v6', 1763308800000, 6, 30)
+
+===== items (rows=1663) =====
+columns: itemId, name, shortName, width, height, category, baseValueCents, iconPath, source
+('11050006001', '金刚防弹衣', '金刚防弹衣', 4, 4, 'protect', 950327, '/playerhub/60004/object/p_11050006001.webp', 'wasm_extract')
+('11050006002', 'HA-2重型防弹衣', 'HA-2重型防弹衣', 4, 4, 'protect', 2923636, '/playerhub/60004/object/p_11050006002.webp', 'wasm_extract')
+('11050006003', '特里克MAS2.0装甲', '特里克MAS2.0装甲', 4, 4, 'protect', 759317, '/playerhub/60004/object/p_11050006003.webp', 'wasm_extract')
+
+===== optimization_results (rows=4) =====
+columns: id, sessionId, algorithm, gridWidth, gridHeight, resultJson, totalValueCents, placedCount, unplacedCount, elapsedMs, createdAt
+(1, 'scan_1795843138328', 'bottom_left', 1, 1, '', 0, 0, 0, 0, 1795843156563)
+(2, 'scan_1795844571611', 'bottom_left', 1, 1, '', 0, 0, 0, 0, 1795844576347)
+(3, 'scan_1795846387594', 'bottom_left', 1, 1, '', 0, 0, 0, 0, 1795846462548)
+(4, 'scan_1795855101995', 'bottom_left', 1, 1, '', 0, 0, 0, 0, 1795855150445)
+
+===== recognition_events (rows=0) =====
+columns: id, sessionId, frameIndex, eventType, instanceId, itemTypeId, confidence, details, createdAt
+
+===== room_master_table (rows=1) =====
+columns: id, identity_hash
+(42, 'd61df769f6c72f8d375a5002b6c30392')
+
+===== scan_sessions (rows=4) =====
+columns: sessionId, startedAt, endedAt, frameCount, status
+('scan_1795843138328', 1795843138329, None, 0, 'active')
+('scan_1795844571611', 1795844571611, None, 0, 'active')
+('scan_1795846387594', 1795846387594, None, 0, 'active')
+('scan_1795855101995', 1795855101995, None, 0, 'active')
+
+===== sqlite_sequence (rows=2) =====
+columns: name, seq
+('optimization_results', 4)
+('item_prices', 1663)

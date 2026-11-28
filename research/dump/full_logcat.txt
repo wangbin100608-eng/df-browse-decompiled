@@ -1,0 +1,688 @@
+--------- beginning of system
+11-28 08:52:01.949   248  1613 I ActivityManager: Force stopping com.android.gallery3d appid=10096 user=0: from pid 15812
+11-28 08:52:01.950   248  1613 I ActivityManager: Killing 11197:com.android.gallery3d/u0a96 (adj 700): stop com.android.gallery3d due to from pid 15812
+11-28 08:52:01.950   248  1613 W ActivityTaskManager: Force removing ActivityRecord{d5c5a0e u0 com.android.gallery3d/.app.MovieActivity t49 f}}: app died, no saved state
+--------- beginning of main
+11-28 08:52:01.951  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 40794 lines
+11-28 08:52:01.951  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:01.951    68    97 D hwcomposer: VSYNC event status:1
+11-28 08:52:01.951  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:01.954 15812 15814 I cmd     : oneway function results will be dropped but finished with status OK and parcel size 4
+11-28 08:52:01.954  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 363 lines
+11-28 08:52:01.954  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:01.954  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:01.955  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 86 lines
+11-28 08:52:01.955  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:01.955   687   687 E PhoneInterfaceManager: [PhoneIntfMgr] getCarrierPackageNamesForIntentAndPhone: No UICC
+11-28 08:52:01.955  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:01.955  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 2 lines
+11-28 08:52:01.955  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:01.955   687   687 D CarrierSvcBindHelper: No carrier app for: 0
+11-28 08:52:01.955  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:01.970  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 1602 lines
+11-28 08:52:01.970  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:01.970   125   125 I Zygote  : Process 11197 exited due to signal 9 (Killed)
+11-28 08:52:01.970   248   268 W ActivityManager: setHasOverlayUi called on unknown pid: 11197
+11-28 08:52:01.972  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.014 15815 15815 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-28 08:52:02.014  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 4041 lines
+11-28 08:52:02.014  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.014  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.016  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 257 lines
+11-28 08:52:02.016 15815 15815 I AndroidRuntime: Using default boot image
+11-28 08:52:02.016  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.016  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.016 15815 15815 I AndroidRuntime: Leaving lock profiling enabled
+11-28 08:52:02.016  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.017  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 151 lines
+11-28 08:52:02.017  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.017 15815 15815 I app_process: Core platform API reporting enabled, enforcing=false
+11-28 08:52:02.017  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.062  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 5457 lines
+11-28 08:52:02.062  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.062 15815 15815 D app_process: Time zone APEX ICU file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+11-28 08:52:02.062 15815 15815 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt66l.dat
+11-28 08:52:02.065  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.066  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 72 lines
+11-28 08:52:02.066  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.066 15815 15815 W app_process: Unexpected CPU variant for X86 using defaults: x86_64
+11-28 08:52:02.066  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.066  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 83 lines
+11-28 08:52:02.066  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.066 15815 15815 I app_process: The ClassLoaderContext is a special shared library.
+11-28 08:52:02.066  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.073  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 826 lines
+11-28 08:52:02.073 15815 15815 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+11-28 08:52:02.073  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.073  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.076  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 295 lines
+11-28 08:52:02.076  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.076 15815 15815 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-28 08:52:02.076  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.083  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 665 lines
+11-28 08:52:02.083 15815 15815 D AndroidRuntime: Shutting down VM
+11-28 08:52:02.083  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.083  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.311  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 26103 lines
+11-28 08:52:02.311    68    97 D hwcomposer: VSYNC event status:0
+11-28 08:52:02.311  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.311  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:02.888  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:03.453  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:03.568 15830 15830 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-28 08:52:03.568  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 13416 lines
+11-28 08:52:03.568  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.568  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.570  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 258 lines
+11-28 08:52:03.571  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.571 15830 15830 I AndroidRuntime: Using default boot image
+11-28 08:52:03.571  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.571 15830 15830 I AndroidRuntime: Leaving lock profiling enabled
+11-28 08:52:03.571  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.572  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 147 lines
+11-28 08:52:03.572 15830 15830 I app_process: Core platform API reporting enabled, enforcing=false
+11-28 08:52:03.572  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.572  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.616  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 4929 lines
+11-28 08:52:03.616 15830 15830 D app_process: Time zone APEX ICU file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+11-28 08:52:03.616  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.616  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.616  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 8 lines
+11-28 08:52:03.616  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.616 15830 15830 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt66l.dat
+11-28 08:52:03.616  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.619  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 441 lines
+11-28 08:52:03.619  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.619 15830 15830 W app_process: Unexpected CPU variant for X86 using defaults: x86_64
+11-28 08:52:03.619  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.620  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 88 lines
+11-28 08:52:03.620  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.620 15830 15830 I app_process: The ClassLoaderContext is a special shared library.
+11-28 08:52:03.620  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.627  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 947 lines
+11-28 08:52:03.627  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.627 15830 15830 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+11-28 08:52:03.627  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.630  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 315 lines
+11-28 08:52:03.630 15830 15830 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-28 08:52:03.630  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.630  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.636  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 970 lines
+11-28 08:52:03.636 15830 15830 D AndroidRuntime: Shutting down VM
+11-28 08:52:03.636  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:03.636  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:04.278  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:04.902  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:04.988   248   929 E TaskPersister: File error accessing recents directory (directory doesn't exist?).
+11-28 08:52:05.463  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:06.017  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:06.141 15848 15848 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-28 08:52:06.141  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 14240 lines
+11-28 08:52:06.141  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.141  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.142  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 109 lines
+11-28 08:52:06.142  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.144 15848 15848 I AndroidRuntime: Using default boot image
+11-28 08:52:06.144 15848 15848 I AndroidRuntime: Leaving lock profiling enabled
+11-28 08:52:06.144  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.146  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 180 lines
+11-28 08:52:06.146  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.146 15848 15848 I app_process: Core platform API reporting enabled, enforcing=false
+11-28 08:52:06.146  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.194  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 5513 lines
+11-28 08:52:06.194  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.195 15848 15848 D app_process: Time zone APEX ICU file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+11-28 08:52:06.195 15848 15848 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt66l.dat
+11-28 08:52:06.196  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.199  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 277 lines
+11-28 08:52:06.199  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.199 15848 15848 W app_process: Unexpected CPU variant for X86 using defaults: x86_64
+11-28 08:52:06.199  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.199  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 80 lines
+11-28 08:52:06.199  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.199 15848 15848 I app_process: The ClassLoaderContext is a special shared library.
+11-28 08:52:06.199  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.209  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 1158 lines
+11-28 08:52:06.209 15848 15848 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+11-28 08:52:06.209  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.209  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.213  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 396 lines
+11-28 08:52:06.213  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.213 15848 15848 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-28 08:52:06.213  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.220    68    68 D hwcomposer: VSYNC event status:1
+11-28 08:52:06.220  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 848 lines
+11-28 08:52:06.220  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.220  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.221  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 165 lines
+11-28 08:52:06.221 15848 15848 D AndroidRuntime: Shutting down VM
+11-28 08:52:06.221  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.221  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.578  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 39662 lines
+11-28 08:52:06.578  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:06.578    68    68 D hwcomposer: VSYNC event status:0
+11-28 08:52:06.578  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:07.168  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:07.753  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:08.367  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:08.664   248   556 I ActivityTaskManager: START u0 {act=android.intent.action.VIEW dat=file:///sdcard/v2_fill.mp4 typ=video/mp4 flg=0x10000000 cmp=com.android.gallery3d/.app.MovieActivity} from uid 2000
+11-28 08:52:08.665  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 34535 lines
+11-28 08:52:08.665  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.665    68    68 D hwcomposer: VSYNC event status:1
+11-28 08:52:08.665  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.667 15865 15867 I cmd     : oneway function results will be dropped but finished with status OK and parcel size 4
+11-28 08:52:08.667  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 355 lines
+11-28 08:52:08.667  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.667  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.668   248   268 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10096; state: DISABLED
+11-28 08:52:08.668   248   275 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10096; state: DISABLED
+11-28 08:52:08.674   125   125 D Zygote  : Forked child process 15868
+11-28 08:52:08.674  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 826 lines
+11-28 08:52:08.674  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.674  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.676   248   275 I ActivityManager: Start proc 15868:com.android.gallery3d/u0a96 for pre-top-activity {com.android.gallery3d/com.android.gallery3d.app.MovieActivity}
+11-28 08:52:08.676 15868 15868 I Zygote  : seccomp disabled by setenforce 0
+11-28 08:52:08.676  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 266 lines
+11-28 08:52:08.676  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.676  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.677 15868 15868 W droid.gallery3: Unexpected CPU variant for X86 using defaults: x86_64
+11-28 08:52:08.677  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 98 lines
+11-28 08:52:08.677  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.677  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.679  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 284 lines
+11-28 08:52:08.679  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.679   121   132 I adbd    : jdwp connection from 15868
+11-28 08:52:08.679  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.683   248   417 W OomAdjuster: Fallback pre-set sched group to default: not expected top priority
+11-28 08:52:08.693  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 1606 lines
+11-28 08:52:08.693 15868 15868 D ApplicationLoaders: Returning zygote-cached class loader: /system/framework/android.test.base.jar
+11-28 08:52:08.693  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.693  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.694  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 151 lines
+11-28 08:52:08.694  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.694 15868 15868 I droid.gallery3: The ClassLoaderContext is a special shared library.
+11-28 08:52:08.694  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.696  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 183 lines
+11-28 08:52:08.696  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.696 15868 15868 I droid.gallery3: The ClassLoaderContext is a special shared library.
+11-28 08:52:08.696  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.696  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 31 lines
+11-28 08:52:08.696  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.696 15868 15868 D nativeloader: classloader namespace configured for unbundled product apk. library_path=/system/product/app/Gallery2/lib/x86_64:/system/product/app/Gallery2/Gallery2.apk!/lib/x86_64:/product/lib64:/system/product/lib64
+11-28 08:52:08.696  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.699  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 311 lines
+11-28 08:52:08.699  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.699   146   242 E TrafficController: Failed to set the counterSet: Operation not permitted, fd: -1
+11-28 08:52:08.699  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.700  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 63 lines
+11-28 08:52:08.700 15868 15868 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+11-28 08:52:08.700  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.700  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.700  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 11 lines
+11-28 08:52:08.700 15868 15868 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+11-28 08:52:08.700  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.700  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.809  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 9693 lines
+11-28 08:52:08.809  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.810    21    21 I hwservicemanager: getTransport: Cannot find entry android.hardware.configstore@1.0::ISurfaceFlingerConfigs/default in either framework or device manifest.
+11-28 08:52:08.811   248   417 I MediaFocusControl: requestAudioFocus() from uid/pid 10096/15868 clientId=android.media.AudioManager@68bf810 callingPack=com.android.gallery3d req=1 flags=0x0 sdk=29
+11-28 08:52:08.813   248   408 I system_server: oneway function results will be dropped but finished with status OK and parcel size 4
+11-28 08:52:08.813   248   408 I system_server: oneway function results will be dropped but finished with status OK and parcel size 4
+11-28 08:52:08.814  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.815  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 102 lines
+11-28 08:52:08.815  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.815  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.815   144  7111 D NuPlayerDriver: NuPlayerDriver(0xee540250) created, clientPid(15868)
+11-28 08:52:08.822  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 892 lines
+11-28 08:52:08.822  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.822   144  7111 D SurfaceUtils: connecting to surface 0xe8281948, reason setVideoSurfaceTexture
+11-28 08:52:08.822  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.822  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 11 lines
+11-28 08:52:08.822  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.822   144 15896 D NuPlayer: onSetVideoSurface(0xe8280010, no video decoder)
+11-28 08:52:08.822  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.825  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 247 lines
+11-28 08:52:08.825  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.825   144 15899 D GenericSource: FileSource remote
+11-28 08:52:08.825  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.827  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 268 lines
+11-28 08:52:08.827   142  8508 E Utils   : did not find width and/or height
+11-28 08:52:08.827  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.827  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.828  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 27 lines
+11-28 08:52:08.828  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.828   142  8508 E Utils   : did not find width and/or height
+11-28 08:52:08.828  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.829  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 69 lines
+11-28 08:52:08.829  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.829   142  8508 D MediaBufferGroup: creating MemoryDealer
+11-28 08:52:08.829  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.829  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 9 lines
+11-28 08:52:08.829  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.829    21    21 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device manifest.
+11-28 08:52:08.829  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.829  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 2 lines
+11-28 08:52:08.829  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.829 15868 15890 I Gralloc4: mapper 4.x is not supported
+11-28 08:52:08.829  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.829  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 2 lines
+11-28 08:52:08.829  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.829    21    21 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@3.0::IMapper/default in either framework or device manifest.
+11-28 08:52:08.829  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.829 15868 15890 W Gralloc3: mapper 3.x is not supported
+11-28 08:52:08.829  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.830  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 96 lines
+11-28 08:52:08.830  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.830    21    21 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device manifest.
+11-28 08:52:08.830  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.856  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 2004 lines
+11-28 08:52:08.856  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.857   248   273 I ActivityTaskManager: Displayed com.android.gallery3d/.app.MovieActivity: +189ms
+11-28 08:52:08.857  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.858  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 69 lines
+11-28 08:52:08.858  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.858  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.858 15868 15868 D MediaPlayerNative: getMetadata
+11-28 08:52:08.858  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 17 lines
+11-28 08:52:08.858  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.858   144 15896 I GenericSource: start
+11-28 08:52:08.858  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.866  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 636 lines
+11-28 08:52:08.866  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.866   144 15904 I OMXClient: IOmx service obtained
+11-28 08:52:08.866  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.866  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 9 lines
+11-28 08:52:08.866  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.866   153  4246 I OMXMaster: makeComponentInstance(OMX.google.h264.decoder) in android.hardwar process
+11-28 08:52:08.866  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.867  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 103 lines
+11-28 08:52:08.867  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.867   144 15902 D SurfaceUtils: disconnecting from surface 0xe8280018, reason onConfigure
+11-28 08:52:08.867  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.867  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 19 lines
+11-28 08:52:08.867   144 15903 D SurfaceUtils: connecting to surface 0xe8280018, reason connectToSurface
+11-28 08:52:08.867  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.867  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.867  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 14 lines
+11-28 08:52:08.867   144 15903 I MediaCodec: [OMX.google.h264.decoder] setting surface generation to 147466
+11-28 08:52:08.867  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.867  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.867   144 15903 D SurfaceUtils: disconnecting from surface 0xe8280018, reason connectToSurface(reconnect)
+11-28 08:52:08.867  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.867  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 5 lines
+11-28 08:52:08.867  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.867   144 15903 D SurfaceUtils: connecting to surface 0xe8280018, reason connectToSurface(reconnect)
+11-28 08:52:08.867  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 23 lines
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868   153  4246 E OMXNodeInstance: getExtensionIndex(0xe6680da0:google.h264.decoder, OMX.google.android.index.enableAndroidNativeBuffers) ERROR: UnsupportedIndex(0x8000101a)
+11-28 08:52:08.868   144 15904 E ACodec  : [OMX.google.h264.decoder] setPortMode on output to DynamicANWBuffer failed w/ err -1010
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 6 lines
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868   153  4246 E OMXNodeInstance: getParameter(0xe6680da0:google.h264.decoder, ??(0x6f600011)) ERROR: UnsupportedIndex(0x8000101a)
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 3 lines
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868   153  4246 W OMXNodeInstance: [0xe6680da0:google.h264.decoder] component does not support metadata mode; using fallback
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 24 lines
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868   153  4246 D SoftVideoDecoderOMXComponent: Color Aspects preference: 1 
+11-28 08:52:08.868  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 7 lines
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868   153  4246 E OMXNodeInstance: setConfig(0xe6680da0:google.h264.decoder, ConfigPriority(0x6f800002)) ERROR: UnsupportedIndex(0x8000101a)
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868   144 15904 I ACodec  : codec does not support config priority (err -1010)
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868   153  4246 E OMXNodeInstance: setConfig(0xe6680da0:google.h264.decoder, ConfigOperatingRate(0x6f800003)) ERROR: UnsupportedIndex(0x8000101a)
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868   144 15904 I ACodec  : codec does not support config operating rate (err -1010)
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 5 lines
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868   153  4246 E OMXNodeInstance: getConfig(0xe6680da0:google.h264.decoder, ConfigAndroidVendorExtension(0x6f100004)) ERROR: UnsupportedIndex(0x8000101a)
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 17 lines
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.868   153  4246 E OMXNodeInstance: getConfig(0xe6680da0:google.h264.decoder, ??(0x7f000003)) ERROR: UnsupportedSetting(0x80001019)
+11-28 08:52:08.868  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.869  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 16 lines
+11-28 08:52:08.869  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.869   144 15903 I MediaCodec: MediaCodec will operate in async mode
+11-28 08:52:08.869  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.871  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 281 lines
+11-28 08:52:08.871   144 15903 W ResourceManagerService: Ignoring request to add new resource entry with value <= 0
+11-28 08:52:08.871  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.871  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.877  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 649 lines
+11-28 08:52:08.877  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.877   153   784 E OMXNodeInstance: setConfig(0xe6680da0:google.h264.decoder, ConfigOperatingRate(0x6f800003)) ERROR: UnsupportedIndex(0x8000101a)
+11-28 08:52:08.877   144 15904 I ACodec  : codec does not support config operating rate (err -1010)
+11-28 08:52:08.877   153 15905 D SoftVideoDecoderOMXComponent: Color Aspects preference: 1 
+11-28 08:52:08.877  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.879  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 231 lines
+11-28 08:52:08.879  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.879   153   784 E OMXNodeInstance: getConfig(0xe6680da0:google.h264.decoder, ??(0x7f000003)) ERROR: UnsupportedSetting(0x80001019)
+11-28 08:52:08.879  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.938  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 5509 lines
+11-28 08:52:08.938  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.938   144 15903 D MediaCodec: [OMX.google.h264.decoder] setting dataspace on output surface to #101
+11-28 08:52:08.939 15868 15894 W MediaPlayerNative: info/warning (3, 0)
+11-28 08:52:08.940  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.945   144 15903 D SoftwareRenderer: setting dataspace on output surface to #8000101
+11-28 08:52:08.945  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 753 lines
+11-28 08:52:08.945  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:08.945  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:09.558  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:10.314  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:10.903  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:11.473  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:12.281   248   929 E TaskPersister: File error accessing recents directory (directory doesn't exist?).
+11-28 08:52:12.314  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:13.115  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:13.730  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:14.307  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:15.062  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:15.736  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:16.321  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:16.902  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:17.560  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:18.216  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:18.851  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:19.385  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:19.988  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:20.817  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:21.496  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:22.059  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:22.614  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:23.245  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:23.890  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:24.463  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:25.052  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:25.669  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:26.341  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:26.924  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:27.485  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:28.056  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 62253 lines
+11-28 08:52:28.056   248   981 I MediaFocusControl: abandonAudioFocus() from uid/pid 10096/15868 clientId=android.media.AudioManager@68bf810
+11-28 08:52:28.056  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.056  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.056  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 87 lines
+11-28 08:52:28.056   144  7111 D NuPlayerDriver: reset(0xee540250) at state 6
+11-28 08:52:28.056  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.056  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.062  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 602 lines
+11-28 08:52:28.062  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.062   144 15903 D SurfaceUtils: disconnecting from surface 0xe8280018, reason disconnectFromSurface
+11-28 08:52:28.062  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.074   144 15902 D SurfaceUtils: connecting to surface 0xe8280018, reason onShutdown
+11-28 08:52:28.074  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 877 lines
+11-28 08:52:28.074  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.074  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.094  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 2559 lines
+11-28 08:52:28.094  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.094   144 15896 D NuPlayerDriver: notifyResetComplete(0xee540250)
+11-28 08:52:28.094  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.094  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 18 lines
+11-28 08:52:28.094  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.094   144  7111 D NuPlayerDriver: reset(0xee540250) at state 0
+11-28 08:52:28.094  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.094  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 4 lines
+11-28 08:52:28.094   144  7111 D SurfaceUtils: disconnecting from surface 0xe8281948, reason disconnectNativeWindow
+11-28 08:52:28.094  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.094  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.095  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 95 lines
+11-28 08:52:28.095  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.095   144  7111 W AMessage: failed to post message as target looper for handler 0 is gone.
+11-28 08:52:28.095  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.095  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 18 lines
+11-28 08:52:28.095  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.095 15868 15868 V MediaPlayer: resetDrmState:  mDrmInfo=null mDrmProvisioningThread=null mPrepareDrmInProgress=false mActiveDrmScheme=false
+11-28 08:52:28.095  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.095  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.095 15868 15868 V MediaPlayer: cleanDrmObj: mDrmObj=null mDrmSessionId=null
+11-28 08:52:28.095  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.095  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 13 lines
+11-28 08:52:28.095  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.095 15868 15868 V MediaPlayer: resetDrmState:  mDrmInfo=null mDrmProvisioningThread=null mPrepareDrmInProgress=false mActiveDrmScheme=false
+11-28 08:52:28.095  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.095  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.095 15868 15868 V MediaPlayer: cleanDrmObj: mDrmObj=null mDrmSessionId=null
+11-28 08:52:28.095  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.096  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 43 lines
+11-28 08:52:28.096  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.096   248   408 I MediaFocusControl: abandonAudioFocus() from uid/pid 10096/15868 clientId=android.media.AudioManager@68bf810
+11-28 08:52:28.096  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.100  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 471 lines
+11-28 08:52:28.100  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.100   146   242 E TrafficController: Failed to set the counterSet: Operation not permitted, fd: -1
+11-28 08:52:28.100  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.100  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 14 lines
+11-28 08:52:28.100  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.100   146   242 E TrafficController: Failed to delete the counterSet: Operation not permitted
+11-28 08:52:28.100  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.160   248   267 I DropBoxManagerService: add tag=system_server_strictmode isTagEnabled=true flags=0x2
+11-28 08:52:28.734  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:28.754  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 1453 lines
+11-28 08:52:28.754  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.754    21    21 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device manifest.
+11-28 08:52:28.754  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.754 20543 20543 I Gralloc4: mapper 4.x is not supported
+11-28 08:52:28.754  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 16 lines
+11-28 08:52:28.754  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.754  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.754  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 6 lines
+11-28 08:52:28.754  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.754    21    21 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@3.0::IMapper/default in either framework or device manifest.
+11-28 08:52:28.754  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.754  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 2 lines
+11-28 08:52:28.754  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.754 20543 20543 W Gralloc3: mapper 3.x is not supported
+11-28 08:52:28.754  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.887   248   981 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=com.deltainventory.app/.MainActivity} from uid 2000
+11-28 08:52:28.888 20547 20549 I cmd     : oneway function results will be dropped but finished with status OK and parcel size 4
+11-28 08:52:28.888  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 15267 lines
+11-28 08:52:28.888  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.888  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.919  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 3552 lines
+11-28 08:52:28.919   248   981 I MediaFocusControl: abandonAudioFocus() from uid/pid 10096/15868 clientId=android.media.AudioManager@68bf810
+11-28 08:52:28.919  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:28.919  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:29.499  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:30.079  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:30.643  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:30.950 20551 20551 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-28 08:52:30.950  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 34563 lines
+11-28 08:52:30.950  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:30.950  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:30.952 20551 20551 I AndroidRuntime: Using default boot image
+11-28 08:52:30.952  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 257 lines
+11-28 08:52:30.952  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:30.952  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:30.952  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:30.952 20551 20551 I AndroidRuntime: Leaving lock profiling enabled
+11-28 08:52:30.952  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:30.953  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 160 lines
+11-28 08:52:30.953 20551 20551 I app_process: Core platform API reporting enabled, enforcing=false
+11-28 08:52:30.953  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:30.953  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:30.998  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 4815 lines
+11-28 08:52:30.998  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:30.998 20551 20551 D app_process: Time zone APEX ICU file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+11-28 08:52:30.998  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:30.998  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 9 lines
+11-28 08:52:30.998  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:30.998 20551 20551 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt66l.dat
+11-28 08:52:30.998  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.002  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 420 lines
+11-28 08:52:31.002  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.002 20551 20551 W app_process: Unexpected CPU variant for X86 using defaults: x86_64
+11-28 08:52:31.002  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.003  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 96 lines
+11-28 08:52:31.003 20551 20551 I app_process: The ClassLoaderContext is a special shared library.
+11-28 08:52:31.003  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.003  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.010  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 838 lines
+11-28 08:52:31.010  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.010 20551 20551 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+11-28 08:52:31.010  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.013  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 340 lines
+11-28 08:52:31.013  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.013 20551 20551 D AndroidRuntime: Calling main entry com.android.commands.input.Input
+11-28 08:52:31.013  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.017    68    68 D hwcomposer: VSYNC event status:1
+11-28 08:52:31.017  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 403 lines
+11-28 08:52:31.017  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.017  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.018  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 123 lines
+11-28 08:52:31.018  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.018 20551 20551 D AndroidRuntime: Shutting down VM
+11-28 08:52:31.018  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.378  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 40026 lines
+11-28 08:52:31.378  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.378    68    68 D hwcomposer: VSYNC event status:0
+11-28 08:52:31.378  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:31.676   248   929 E TaskPersister: File error accessing recents directory (directory doesn't exist?).
+11-28 08:52:31.956  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:32.571  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:33.162  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:33.732  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:34.286  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:34.855  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:35.437  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:35.507  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 7713 lines
+11-28 08:52:35.507  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.507    21    21 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device manifest.
+11-28 08:52:35.507  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.507 20569 20569 I Gralloc4: mapper 4.x is not supported
+11-28 08:52:35.507  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 15 lines
+11-28 08:52:35.507  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.507  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.507  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 9 lines
+11-28 08:52:35.507    21    21 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@3.0::IMapper/default in either framework or device manifest.
+11-28 08:52:35.507  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.507  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.507  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 3 lines
+11-28 08:52:35.507  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.507 20569 20569 W Gralloc3: mapper 3.x is not supported
+11-28 08:52:35.507  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.646  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 16183 lines
+11-28 08:52:35.646  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.646   953  1478 E StorageManager: Failed to set extended attributes for /storage/emulated/0/db_final.db to set project id.: Operation not supported on transport endpoint
+11-28 08:52:35.646  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.646  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 71 lines
+11-28 08:52:35.646  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.646   953  1478 W MediaProvider: Failed to update quota type for /storage/emulated/0/db_final.db
+11-28 08:52:35.646   953  1478 W MediaProvider: java.io.IOException: Failed to update quota type for /storage/emulated/0/db_final.db
+11-28 08:52:35.646   953  1478 W MediaProvider: 	at android.os.storage.StorageManager.updateExternalStorageFileQuotaType(StorageManager.java:2512)
+11-28 08:52:35.646   953  1478 W MediaProvider: 	at com.android.providers.media.MediaProvider.updateQuotaTypeForFileInternal(MediaProvider.java:587)
+11-28 08:52:35.646   953  1478 W MediaProvider: 	at com.android.providers.media.MediaProvider.lambda$onFileCreatedForFuse$12(MediaProvider.java:1127)
+11-28 08:52:35.646   953  1478 W MediaProvider: 	at com.android.providers.media.MediaProvider.lambda$onFileCreatedForFuse$12$MediaProvider(Unknown Source:0)
+11-28 08:52:35.646   953  1478 W MediaProvider: 	at com.android.providers.media.-$$Lambda$MediaProvider$VhB3wkpGkT4Cm_4TN5qOQg3m3rU.run(Unknown Source:4)
+11-28 08:52:35.646   953  1478 W MediaProvider: 	at android.os.Handler.handleCallback(Handler.java:938)
+11-28 08:52:35.646   953  1478 W MediaProvider: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-28 08:52:35.646   953  1478 W MediaProvider: 	at android.os.Looper.loop(Looper.java:223)
+11-28 08:52:35.646   953  1478 W MediaProvider: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-28 08:52:35.646  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.654  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 1035 lines
+11-28 08:52:35.654   953  1478 E StorageManager: Failed to set extended attributes for /storage/emulated/0/db_final.db-wal to set project id.: Operation not supported on transport endpoint
+11-28 08:52:35.654  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.654  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.654  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 10 lines
+11-28 08:52:35.654  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.654   953  1478 W MediaProvider: Failed to update quota type for /storage/emulated/0/db_final.db-wal
+11-28 08:52:35.654   953  1478 W MediaProvider: java.io.IOException: Failed to update quota type for /storage/emulated/0/db_final.db-wal
+11-28 08:52:35.654   953  1478 W MediaProvider: 	at android.os.storage.StorageManager.updateExternalStorageFileQuotaType(StorageManager.java:2512)
+11-28 08:52:35.654   953  1478 W MediaProvider: 	at com.android.providers.media.MediaProvider.updateQuotaTypeForFileInternal(MediaProvider.java:587)
+11-28 08:52:35.654   953  1478 W MediaProvider: 	at com.android.providers.media.MediaProvider.lambda$onFileCreatedForFuse$12(MediaProvider.java:1127)
+11-28 08:52:35.654   953  1478 W MediaProvider: 	at com.android.providers.media.MediaProvider.lambda$onFileCreatedForFuse$12$MediaProvider(Unknown Source:0)
+11-28 08:52:35.654   953  1478 W MediaProvider: 	at com.android.providers.media.-$$Lambda$MediaProvider$VhB3wkpGkT4Cm_4TN5qOQg3m3rU.run(Unknown Source:4)
+11-28 08:52:35.654   953  1478 W MediaProvider: 	at android.os.Handler.handleCallback(Handler.java:938)
+11-28 08:52:35.654   953  1478 W MediaProvider: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-28 08:52:35.654   953  1478 W MediaProvider: 	at android.os.Looper.loop(Looper.java:223)
+11-28 08:52:35.654   953  1478 W MediaProvider: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-28 08:52:35.654  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.665  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 1173 lines
+11-28 08:52:35.665   953  1478 E StorageManager: Failed to set extended attributes for /storage/emulated/0/db_final.db-shm to set project id.: Operation not supported on transport endpoint
+11-28 08:52:35.665  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.665  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.665  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 16 lines
+11-28 08:52:35.665  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:35.665   953  1478 W MediaProvider: Failed to update quota type for /storage/emulated/0/db_final.db-shm
+11-28 08:52:35.665   953  1478 W MediaProvider: java.io.IOException: Failed to update quota type for /storage/emulated/0/db_final.db-shm
+11-28 08:52:35.665   953  1478 W MediaProvider: 	at android.os.storage.StorageManager.updateExternalStorageFileQuotaType(StorageManager.java:2512)
+11-28 08:52:35.665   953  1478 W MediaProvider: 	at com.android.providers.media.MediaProvider.updateQuotaTypeForFileInternal(MediaProvider.java:587)
+11-28 08:52:35.665   953  1478 W MediaProvider: 	at com.android.providers.media.MediaProvider.lambda$onFileCreatedForFuse$12(MediaProvider.java:1127)
+11-28 08:52:35.665   953  1478 W MediaProvider: 	at com.android.providers.media.MediaProvider.lambda$onFileCreatedForFuse$12$MediaProvider(Unknown Source:0)
+11-28 08:52:35.665   953  1478 W MediaProvider: 	at com.android.providers.media.-$$Lambda$MediaProvider$VhB3wkpGkT4Cm_4TN5qOQg3m3rU.run(Unknown Source:4)
+11-28 08:52:35.665   953  1478 W MediaProvider: 	at android.os.Handler.handleCallback(Handler.java:938)
+11-28 08:52:35.665   953  1478 W MediaProvider: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-28 08:52:35.665   953  1478 W MediaProvider: 	at android.os.Looper.loop(Looper.java:223)
+11-28 08:52:35.665   953  1478 W MediaProvider: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-28 08:52:35.665  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:52:36.239  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:36.842  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:37.420  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:38.014  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:38.618  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:39.207  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:39.793  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:40.374  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:40.957  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:41.565  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:42.148  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:42.709  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:43.299  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:43.888  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:44.441  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:45.029  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:45.639  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:46.229  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:46.802  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:47.385  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:47.977  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:48.569  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:49.220  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:49.851  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:50.437  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:51.016  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:51.646  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:52.292  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:52.883  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:53.510  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:54.102  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:54.703  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:55.309  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:55.894  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:56.481  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:57.066  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:57.670  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:58.258  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:58.901  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:52:59.528  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:53:00.002  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 49669 lines
+11-28 08:53:00.002  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:53:00.002   392   392 D KeyguardClockSwitch: Updating clock: 853
+11-28 08:53:00.002  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:53:00.002    68    68 D hwcomposer: VSYNC event status:1
+11-28 08:53:00.002  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 93 lines
+11-28 08:53:00.002  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:53:00.002  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:53:00.378    68    68 D hwcomposer: VSYNC event status:0
+11-28 08:53:00.378  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 expire 43106 lines
+11-28 08:53:00.378  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:53:00.378  8725  8829 E ndk_translation: Undefined instruction 0x5ea1b842 at 0x0000739b75b94ac0
+11-28 08:53:00.965  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:53:01.544  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:53:02.149  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:53:02.746  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:53:03.313  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:53:03.900  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:53:04.457  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines
+11-28 08:53:05.038  8725  8829 I chatty  : uid=10129(com.deltainventory.app) vkp-mediapipe-0 identical 65535 lines

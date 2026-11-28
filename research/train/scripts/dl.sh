@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_18050000002.webp" -o "train/icons/18050000002.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_18150000001.webp" -o "train/icons/18150000001.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_18020000004.webp" -o "train/icons/18020000004.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_18070000033.webp" -o "train/icons/18070000033.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_11010004003.webp" -o "train/icons/11010004003.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_11050004002.webp" -o "train/icons/11050004002.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_37100400003.webp" -o "train/icons/37100400003.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_37100500001.webp" -o "train/icons/37100500001.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_14020000003.webp" -o "train/icons/14020000003.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_11010004002.webp" -o "train/icons/11010004002.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_11050004001.webp" -o "train/icons/11050004001.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_11080003004.webp" -o "train/icons/11080003004.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_14040000001.webp" -o "train/icons/14040000001.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_18070000003.webp" -o "train/icons/18070000003.webp"
+curl -sS -L -A "Mozilla/5.0" "https://df-assets.lza11111.com/playerhub/60004/object/p_11070005003.webp" -o "train/icons/11070005003.webp"
